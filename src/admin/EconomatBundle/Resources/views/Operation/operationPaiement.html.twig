@@ -1,0 +1,518 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}} - Ajout utilisateur{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+
+{% block Breadcrumb %}
+<ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+    <li>
+        <a href="#/app/dashboard" >
+            <i class="fa fa-home margin-right-5 text-large text-dark"></i>Accueil
+        </a>
+    </li>
+    <li>
+        <a href="#" >
+            <i class="fa fa-file margin-right-5 text-large text-dark"></i>Operation 
+        </a>
+    </li>
+
+    <li class="ng-binding ng-scope" ><i class="fa fa-upload margin-right-5 text-large text-dark"></i>Encaissement</li>
+</ul>
+{% endblock %}
+
+{% block body %}
+
+    {% for contenu in app.session.getflashbag.get('ville.ajout.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 ">
+                {% endif%}
+        <div class="text-center alert alert-success">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+    {% for contenu in app.session.getflashbag.get('ville.modifier.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 ">
+                {% endif%}
+        <div class="text-center alert alert-success">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+
+<div class="container-fluid container-fullw padding-bottom-10 ng-scope">                                                       
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-white">
+                <header class="panel-heading" style="text-align: center;">
+                    Code commande
+                    <span class="margin-right-20px "> <input type="text" class="codeCommande" {% if codecommande !='0' %} value="{{codecommande}}" {% else %}{% endif %}/></span>
+                    <input type="button" class="btRechercher btn-red btn" value="Rechercher"/>                    
+                    <input type="hidden" class="idCommande"/>                    
+                    <input type="hidden" class="typeAction" value="0"/>                    
+                    <input type="hidden" class="idCommande" value="0"/>                    
+                    <input type="hidden" class="montantResteCommande"/>                    
+                    <input type="hidden" class="idabonne"/>                    
+                    <input type="hidden" class="montantCommande"/>                                       
+                </header>                 
+            </div>
+                <div class="text-center alert alert-error pasLigneTrouve" style="display:none">Pas de paiement en cours pour ce code de commande</div>
+            
+            <div class="panel panel-white">
+               <table class="table table-hover table-striped zoneProduitCommande" style="display:none">
+                    <thead class="" >
+                        <tr class="">
+                            <th style="width:20px;">
+                                code
+                            </th>
+
+                            <th>Nom</th>
+                            <th>Nombre Commande</th>
+                            <th style="">Nombre Livré</th>
+                            <th style="">Reste</th>
+                        </tr>
+                    </thead>
+                    <tbody class="listeProduitCommande">
+                    </tbody>
+                    <tfoot>
+                        <tr class="">
+                            <th colspan="3">
+
+                            </th>
+                            <th colspan="2">
+
+                            </th>
+                        </tr>
+                        <tr class="">
+                            <th colspan="4">
+
+                            </th>
+                            <th colspan="1">
+                                <input type="button" class="btPayer btn-red btn" value="Suivant >" />
+                            </th>
+                        </tr>							
+                    </tfoot>
+                </table>
+
+            </div>            
+            <header class="panel-heading recapMontantPayer" style="display:none">
+                Reste à payer : <span class="totatRestePaye"></span> 
+            </header>
+
+            <table class="table table-hover table-striped zoneModePaiement col-lg-6 center " style="display:none">
+
+                <tr class="">
+                    <td>
+                        <input type="checkbox" class="checkChoix choixCheckEsp" name="choixCheckEsp"/> Espèce
+                    </td>
+
+                    <td>
+                        <input type="checkbox" class="checkChoix choixCheckCheq" name="choixCheckCheq" /> Chèque
+                    </td>
+                </tr>
+
+            </table>
+
+            <table class="table table-hover table-striped zoneModePaiementEspece" style="display:none">
+
+                <tr class="">
+                    <td>
+                        Info Deposant
+                    </td>
+
+                    <td>
+                        <input type="text" class="infoDeposantEsp"  /> 
+                    </td>
+                </tr>
+                <tr class="">
+                    <td>
+                        Montant
+                    </td>
+
+                    <td>
+                        <input type="text" class="montantEsp formaMontant"  /> 
+                    </td>
+                </tr> 
+                <tr class="">
+                    <td>
+                        Montant Rendu
+                    </td>
+
+                    <td>
+                       
+                    </td>
+                </tr>	
+                <tr class="">
+                    <td colspan="2" class="center">
+                        <input type="button" class="btEspece btn-red btn"  value="Suivant > "/> 
+                    </td>
+                </tr>                
+            </table>
+            <table class="table table-hover table-striped zoneModePaiementCheque" style="display:none">
+
+                <tr class="">
+                    <td>
+                        Info Deposant
+                    </td>
+
+                    <td>
+                        <input type="text" class="infoDeposantCheq"   /> 
+                    </td>
+                </tr>
+                <tr class="">
+                    <td>
+                        Montant
+                    </td>
+
+                    <td>
+                        <input type="text" class="montantCheq formaMontant"  /> 
+                        <input type="hidden" class="typeUtil"  value="{{type}}" /> 
+                    </td>
+                </tr> 
+                <tr class="">
+                    <td>
+                        Numéro Compte
+                    </td>
+
+                    <td>
+                        <input type="text" class="numCompte"  /> 
+                    </td>
+                </tr>		
+                <tr class="">
+                    <td>
+                        Numéro Chèque
+                    </td>
+
+                    <td>
+                        <input type="text" class="numCheque"  /> 
+                    </td>
+                </tr>	
+                <tr class="">
+                    <td colspan="2" class="center">
+                        <input type="button" class="btEspece btn-red btn" value="Suivant > " /> 
+                    </td>
+                </tr>
+            </table>
+                
+            <table class="table table-hover table-striped zoneRecaptCheque" style="display:none">
+
+                <tr>
+                    <td>
+                        Info Deposant
+                    </td>
+                    <td class="recapInfoDepo">
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Montant
+                    </td>
+                    <td class="recapMontant">
+                      
+                    </td>
+                </tr> 
+                <tr>
+                    <td>
+                        Numéro Compte
+                    </td>
+                    <td class="recapNumCompte"> 
+                    </td>
+                </tr>		
+                <tr>
+                    <td>
+                        Numéro Chèque
+                    </td>
+                    <td class="recapNumCheque">
+                    </td>
+                </tr>	
+                <tr class="">
+                    <td colspan="2" class="center">
+                        <input type="button" class="btImprRecu btn-red btn" value="valider et imprimer le reçu" /> 
+                    </td>
+                </tr>
+            </table>
+                
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        toutDecocher('checkOne');
+        $('#btnNew').click(function() {
+            $('#formNew').toggle(500);
+        });
+        $('#resetNew').click(function() {
+            $('#formNew').toggle(500);
+        });
+        $('.btnEdit').click(function() {
+            $(this).parent('td').parent('tr').children('td').eq(2).children('.formEdit').toggle(500);
+        });
+        $('.checkAll').change(function() {
+            if ($(this).is(':checked')) {
+                toutCocher('checkOne');
+            } else {
+                toutDecocher('checkOne');
+            }
+        });
+        $('.btnAction').click(function() {
+            var type = parseInt($(this).attr('btnActionVal'));
+            var tab = getCheckedId('checkOne', 'sId', true);
+            var nb = tab.length;
+            if (nb === 0) {
+                var msg = "Veillez sélectionner les villes à activer";
+                if (type === 0) {
+                    msg = "Veillez sélectionner les villes à désactiver";
+                }
+                if (type === 2) {
+                    msg = "Veillez sélectionner les ville à supprimer";
+                }
+                error_message('Attention', msg);
+            } else {
+                msg = "Confirmer l'activation des villes sélectionnés";
+                if (type === 0) {
+                    msg = "Confirmer la désactivation  des villes sélectionnés";
+                }
+                if (type === 2) {
+                    msg = "Confirmer la suppression des villes sélectionnés";
+                }
+                afficherConfirmationSetEtat(msg, tab, type);
+            }
+        });
+
+
+    });
+
+    function afficherConfirmationSetEtat(msg, tab, type) {
+        $('<div id="msg" title="Confirmation"><p> ' + msg + '</p></div>').dialog({
+            hide: {
+                // effect: "explode"isEmetteur,
+                duration: 500
+            },
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                " Annuler ": function() {
+                    $(this).dialog('close');
+                },
+                " Confirmer ": function() {
+                    setEtatTypeuser(tab, type);
+                    $(this).dialog('close');
+                }
+            }
+
+        }).dialog('open');
+    }
+
+    function setEtatTypeuser(tabIds, etat) {
+
+        var ajaxId = prepareAjaxData(tabIds);
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('admin_ville_set_etat') }}",
+            data: 'sId=' + ajaxId + '&etat=' + etat,
+            beforeSend: function() {
+                onLoadGobi();
+            },
+            success: function(rep) {
+                closeOnLoadGobi();
+                if (rep['etat']) {
+                    window.location.reload();
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+                closeOnLoadGobi();
+            }
+
+        });
+    }
+
+   $('.btEspece').click(function() {
+       // Les paramettre à envoyer 
+       var type =0;
+        if ($('.choixCheckEsp').is(':Checked')) {
+             type =1;
+        }else{
+            type =2;
+        }
+       //info deposant
+       var infoDepoEsp = $('.infoDeposantEsp').val();
+       //Montant Recu
+       var montantEsp = $('.montantEsp').val();
+       //Recuperation id commande
+       var idCommande = $('.idCommande').val();
+       //info deposant
+       var infoDepoCheq = $('.infoDeposantCheq').val();
+       //Montant Recu
+       var montantCheq = $('.montantCheq').val();
+       //Montant Recu
+       var numCheque = $('.numCheque').val();
+       //Montant Recu
+       var numCompte = $('.numCompte').val();
+       var idAbonne = $('.idabonne').val();
+       
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('admin_operation_traite_commande') }}",
+            data: 'infoDepoEsp=' + infoDepoEsp+ '&infoDepoCheq=' + infoDepoCheq + '&montantEsp=' + montantEsp+ '&montantCheq=' + montantCheq+ '&numCheque=' + numCheque+ '&numCompte=' + numCompte+ '&type=' + type+'&idCommande='+idCommande+'&idabonne='+idAbonne,
+            beforeSend: function() {
+                onLoadGobi();
+            },
+            success: function(rep) {
+                closeOnLoadGobi();
+                if (rep['etat']) {
+                    //Traitement après paiement                   
+                    $('.zoneModePaiementEspece').hide();
+                    $('.zoneModePaiementCheque').hide();
+                    $('.zoneRecaptCheque').show();
+                    initialeZoneRecap();
+                    if(type ==1){
+                        $('.recapInfoDepo').append(infoDepoEsp);
+                        $('.recapMontant').append(montantEsp);       
+                        $('.recapNumCompte').append("-");       
+                        $('.recapNumCheque').append("-");  
+                    }else{
+                        $('.recapInfoDepo').append(infoDepoCheq);
+                        $('.recapMontant').append(montantCheq);       
+                        $('.recapNumCompte').append(numCompte);       
+                        $('.recapNumCheque').append(numCheque); 
+                    }
+                    
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+                closeOnLoadGobi();
+            }
+
+        });
+    })
+    //Mise en place de l'action de traitement du click sur le bouton btRechercher
+
+
+    $('.btRechercher').click(function() {
+        var ajaxId = $('.codeCommande').val();
+        //Reinitialise les zones de paiements des produits
+        toutInitiale();
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('admin_operation_get_info_commande') }}",
+            data: 'code=' + ajaxId+'&type='+$('.typeUtil').val(),
+            beforeSend: function() {
+                onLoadGobi();
+            },
+            success: function(rep) {
+                closeOnLoadGobi();
+               
+                //Traitement à réaliser si tout c'est bien passé 
+                if (rep['etat'] == 1) {
+                    
+                    $('.zoneProduitCommande').show();
+                    //recuperation des informations sur la commande du client
+                    $('.listeProduitCommande').html("");
+                  
+                     // 
+                    $('.idCommande').val(rep['reponse'][0].commande_id);
+                    $('.idabonne').val(rep['reponse'][0].abonne_id);
+                    $('.montantResteCommande').val(rep['reponse'][0].montant_reste_commande);
+                    $('.totatRestePaye').html(rep['reponse'][0].montant_reste_commande);
+                    
+                    
+                    if(rep['reponse'][0].montant_reste_commande<=0){
+                        $('.btPayer').hide();
+                    }
+                     
+                    for(var i=0; rep['reponse'].length;i++){
+                       $('.listeProduitCommande').append("<tr><td>"+rep['reponse'][i].code_produit+"</td><td>"+rep['reponse'][i].nom_produit+"</td><td>"+rep['reponse'][i].quantite+"</td><td>"+rep['reponse'][i].nbre_libre+"</td><td>"+rep['reponse'][i].nbre_reste+"</td>");
+                    }
+                    
+                } else {
+                    $('.noTrouve').html("");
+                    $('.pasLigneTrouve').show();                    
+                }
+            },
+            complete: function() {
+                closeOnLoadGobi();
+            }
+
+        });
+    });
+
+    //Mise en place de l'action de traitement du click sur le bouton btRechercher
+
+
+    $('.btPayer').click(function() {
+        $('.zoneProduitCommande').hide();
+        $('.recapMontantPayer').show();
+        $('.zoneModePaiement').show();
+
+    });
+
+
+    $('.checkChoix').click(function() {
+
+        
+        if ($('.choixCheckEsp').is(':Checked')) {
+            //traitment cas Espece
+            $('.zoneModePaiementEspece').show();
+
+        } else {
+            //traitement cas chèque
+            $('.zoneModePaiementCheque').show();
+        }
+        $('.checkChoix').attr('disabled',"disabled");
+    });
+    
+    $('.btImprRecu').click(function() {
+         var idCommande = $('.idCommande').val();
+         var typeAction = $('.typeAction').val();
+         //Traitement de l'impression du recu de paiement               
+         javascript:window.open("{{ path('admin_commande_traite_bon',{'type': '%s','id': '%s'})|url_decode|format('"+typeAction+"','"+idCommande+"')|raw }}");
+         
+        
+    });
+    
+ 
+
+function toutInitiale(){
+    $('.zoneModePaiementEspece').hide();
+    $('.zoneModePaiementCheque').hide();
+    $('.pasLigneTrouve').hide();
+    $('.zoneProduitCommande').hide();
+    $('.idCommande').val("");
+    $('.montantCommande').val("");       
+}
+function initialeZoneRecap(){
+    $('.recapInfoDepo').html("");
+    $('.recapMontant').html("");       
+    $('.recapNumCompte').html("");       
+    $('.numCheque').html("");       
+    
+}
+
+
+
+</script>
+{% endblock %}

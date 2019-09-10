@@ -1,0 +1,404 @@
+{% extends "ace3iUserBundle::layoutMenu.html.twig" %}
+
+{% block title %}Boîte de réception{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} 
+{% endblock %}
+{% block page %}
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-envelope"></i> MESSAGERIE </h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{{sessionData.homeUrl}}">Home</a></li>
+                    <li><i class="fa fa-envelope"></i>Messagerie</li>						  	
+                </ol>
+            </div>
+        </div>
+
+        {% for contenu in app.session.getflashbag.get('send.msg.succes')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+        {% for contenu in app.session.getflashbag.get('envoi.modifier.success')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+        {% for contenu in app.session.getflashbag.get('message.modifier.success')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        <div class="row">
+            <div class="col-lg-12">
+                <section class="panel">
+                    <header class="panel-heading tab-bg-primary ">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a data-toggle="tab" href="#home">Boîte de récpetion</a>
+                            </li>
+                            <li class="">
+                                <a href="{{path('app_pub_site_messagerie_msg_envoyes')}}">Messages envoiés</a>
+                            </li>
+                            <li class="">
+                                <a href="{{path('app_pub_site_messagerie_send_msg_to_utilisateur')}}" >Nouveau message</a>
+                            </li>
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div id="home" class="tab-pane active">
+                                <div class="col-lg-12">
+                                    <section class="panel">
+                                        <div class="panel-body">
+                                            <form class="form-inline" role="form" method="POST" action="{{path('app_pub_site_messagerie_boite_reception')}}">
+
+                                                <div class="form-group col-sm-offset-1 col-md-offset-1  col-lg-offset-1 ">
+                                                    <input type="text" name="mot" id="mot" placeholder="Mot clé" value="{{mot}}" class="form-control"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" name="dateDebut" id="dateDebut" placeholder="Date début" class="input-medium form-control" value="{{dateDebut}}"  />
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="text" name="dateFin" id="dateFin" placeholder="Date fin" class="input-medium form-control"" value="{{dateFin}}" class="form-control"/>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="fa fa-search"></i> 
+                                                </button>
+                                            </form>
+
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    {% if nbTotal == 0%}
+                                        {% if search %}
+                                            AUCUN RESULTAT
+                                        {% else %}
+                                            AUCUN MESSAGE RECU
+                                        {% endif %}
+                                    {% else %}
+                                        {% if search %}
+                                            {{nbTotal}} Résultat(s)
+                                        {% else %}
+                                            {% if  app.request.get('nbMessageNonLu') > 0 %}
+                                                Vous avez <b>{{app.request.get('nbMessageNonLu')}} </b> message(s) Non lu(s)
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-lg-12">
+                                    {% if nbTotal > 0 %}
+                                        <section class="panel">
+                                            <div class="table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            {#<th>
+                                                                <input type="checkbox" class="checkAll checkbox tooltipGobi" name="checkAll" title="Tout cocher/Décocher"/>
+                                                            </th>#}
+                                                            <th>De</th>
+                                                            <th>Objet</th>
+                                                            <th>Date</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for env in envois %}
+                                                            {% if env.message is not null %}
+                                                                {% set message = env.message  %}
+                                                                <tr>
+                                                                    {#<td>
+                                                                        <input type="checkbox" class="checkOne checkbox " sId="{{env.id}}"/>
+                                                                    </td>#}
+                                                                    <td>
+                                                                        {% set expe = getEmetteurOfMessage(message) %}
+                                                                        {% if expe is not null  %}
+                                                                            <!-- On met une icon à coté des messages reçu de la part d'un abonné -->
+                                                                            {% if message.utilisateur is null %}
+                                                                                <i class="fa fa-user"></i>
+                                                                            {% endif %}
+                                                                            {% if message.messageTransfere is not null %}
+                                                                                FWD - 
+                                                                            {% endif  %}
+                                                                            {{expe.nom~' '~expe.prenoms}}
+                                                                        {% endif %} 
+                                                                    </td>
+                                                                    <td>
+                                                                        {% set filMessage = getFilMessage(message, sessionData )%}
+                                                                        {% if isMsgNonLu(env.statut) or (filMessage.filHasNonLu) %}
+                                                                            <img src="{{asset('img/ico/mail_get.png')}}" />
+                                                                        {% else %}
+                                                                            <img src="{{asset('img/ico/mailappt.png')}}" />
+                                                                        {% endif %}
+
+                                                                        <a href="{{path('app_pub_site_messagerie_details_msg_recu', {'idMessage' : message.id})}}">
+                                                                            {% set finObjet = '' %}
+                                                                            {% if (filMessage.fil|length > 1)%}
+                                                                                {% set finObjet = '('~filMessage.fil|length~')' %}
+                                                                            {% endif %}
+
+                                                                            {% if isMsgNonLu(env.statut) or (filMessage.filHasNonLu) %}
+                                                                                <b>{{message.objet~' '~finObjet}}</b>
+                                                                            {% else %}
+                                                                                {{message.objet~' '~finObjet}}
+                                                                            {% endif %}
+
+                                                                        </a>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if filMessage.filHasNonLu %}
+                                                                            {{filMessage.firstMessageNonLu.dateEnvoi|date('d/m/Y H:i:s')}}
+                                                                        {% else %}
+                                                                            {{message.dateEnvoi|date('d/m/Y H:i:s')}}
+                                                                        {% endif%}
+
+                                                                    </td>
+                                                                    <td>
+                                                                        {% if (filMessage.fil|length == 1)%}
+                                                                            {% if isMsgLu(env.statut) %}
+                                                                                <span class="btnDelOne" title="Supprimer" data-id="{{env.id}}">
+                                                                                    Supprimer
+                                                                                </span> |
+                                                                            {% endif %}
+
+                                                                            {% if not  message.cloturer  %}
+                                                                                <a href="{{path('app_messagerie_send_msg_to_abonne', {'idMessageRepondre' : message.id})}}">Répondre</a> |
+                                                                            {% endif %}
+                                                                            <a href="{{path('app_messagerie_send_msg_to_abonne', {"idMessageTransfere" : message.id})}}">Transférer</a> |
+                                                                        {% endif %}
+
+
+                                                                        <a href="{{path('app_pub_site_messagerie_details_msg_recu', {'idMessage' : message.id})}}">Lire</a> 
+
+                                                                    </td>
+                                                                </tr>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        <tr>
+                                                            <td colspan="4">
+                                                                <div class="datagrid-footer-left col-lg-1 col-md-2 col-sm-4 col-xs-4 text-center-sm m-l-n" > 
+                                                                    <div class="grid-controls m-t-small"> 
+                                                                        <div class="select grid-pagesize dropup"> 
+                                                                            <form  class="">
+                                                                                <select id="selnbpage" class="form-control">
+                                                                                    <option value="20" {% if nbParPage == 20 %} selected="true" {% endif %} >20</option>
+                                                                                    <option value="30" {% if nbParPage == 30 %} selected="true" {% endif %} >30</option>
+                                                                                    <option value="100" {% if nbParPage == 100 %} selected="true" {% endif %} >100</option>
+                                                                                </select>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div> 
+                                                                </div> 
+
+                                                                <div id="" class="col-lg-11 col-md-10 col-sm-8 col-xs-8">
+                                                                    <div id="" class="dataTables_paginate paging_full_numbers pull-right">
+                                                                        <ul class="pagination">
+                                                                            <li>
+                                                                                <a href="{{ path('app_pub_site_messagerie_boite_reception', {'dateDebut' : dateDebut, 'dateFin': dateFin, 'mot' : mot, 'pageActuelle': 1,'nbParPage': nbParPage}) }}"  id=""  class="first paginate_button">1</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="{{ path('app_pub_site_messagerie_boite_reception', { 'dateDebut' : dateDebut, 'dateFin': dateFin, 'mot' : mot, 'pageActuelle': previousPage,'nbParPage': nbParPage}) }}"  id=""  class="previous paginate_button">«</a>
+                                                                            </li>
+
+                                                                            {% for page in debutPagination..finPagination %}
+                                                                                <li>
+                                                                                    <span>
+                                                                                        {% if page == pageActuelle %}
+                                                                                            <a href="#"  tabindex="0" class="paginate_active">{{ page }} </a>
+                                                                                        {% else %}  
+                                                                                            <a href="{{ path('app_pub_site_messagerie_boite_reception', {'dateDebut' : dateDebut, 'dateFin': dateFin, 'mot' : mot, 'pageActuelle': page,'nbParPage': nbParPage}) }}" tabindex="0" class="paginate_button">{{ page }} </a>
+                                                                                        {% endif %}
+                                                                                    </span>
+                                                                                </li>
+                                                                            {% endfor %}
+
+                                                                            <li>
+                                                                                <a href="{{ path('app_pub_site_messagerie_boite_reception', { 'dateDebut' : dateDebut, 'dateFin': dateFin, 'mot' : mot, 'pageActuelle': nextPage,'nbParPage': nbParPage}) }}"  id="" tabindex="0" class="next paginate_button">»</a>
+                                                                            </li>
+                                                                            <li>
+                                                                                <a href="{{ path('app_pub_site_messagerie_boite_reception', {'dateDebut' : dateDebut, 'dateFin': dateFin, 'mot' : mot, 'pageActuelle': lastPage,'nbParPage': nbParPage}) }}" id="" tabindex="0" class="last paginate_button">{{lastPage}}</a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </section>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}
+{% block javascriptsPerso %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /**
+             * Bouton de suppression de message. 
+             * On recupere l'id de l'envoi et le passe à la foncction afficherConfirmationSetEtat() qui prend un tableau d'id d'envoi à supprimer
+             */
+            $('.btnDelOne').click(function () {
+                var tab = [];
+                var id = parseInt($(this).attr('data-id'));
+                if (id > 0) {
+                    tab[0] = id;
+                }
+                var nb = tab.length;
+                if (nb === 0) {
+                    error_message('Attention', "Veillez séllectionner les messages à supprimer");
+                } else {
+                    afficherConfirmationSetEtat(tab);
+                }
+            });
+
+            /**
+             * Changement du nombre d'élément à afficher par page. Ce la entraine un rechargement de la page
+             */
+            $('#selnbpage').on('change', function () {
+                //alert( this.value ); // or $(this).val()
+                var nbParPage = parseInt($(this).val());
+                var mot = "{{mot}}";
+                var dateDebut = "{{dateDebut}}";
+                var dateFin = "{{dateFin}}";
+                var href = "{{path('app_pub_site_messagerie_boite_reception')}}";
+                if (mot == '') {
+                    document.location.href = href + '/' + dateDebut + '/' + dateFin + '/' + nbParPage + '/1';
+                } else {
+                    document.location.href = href + '/' + dateDebut + '/' + dateFin + '/' + nbParPage + '/1/' + mot;
+                }
+
+            });
+
+            /**
+             * gestion des dates pickers
+             */
+            gererDatesRecherche('dd-mm-yy');
+
+        });
+
+        /**
+         * Fenetre modale de confirmation d'une suppresion de message
+         * @param array tab : tableau contenant les identifiant des envois à supprimer
+         */
+        function afficherConfirmationSetEtat(tab) {
+            $('<div id="msg" title="Confirmation"><p> Voulez-vous suprrimer le message selectionné ? </p></div>').dialog({
+                hide: {
+                    // effect: "explode"isEmetteur,
+                    duration: 500
+                },
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    " Annuler ": function () {
+                        $(this).dialog('close');
+                    },
+                    " Confirmer ": function () {
+                        setEtatMessage(tab);
+                        $(this).dialog('close');
+                    }
+                }
+
+            }).dialog('open');
+        }
+
+        /**
+         * Requete de  suppresion de message
+         * @param array tab :  tableau contenant les identifiant des envois à supprimer
+         */
+        function setEtatMessage(tabIds) {
+
+            var ajaxId = prepareAjaxData(tabIds);
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: "{{ path('app_pub_site_messagerie_set_etat_msg_recu') }}",
+                data: 'sId=' + ajaxId + '&etat=2',
+                beforeSend: function () {
+                    onLoadGobi();
+                },
+                success: function (rep) {
+                    closeOnLoadGobi();
+                    if (rep['etat']) {
+                        window.location.reload();
+                    } else {
+                        error_message('Erreur', rep['msg']);
+                    }
+                },
+                complete: function () {
+                    closeOnLoadGobi();
+                }
+
+            });
+        }
+
+        /**
+         * Initialisation du date picker
+         *  
+         **/
+        function gererDatesRecherche(dateFormat) {
+            $('#dateDebut').datepicker({
+                showButtonPanel: true,
+                dateFormat: dateFormat,
+                showAnim: 'fadeIn',
+                hideAnim: 'fadeIn',
+                onSelect: function (date) {
+                    $('#dateFin').datepicker('option', 'minDate', date);
+                },
+                changeMonth: true,
+                changeYear: true
+
+            });
+
+            $('#dateFin').datepicker({
+                showButtonPanel: true,
+                dateFormat: dateFormat,
+                showAnim: 'fadeIn',
+                hideAnim: 'fadeIn',
+                onSelect: function (date) {
+                    $('#dateDebut').datepicker('option', 'maxDate', date);
+                },
+                changeMonth: true,
+                changeYear: true
+
+            });
+
+        }
+
+    </script>
+{% endblock %}

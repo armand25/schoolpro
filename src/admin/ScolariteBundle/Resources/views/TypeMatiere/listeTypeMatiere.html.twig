@@ -1,0 +1,269 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}{{parent()}} - Gestion des type matière{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} 
+{% endblock %}
+{% block file_arriane %}
+     <div class="fond-fil-ariane" >
+                    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+                        <div class="row" style="background:rgba(0,0,0,0.3)">
+                            <div class="col-xs-7" >
+                               <h1> Liste des types matière</h1>
+                            </div>
+                            <div class="col-xs-5" style="margin-top: 15px; ">
+                               <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des type matière</span> ><span class="fil-3"> Liste </span>
+                            </div>
+                        </div>
+                    </div>
+		</div>           
+{% endblock  %}
+
+{% block body %}
+    {% for contenu in app.session.getflashbag.get('matiere.ajout.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-success  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+    {% for contenu in app.session.getflashbag.get('matiere.modifier.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+
+
+
+<div class="row" style="margin-bottom:10px;margin-top: -5px; ">
+    <div class="col-lg-9">
+    </div>    
+    <div class="btn-toolbar col-lg-3">
+        <div aria-label="First group" role="group" class="btn-group">
+              {#  <a class=" " href="{{path('app_admin_eleves')}}" id="" title="Afficher tous les clients">
+                    <button class="circle-social" type="button">
+                        <i class="fa fa-list"></i>
+                    </button>
+                </a>#}
+               {% if  isMaintenance(sessionData.codeProfil)  %}
+            <a class="circle-social btn  btn-default " href="{{path('app_admin_typematiere_ajout')}} " id="" title="Ajouter">                           
+                <i class="fa fa-plus"></i>                            
+            </a>
+                    {% endif %}
+            <button id="btnActive" class="circle-social btnAction btn btn-default" btnActionVal="1" type="button" title="Activer">
+                <i class="fa fa-check"></i>
+            </button>
+            <button id="btnActive" class="circle-social btnAction btn  btn-default" btnActionVal="0" type="button" title="Désactiver">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button id="btnSupprimer" class="circle-social btnAction btn  btn-default" btnActionVal="2" type="button" title="Supprimer">
+                <i class="fa fa-trash-o"></i>
+            </button>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="col-lg-12" >
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="">
+                            <th>
+                                <input type="checkbox" class="checkAll checkbox tooltipGobi" name="checkAll" title="Tout cocher/Décocher"/>
+                            </th>
+                            <th>Noms</th>
+                            <th>Description</th>
+                          
+                            <th>Etat</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                                {% for u in typematieres %}
+                        <tr>
+                            <td><input type="checkbox" class="checkOne checkbox " sId="{{u.id}}"/> </td>
+                            <td> {{u.libelleTypeMatiere}} </td>
+                            <td>{{u.descriptionTypeMatiere}}</td>
+                                        {#                                        <td>{{u.codeBase}}</td>#}
+                                        {#                                        <td>{{convertTypeSexe(u.sexe)}}</td>#}                           
+                            <td>
+                                            {% if isTypeEtatActif(u.etatTypeMatiere)%}
+                                <img src="{{asset('img/ico/valider.png')}}"  style="width: 20px" title="Actif"/>
+                                            {% else%}
+                                <img src="{{asset('img/ico/icon-48-deny.png')}}" style="width: 20px" title="Inactif"/>
+                                            {% endif%}
+                            </td>
+                            <td>
+
+                       
+                                <a href="{{path('app_admin_matiere_modifier', {'idMatiere' : u.id})}}" class="btn btn-circle mini btn-info btnEdit tooltipGobi" title="Modifier  {{u.libelleTypeMatiere}}">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                     
+                                            {#Lien pour afficher les informations de lmatiere#}    
+                               {# <a href="{{path('app_admin_matiere_infos', { 'idMatiere' : u.id})}}" class="btn btn-circle mini btn-warning btnEdit tooltipGobi" title="infos  {{u.libelleMatiere}}">
+                                    <i class="fa fa-info"></i>
+                                </a>#}
+
+                            </td>
+                        </tr>
+                                {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        toutDecocher('checkOne');
+        $('#btnNew').click(function() {
+            $('#formNew').toggle(500);
+        });
+        $('#resetNew').click(function() {
+            $('#formNew').toggle(500);
+        });
+        $('.btnEdit').click(function() {
+            $(this).parent('td').parent('tr').children('td').eq(2).children('.formEdit').toggle(500);
+        });
+        $('.checkAll').change(function() {
+            if ($(this).is(':checked')) {
+                toutCocher('checkOne');
+            } else {
+                toutDecocher('checkOne');
+            }
+        });
+        $('.btnAction').click(function() {
+            var type = parseInt($(this).attr('btnActionVal'));
+            var tab = getCheckedId('checkOne', 'sId', true);
+            var nb = tab.length;
+            if (nb === 0) {
+                var msg = "Veillez sélectionner les utilisateurs à activer";
+                if (type === 0) {
+                    msg = "Veillez sélectionner les utilisateurs à désactiver";
+                }
+                if (type === 2) {
+                    msg = "Veillez sélectionner les utilisateurs à supprimer";
+                }
+                error_message('Attention', msg);
+            } else {
+                msg = "Confirmer l'activation des utilisateurs sélectionnés";
+                if (type === 0) {
+                    msg = "Confirmer la désactivation  des utilisateurs sélectionnés";
+                }
+                if (type === 2) {
+                    msg = "Confirmer la suppression des utilisateurs sélectionnés";
+                }
+                afficherConfirmationSetEtat(msg, tab, type);
+            }
+        });
+
+        $('.btn-logout').click(function() {
+            var id = $(this).attr('data-id');
+            afficherConfirmationDeconnecteUser(id);
+
+        });
+
+        $('#selnbpage').on('change', function() {
+            //alert( this.value ); // or $(this).val()
+            var nbParPage = parseInt($(this).val());
+{#            var idProfil = "{{idProfil}}";#}
+            var href = "{{path('app_admin_matieres')}}";
+            document.location.href = href + '/' + idProfil + '/' + nbParPage + '/1';
+
+        });
+    });
+
+    function afficherConfirmationSetEtat(msg, tab, type) {
+        $('<div id="msg" title="Confirmation"><p> ' + msg + '</p></div>').dialog({
+            hide: {
+                // effect: "explode"isEmetteur,
+                duration: 500
+            },
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                " Annuler ": function() {
+                    $(this).dialog('close');
+                },
+                " Confirmer ": function() {
+                    setEtatTypeuser(tab, type);
+                    $(this).dialog('close');
+                }
+            }
+
+        }).dialog('open');
+    }
+
+    function afficherConfirmationDeconnecteUser(idUser) {
+        $('<div id="msg" title="Confirmation"><p>Voulez-vous déconnecté l\'utilisateur ?</p></div>').dialog({
+            hide: {
+                // effect: "explode"isEmetteur,
+                duration: 500
+            },
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                " Confirmer ": function() {
+                    deconnecteUser(idUser);
+                    $(this).dialog('close');
+                },
+                " Annuler ": function() {
+                    $(this).dialog('close');
+                }
+
+            }
+
+        }).dialog('open');
+    }
+
+    function setEtatTypeuser(tabIds, etat) {
+
+        var ajaxId = prepareAjaxData(tabIds);
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_matiere_set_etat') }}",
+            data: 'sId=' + ajaxId + '&etat=' + etat,
+            beforeSend: function() {
+                onLoadGobi();
+            },
+            success: function(rep) {
+                closeOnLoadGobi();
+                if (rep['etat']) {
+                    window.location.reload();
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+                closeOnLoadGobi();
+            }
+
+        });
+    }
+</script>
+{% endblock %}

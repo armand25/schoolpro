@@ -1,0 +1,201 @@
+{% extends "layout.html.twig" %}
+{% block title %}{{parent()}} - Ajout de menu{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block file_arriane %}
+<div class="fond-fil-ariane-classe" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Ajouter un menu</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des menus</span> ><span class="fil-3"> Ajout </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+{% block body %}
+    {#<div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-plus"></i>AJOUT ADMINISTRATEUR  </h3>
+        </div>
+    </div>#}
+    {% for contenu in app.session.getflashbag.get('menu.ajout.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('menu.ajout.error')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+        <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('menu.ajout.already.exist')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+        <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+
+
+
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="col-lg-12" >
+{#                                    <form action="{{path('app_admin_menu_ajout', {'idProfil' : idProfil})}}" method="POST"  {{form_enctype(form)}}>#}
+                    {{ form_start(form) }}    
+                        {#<div class="form-group">
+                            <label  class=" control-label">Non menu</label>
+                            <div class="control">
+                                <input type="text" class="form-control" name="nom-menu"  />
+                            </div>
+                        </div>#}
+                        <div class="form-group clearfix ">
+                            <label class=" control-label">     {{ form_label(form.titre) }} </label>
+                            <div class="control">      {{ form_widget(form.titre) }}</div>
+                        </div> 
+                        <div class="form-group">
+                            <label  class=" control-label">Pointe vers</label>
+                            <div class="control">
+                                <select class="pointe-menu form-control" name="type-menu">
+                                    <option value=""> Type de page </option>
+                                    <option value="1"> Accueil </option>
+                                    <option value="2"> Contact </option>
+                                    <option value="3"> Article </option>
+                                    <option value="4"> Rubrique </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group rubrique-zone" style="display: none;">
+                            <label  class="control-label">Rubrique</label>
+                            <div class="control">
+                                <select class="rubrique-menu form-control">
+
+                                    <option value=""> Choisir votre rubrique </option>
+                                                              {% for unRubrique in rubriques %}
+                                    <option value="{{unRubrique.id}}"> {{unRubrique.designationRubrique}} </option>
+                                                              {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group article-zone" style="display: none;">
+                            <label  class=" control-label">Article</label>
+                            <div class="control">
+                                <select class="article-menu form-control">
+
+                                    <option value=""> Choisir votre article </option>
+                                                              {% for unArticle in articles %}
+                                    <option value="{{unArticle.id}}"> {{unArticle.titre}} </option>
+                                                              {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group " >
+                            <label  class="control-label">Lien</label>
+                            <div class="control">
+                                <input type="text" class="form-control lien-menu-lisible" readonly="readonly" name="lien-menu"  />
+                                <input type="hidden" class="form-control lien-menu" readonly="readonly" name="lien-menu"  />
+                            </div>
+                        </div>                              
+                        <div class="form-group clearfix">
+                                                       {# {{form_rest(form) }}#}
+                                                        {#<a  class="btn" href="{{path('app_admin_menus_list')}}"> 
+                                                            <i class="icon icon-white icon-arrow-left"></i> Annuler
+                                                        </a>#}
+                            <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                        </div> 
+                  
+{#                                    </form>#}
+                                    {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.numeric').numeric();
+        $('.numeric').keyup(function() {
+            var saisie = $(this).val();
+            if (saisie.length > 0) {
+                var number = parseInt(saisie);
+                if ((typeof number != 'undefined') && (!isNaN(number))) {
+                    var newVal = (number == 0) ? '' : number;
+                    $(this).val(newVal);
+                }
+            }
+
+        });
+    });
+
+   {# $('.pointe-menu').focus(function() {
+        alert('tester le produit');
+        
+    })#}
+    $('.pointe-menu').change(function() {
+        renitialiserTout();
+        var pointe_menu = $('.pointe-menu').val();
+        if (pointe_menu == 1) {
+            $('.lien-menu').val('app_admin_info_page|0');
+        } else if (pointe_menu == 2) {
+            $('.lien-menu').val('app_admin_info_page|0');
+        } else if (pointe_menu == 3) {
+            $('.article-zone').show();
+        } else if (pointe_menu == 4) {
+            $('.rubrique-zone').show();
+        }
+    })
+    $('.article-menu').change(function() {
+        var article_menu = $('.article-menu').val();
+        if (article_menu != "") {
+            $('.lien-menu').val('app_admin_details_article|' + article_menu);
+            $('.lien-menu-lisible').val('www.schoolpro.com/nometablissement/rubrique/' + article_menu);
+        }
+    })
+    $('.rubrique-menu').change(function() {
+        var rubrique_menu = $('.rubrique-menu').val();
+        if (rubrique_menu != "") {
+            $('.lien-menu').val('app_admin_details_rubrique|' + rubrique_menu);
+            $('.lien-menu-lisible').val('www.schoolpro.com/nometablissement/rubrique/' + rubrique_menu);
+        }
+    })
+    
+    function renitialiserTout(){
+        
+        $('.article-zone').val('');
+        $('.lien-menu').val('');
+        $('.lien-menu-lisible').val('');
+        $('.rubrique-zone').val('');
+        $('.article-zone').hide();
+        $('.rubrique-zone').hide();
+    }
+    
+</script>
+{% endblock %}

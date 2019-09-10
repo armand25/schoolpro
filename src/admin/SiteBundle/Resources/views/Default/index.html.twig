@@ -1,0 +1,186 @@
+{% extends 'baseDefault.html.twig' %}
+{% import 'macro.html.twig' as traiteinfo %}
+{% block body %}
+   {% set inc = 0 %}
+            <header id="header"> 
+                    <div class="">
+                           <div class="container">
+                                    <div class="slider-container">
+                                            <div class="slider-wrapper theme-default">
+                                                    <div id="slider" class="nivoSlider">
+                                                        {{ traiteinfo.traiteZoneSiteInternetBanniere(tabTraiteZone,inc) }}
+                                                    </div>
+                                            </div>
+                                            <div class="clr"></div>
+                                    </div>
+                           </div>
+                           
+                    </div>
+            </header>
+{% set inc = inc+1 %}
+<div class="container ">
+<div class="wpb_content_element col-lg-12 pad-r20 column_container">
+    <div class="wpb_wrapper">
+
+
+        <a href="{{path('app_admin_user_login')}}" ><div class="tile mini" style="background-color:#57bae8">
+            <div style="margin-top:5px;" class="icon big_icon_center">
+               <img src="{{asset('default/imgs/Resize.png')}}" class="img-responsive" alt="">
+            </div>
+            <div class="text-tile text-mini-left">Espace de Travail</div></div> 
+        </a>
+                {{ traiteinfo.traiteZoneSiteInternetPresentation(tabTraiteZone,idEtablissement,inc) }}
+        <div class="tile mini" style="background-color:#e4007e">
+            <a href="http://academie-nice.fr/touch/index.php?id_menu=136"></a>
+            <div style="margin-top:5px;" class="icon big_icon_center">
+               <img src="{{asset('default/imgs/Resize.png')}}" class="img-responsive" alt="">
+            </div>
+            <div class="text-tile text-mini-left">Nos partenaires</div>
+                
+        </div> 
+
+    </div> 
+</div> 
+</div> 
+             
+            {% set inc = inc+1 %}
+            <section class="slider-panelsection_activities">
+                    <div class="container zone-info-school">
+                           {# <div class="section_name" style="background: #789bde;">
+                                    <h2></h2>
+                            </div>#}
+                            <div class=" ">    
+                                    <div class="col-lg-8 col-sm-8">
+                                            <article class="activities">
+
+                                                    <img src="{{asset('default/imgs/pourquoi.fw.png')}}" class="img-responsive" alt="">
+                                                    <div>
+                                                          
+                                                    </div>
+                                                    {{ traiteinfo.traiteZoneSiteInternetSimple(tabTraiteZone,idEtablissement,inc,0)}}
+                                            </article>
+                                    </div>	<!-- End DIV.Span4-->
+                                    
+                                    {# {% set inc = inc+1 %}#}
+                                    <div class="col-lg-4 col-sm-4">
+                                            <div class="media_all">
+                                               {# {% if inc == 2 %}
+                                                    {% for unInfo in tabTraiteZone[uneZone.id]['information'] %}                           
+
+                                                          {% if unInfo.titre is defined %}
+                                                           <img src="{{asset('default/imgs/banPub.fw.png')}}" class="img-responsive" alt=""> 
+                                                         {% else %}
+                                                            {{unInfo.designationRubrique}}                                     
+                                                         <img src="{{asset('default/imgs/banPub.fw.png')}}" class="img-responsive" alt="">       
+                                                         {% endif %}
+                                                    {% endfor %}
+                                                 {% endif %}#}
+                                                 <img src="{{asset('default/imgs/banPub.fw.png')}}" class="img-responsive" alt=""> 
+                                            </div>	<!-- End DIV.ALL MEDIA-->
+                                    </div>	<!-- End span4 -->
+                                    
+                            </div>	<!-- End rows -->
+
+                    </div>	<!-- End Conainer -->
+
+            </section>
+            
+            
+            
+
+                    
+                            <div class="container zone-autres-actu">
+                                    {% set inc = inc+1 %}
+                                    <div class="zone-article">
+                                      <div class="titre-zone-articles">Conseils</div>  
+                                      <div class="interieur-jaune-clair">
+                                       {{ traiteinfo.traiteZoneSiteInternetSimple(tabTraiteZone,idEtablissement,inc,0)}}                                         
+                                      </div>  
+                                    </div>
+                                {% set inc = inc+1 %}
+                                    <div class="zone-article">
+                                          <div class="titre-zone-articles">Activités des partenaires</div>  
+                                          <div class="interieur-rouge-clair">
+                                              {#{% for unInfo in tabTraiteZone[inc]['information'] %}
+                                                   {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+                                                           
+                                                    <div class="event_last_descr">
+							<div class="calender_date bg-vert" style="float:left;">
+								<div class="calender_date_hd radius5500"> 2016 </div>
+								<div class="calender_date_dc"> 
+									<span class="txt-1">NOVEMBER</span>
+									<span class="txt-2">14 TH</span>
+								</div>
+							</div>
+							<div class="zone-text-event">
+								<h5>
+                                                                    <a href="">
+                                                                            {% if unInfoArticle.titre is defined %}
+                                                                              {{unInfoArticle.titre}}
+                                                                           {% else %}
+                                                                              unInfoArticle.contenu
+                                                                           {% endif %}
+                                                                    </a>
+                                                                </h5>
+								<div class="clr"></div>
+                                                         </div>
+						</div>
+                                              <div class="clr"></div>                    
+                                                                     
+                                                    {% endfor %}
+                                            {% endfor %}#}
+                                               {{ traiteinfo.traiteZoneSiteInternetSimple(tabTraiteZone,idEtablissement,inc,1)}} 
+                                          </div>    
+                                    </div>  
+                                {% set inc = inc+1 %}
+                                    <div class="zone-article">
+                                          <div class="titre-zone-articles">Actus scolaires </div>  
+                                          <div class="interieur-vert-clair">
+                                                {{ traiteinfo.traiteZoneSiteInternetSimple(tabTraiteZone,idEtablissement,inc,0)}}  
+                                          </div>   
+                                    </div>                                   
+                          
+                    </div>	<!-- End Div.container -->
+            {% set inc = inc+1 %}
+
+      <div class="container zone-etabl-scolaire">
+         	
+				<ul>
+                                    
+                                    {% for unEtablissement in listeEtablissement %}
+					<li style="display: block; float: left;padding: 20px;text-align: center;">
+						<div style="margin: auto;">
+                                                    <a href="{{path('app_admin_info_page', { 'idEtablissement' : unEtablissement.codeEtablissement})}}">
+                                                        <img data-src="{{asset(unEtablissement.titreImage)}}" src="{{asset(unEtablissement.titreImage)}}" />
+                                                    </a>
+                                                </div>
+                                                {{unEtablissement.libelleEtablissement}}
+					</li>
+                                     {% endfor %}       
+				</ul>
+				
+			
+		</div>
+         
+           
+          
+       
+<div class="clearout"></div> 
+    {% endblock %}
+{% block javascripts %}
+{{parent()}}
+	
+		<script type="text/javascript">
+			$('.carousel[data-mixed] ul').anoSlide(
+			{
+				items: 5,
+				speed: 500,
+				prev: 'a.prev[data-prev]',
+				next: 'a.next[data-next]',
+				lazy: true,
+				delay: 100
+			})
+		</script>
+{% endblock %}
+
+

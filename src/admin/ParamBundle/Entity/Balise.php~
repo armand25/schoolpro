@@ -1,0 +1,272 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Balise
+ *
+ * @ORM\Table(name="balise")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\BaliseRepository")
+ */
+class Balise {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_balise", type="string", length=100)
+     */
+    private $nomBalise;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="niveau", type="string", length=100)
+     */
+    private $niveau ;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="etat_balise", type="integer", length=1)
+     */
+    private $etatBalise ;
+
+    /**
+     * @var TypeBalise  $typeBalise
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\TypeBalise", inversedBy="balises")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $typeBalise;
+    
+
+    /**
+     * @var Balise  $parentBalise
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\Balise", inversedBy="baliseFilles")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $parentBalise;
+    
+    /**
+     *
+     * @var ArrayCollection $attributs
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\Attribut",mappedBy="balise")
+     */
+    private $attributs ;
+    
+    
+    /**
+     *
+     * @var ArrayCollection $baliseFilles
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\Balise",mappedBy="parentBalise")
+     */
+    private $baliseFilles ;
+    
+    
+   
+
+    public function __construct() {
+        $this->etatBalise = \admin\UserBundle\Types\TypeEtat::ACTIF;
+    }
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * Set nomBalise
+     *
+     * @param string $nomBalise
+     * @return Balise
+     */
+    public function setNomBalise($nomBalise)
+    {
+        $this->nomBalise = $nomBalise;
+
+        return $this;
+    }
+
+    /**
+     * Get nomBalise
+     *
+     * @return string 
+     */
+    public function getNomBalise()
+    {
+        return $this->nomBalise;
+    }
+
+    /**
+     * Set niveau
+     *
+     * @param string $niveau
+     * @return Balise
+     */
+    public function setNiveau($niveau)
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    /**
+     * Get niveau
+     *
+     * @return string 
+     */
+    public function getNiveau()
+    {
+        return $this->niveau;
+    }
+
+    /**
+     * Set etatBalise
+     *
+     * @param integer $etatBalise
+     * @return Balise
+     */
+    public function setEtatBalise($etatBalise)
+    {
+        $this->etatBalise = $etatBalise;
+
+        return $this;
+    }
+
+    /**
+     * Get etatBalise
+     *
+     * @return integer 
+     */
+    public function getEtatBalise()
+    {
+        return $this->etatBalise;
+    }
+
+    /**
+     * Set typeBalise
+     *
+     * @param \admin\ParamBundle\Entity\TypeBalise $typeBalise
+     * @return Balise
+     */
+    public function setTypeBalise(\admin\ParamBundle\Entity\TypeBalise $typeBalise)
+    {
+        $this->typeBalise = $typeBalise;
+
+        return $this;
+    }
+
+    /**
+     * Get typeBalise
+     *
+     * @return \admin\ParamBundle\Entity\TypeBalise 
+     */
+    public function getTypeBalise()
+    {
+        return $this->typeBalise;
+    }
+
+    /**
+     * Add attributs
+     *
+     * @param \admin\ParamBundle\Entity\Attribut $attributs
+     * @return Balise
+     */
+    public function addAttribut(\admin\ParamBundle\Entity\Attribut $attributs)
+    {
+        $this->attributs[] = $attributs;
+
+        return $this;
+    }
+
+    /**
+     * Remove attributs
+     *
+     * @param \admin\ParamBundle\Entity\Attribut $attributs
+     */
+    public function removeAttribut(\admin\ParamBundle\Entity\Attribut $attributs)
+    {
+        $this->attributs->removeElement($attributs);
+    }
+
+    /**
+     * Get attributs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttributs()
+    {
+        return $this->attributs;
+    }
+
+    /**
+     * Set parentBalise
+     *
+     * @param \admin\ParamBundle\Entity\Balise $parentBalise
+     * @return Balise
+     */
+    public function setParentBalise(\admin\ParamBundle\Entity\Balise $parentBalise)
+    {
+        $this->parentBalise = $parentBalise;
+
+        return $this;
+    }
+
+    /**
+     * Get parentBalise
+     *
+     * @return \admin\ParamBundle\Entity\Balise 
+     */
+    public function getParentBalise()
+    {
+        return $this->parentBalise;
+    }
+
+    /**
+     * Add baliseFilles
+     *
+     * @param \admin\ParamBundle\Entity\Balise $baliseFilles
+     * @return Balise
+     */
+    public function addBaliseFille(\admin\ParamBundle\Entity\Balise $baliseFilles)
+    {
+        $this->baliseFilles[] = $baliseFilles;
+
+        return $this;
+    }
+
+    /**
+     * Remove baliseFilles
+     *
+     * @param \admin\ParamBundle\Entity\Balise $baliseFilles
+     */
+    public function removeBaliseFille(\admin\ParamBundle\Entity\Balise $baliseFilles)
+    {
+        $this->baliseFilles->removeElement($baliseFilles);
+    }
+
+    /**
+     * Get baliseFilles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBaliseFilles()
+    {
+        return $this->baliseFilles;
+    }
+}

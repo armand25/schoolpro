@@ -1,0 +1,247 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="lieuxmani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\LieuxManiRepository")
+ */
+class LieuxMani
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var string $pec
+     *
+     * @ORM\Column(name="pec", type="string", length=5,nullable=true)
+     */
+    private $pec;
+    
+    /**
+     * @var string $first
+     *
+     * @ORM\Column(name="first", type="string", length=5,nullable=true)
+     */
+    private $first;  
+    
+    /**
+     * @var string $last
+     *
+     * @ORM\Column(name="last", type="string", length=5)
+     */
+    private $last; 
+
+    /**
+     * @var string $lastpod
+     *
+     * @ORM\Column(name="lastpod", type="string", length=5,nullable=true)
+     */
+    private $lastpod;
+
+    /**
+     * @var string $pod
+     *
+     * @ORM\Column(name="pod", type="string", length=5,nullable=true)
+     */
+    private $pod;      
+    
+    /**
+     * @var string $fin
+     *
+     * @ORM\Column(name="fin", type="string", length=5,nullable=true)
+     */
+    private $fin;    
+    
+    /**
+     * @var PrincipalMani  $principalmani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\PrincipalMani", inversedBy="lieuxmanis")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="idprincipal_mani", referencedColumnName="idprincipal_mani")
+     * })
+     */    
+    private $principalmani; 
+
+   
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set pec
+     *
+     * @param string $pec
+     * @return LieuxMani
+     */
+    public function setPec($pec)
+    {
+        $this->pec = $pec;
+    
+        return $this;
+    }
+
+    /**
+     * Get pec
+     *
+     * @return string 
+     */
+    public function getPec()
+    {
+        return $this->pec;
+    }
+
+    /**
+     * Set first
+     *
+     * @param string $first
+     * @return LieuxMani
+     */
+    public function setFirst($first)
+    {
+        $this->first = $first;
+    
+        return $this;
+    }
+
+    /**
+     * Get first
+     *
+     * @return string 
+     */
+    public function getFirst()
+    {
+        return $this->first;
+    }
+
+    /**
+     * Set last
+     *
+     * @param string $last
+     * @return LieuxMani
+     */
+    public function setLast($last)
+    {
+        $this->last = $last;
+    
+        return $this;
+    }
+
+    /**
+     * Get last
+     *
+     * @return string 
+     */
+    public function getLast()
+    {
+        return $this->last;
+    }
+
+    /**
+     * Set lastpod
+     *
+     * @param string $lastpod
+     * @return LieuxMani
+     */
+    public function setLastpod($lastpod)
+    {
+        $this->lastpod = $lastpod;
+    
+        return $this;
+    }
+
+    /**
+     * Get lastpod
+     *
+     * @return string 
+     */
+    public function getLastpod()
+    {
+        return $this->lastpod;
+    }
+
+    /**
+     * Set pod
+     *
+     * @param string $pod
+     * @return LieuxMani
+     */
+    public function setPod($pod)
+    {
+        $this->pod = $pod;
+    
+        return $this;
+    }
+
+    /**
+     * Get pod
+     *
+     * @return string 
+     */
+    public function getPod()
+    {
+        return $this->pod;
+    }
+
+    /**
+     * Set fin
+     *
+     * @param string $fin
+     * @return LieuxMani
+     */
+    public function setFin($fin)
+    {
+        $this->fin = $fin;
+    
+        return $this;
+    }
+
+    /**
+     * Get fin
+     *
+     * @return string 
+     */
+    public function getFin()
+    {
+        return $this->fin;
+    }
+
+    /**
+     * Set principalmani
+     *
+     * @param \admin\ParamBundle\Entity\PrincipalMani $principalmani
+     * @return LieuxMani
+     */
+    public function setPrincipalmani(\admin\ParamBundle\Entity\PrincipalMani $principalmani)
+    {
+        $this->principalmani = $principalmani;
+    
+        return $this;
+    }
+
+    /**
+     * Get principalmani
+     *
+     * @return \admin\ParamBundle\Entity\PrincipalMani 
+     */
+    public function getPrincipalmani()
+    {
+        return $this->principalmani;
+    }
+}

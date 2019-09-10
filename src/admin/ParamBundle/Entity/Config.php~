@@ -1,0 +1,103 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+/**
+ * Config
+ * 
+ *
+ * @ORM\Table(name="config")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\ConfigRepository")
+ * @ORM\HasLifecycleCallbacks
+ */
+class Config {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $valeur
+     *
+     * @ORM\Column(name="nom_connexion", type="string", length=20)
+     */
+    private $nomConnexion;
+
+    /**
+     * @var Facturier  $facturier
+     * @ORM\OneToOne(targetEntity="admin\FactureBundle\Entity\Facturier")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $facturier;
+
+    public function __construct() {
+        
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nomConnexion
+     *
+     * @param string $nomConnexion
+     * @return Config
+     */
+    public function setNomConnexion($nomConnexion)
+    {
+        $this->nomConnexion = $nomConnexion;
+
+        return $this;
+    }
+
+    /**
+     * Get nomConnexion
+     *
+     * @return string 
+     */
+    public function getNomConnexion()
+    {
+        return $this->nomConnexion;
+    }
+
+    /**
+     * Set facturier
+     *
+     * @param \admin\FactureBundle\Entity\Facturier $facturier
+     * @return Config
+     */
+    public function setFacturier(\admin\FactureBundle\Entity\Facturier $facturier = null)
+    {
+        $this->facturier = $facturier;
+
+        return $this;
+    }
+
+    /**
+     * Get facturier
+     *
+     * @return \admin\FactureBundle\Entity\Facturier 
+     */
+    public function getFacturier()
+    {
+        return $this->facturier;
+    }
+}

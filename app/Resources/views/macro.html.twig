@@ -1,0 +1,228 @@
+{#Macro qui traite le banniere de la page d'accueil#}
+{% macro traiteZoneSiteInternetBanniere(tabTraiteZone,inc)  %}
+   {% if tabTraiteZone[inc] is defined %}
+    {% for unInfo in tabTraiteZone[inc]['information'] %}
+        {% if tabTraiteZone[inc]['typeInfo'] == 2 %}
+          {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+              {% if unInfoArticle.titre is defined %}
+                      {% if unInfoArticle.getMedias[0] is defined %}
+
+                         <img src="{{asset(unInfoArticle.getMedias[0].pathMedia)}}" data-thumb="{{asset(unInfoArticle.getMedias[0].pathMedia)}}" alt="" title=""/>
+                      {% endif %}
+                {% else %}
+
+                {% endif %}
+           {% endfor %}
+       {% elseif tabTraiteZone[inc]['typeInfo'] == 1 %}
+            {% for unInfo in tabTraiteZone[inc]['information'] %}                                                   
+                  {{unInfo.contenuArticle|raw}}
+            {% endfor %}                    
+      {% endif %}
+   {% endfor %}
+  {% endif %}
+{% endmacro %}       
+
+{% macro traiteZoneSiteInternetBanniereTemplate3(tabTraiteZone,idEtablissement,inc)  %}
+   {% if tabTraiteZone[inc] is defined %}
+    {% for unInfo in tabTraiteZone[inc]['information'] %}
+        {% if tabTraiteZone[inc]['typeInfo'] == 2 %}
+          {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+              {% if unInfoArticle.titre is defined %}
+                      {% if unInfoArticle.titreImage is defined %}
+
+                         <img src="{{asset(unInfoArticle.titreImage)}}" alt="" title=""/>
+                      {% endif %}
+                {% else %}
+
+                {% endif %}
+           {% endfor %}
+       {% elseif tabTraiteZone[inc]['typeInfo'] == 1 %}
+            {% for unInfo in tabTraiteZone[inc]['information'] %}                                                   
+                  {{unInfo.contenuArticle|raw}}
+            {% endfor %}                    
+      {% endif %}
+   {% endfor %}
+  {% endif %}
+{% endmacro %}   
+     
+{% macro traiteZoneSiteInternetPresentationGeneral(tabTraiteZone,idEtablissement,inc)  %}
+		<a  href="{{path('app_admin_user_login')}}">                
+          <div class="tile mini"style="background-color:#ffaa31">
+
+            <div style="margin-top:-50px;" class="icon big_icon_center">
+                 <img src="{{asset('default/imgs/page3-img3.png')}}" width="50" class="img-responsive" alt="">  
+            </div>
+            <div >
+               Espace de travail
+            </div>
+            </div>             
+        </a>
+   {% if tabTraiteZone[inc] is defined %}
+    {% for unInfo in tabTraiteZone[inc]['information'] %}
+        {% if tabTraiteZone[inc]['typeInfo'] == 2 %}
+		{% set i =0%}
+          {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+              {% if unInfoArticle.titre is defined %}
+                      
+					<a  href="{{path('app_admin_details_article', { 'id' : unInfoArticle.id,'idEtablissement' : idEtablissement})}}">                
+          <div class="tile mini" {%if i== 0%}style="background-color:rgba(108, 190, 66,.87);" {%else%}style="background-color:#57bae8"{%endif%}>
+            {% set i =i+1%}
+            <div style="margin-top:-50px;" class="icon big_icon_center">
+                {% if unInfoArticle.classHtmlArticle is defined %}
+                <img src="{{asset('default/imgs/'~unInfoArticle.classHtmlArticle)}}" width="50" class="img-responsive" alt="">  
+                {% endif %}
+            </div>
+            <div >
+                {% if unInfoArticle.titre is defined %}
+                               {{unInfoArticle.titre}}
+                            {% else %}
+                               {{unInfoArticle.contenu}}
+               {% endif %}
+            </div>
+            </div>             
+             </a>         
+                {% else %}
+
+                {% endif %}
+           {% endfor %}
+       {% elseif tabTraiteZone[inc]['typeInfo'] == 1 %}
+            {% for unInfo in tabTraiteZone[inc]['information'] %}                                                   
+                  {{unInfo.contenuArticle|raw}}
+            {% endfor %}                    
+      {% endif %}
+   {% endfor %}
+  {% endif %}
+{% endmacro %}        
+         
+{% macro traiteZoneSiteInternetPresentation(tabTraiteZone,idEtablissement,inc)  %}
+   {% if tabTraiteZone[inc] is defined %}
+     {% set i =0%}
+    {% for unInfo in tabTraiteZone[inc]['information'] %}
+        {% if tabTraiteZone[inc]['typeInfo'] == 2 %}
+          {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+              {% if unInfoArticle.titre is defined %}
+         <a  href="{{path('app_admin_details_article', { 'id' : unInfoArticle.id,'idEtablissement' : idEtablissement})}}">                
+          <div class="tile mini" {%if i== 0%}style="background-color:rgba(108, 190, 66,.87);" {%else%}style="background-color:#ffaa31"{%endif%}>
+            {% set i =i+1%}
+            <div style="margin-top:5px;" class="icon big_icon_center">
+                {% if unInfoArticle.classHtmlArticle is defined %}
+                    <img src="{{asset('default/imgs/'~unInfoArticle.classHtmlArticle)}}" class="img-responsive" alt="">  
+                {% endif %}
+            </div>
+            <div class="text-tile text-mini-left">
+                {% if unInfoArticle.titre is defined %}
+                               {{unInfoArticle.titre}}
+                            {% else %}
+                               {{unInfoArticle.contenu}}
+               {% endif %}
+            </div>
+                
+        </div> 
+             </a>
+                {% else %}
+
+                {% endif %}
+           {% endfor %}
+       {% elseif tabTraiteZone[inc]['typeInfo'] == 1 %}
+            {% for unInfo in tabTraiteZone[inc]['information'] %}                                                   
+                  {{unInfo.contenuArticle|raw}}
+            {% endfor %}                    
+      {% endif %}
+   {% endfor %}
+  {% endif %}
+{% endmacro %}                     
+ 
+{#Macro qui traite les menus qui comporte des li#}                         
+{% macro traiteMenu(listeMenu,idEtablissement)  %}     
+       {% for unMenu in listeMenu %}
+                <li ><a  href="{{path(unMenu.lien, { 'id' : unMenu.id,'idEtablissement' : idEtablissement})}}">{{unMenu.titre}}</a></li>		
+        {% endfor %}                  
+{% endmacro  %}   
+                
+{% macro traiteMenuPiedPage(listeMenu,idEtablissement)  %}     
+       {% for unMenu in listeMenu %}
+                <div class="col-lg-2 col-xs-2">
+                    <h5><a  href="{{path(unMenu.lien, { 'id' : unMenu.id,'idEtablissement' : idEtablissement})}}">{{unMenu.titre}}</a></h5>
+                </div>		
+        {% endfor %}                  
+{% endmacro  %}                         
+{#Macro qui traite lees information des zones des principales page#}                         
+{% macro traiteZoneSiteInternetSimple(tabTraiteZone,idEtablissement,inc,type)  %}
+  {% if tabTraiteZone[inc] is defined %}
+    {% for unInfo in tabTraiteZone[inc]['information'] %}
+        {% if tabTraiteZone[inc]['typeInfo'] == 2 %}
+           <ul>
+          {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+              {% if unInfoArticle.titre is defined %}
+                      <li> 
+                        {% if type == 1%}
+                          <div class="calender_date bg-vert" style="float:left;">
+                                <div class="calender_date_hd radius5500"> {{unInfoArticle.datePublication|date('Y')}} </div>
+                                <div class="calender_date_dc"> 
+                                        <span class="txt-1">{{unInfoArticle.datePublication|date('M')}}</span>
+                                        <span class="txt-2">{{unInfoArticle.datePublication|date('d')}} TH</span>
+                                </div>
+                          </div>
+                        {% elseif type == 2 %}
+                          
+                        {% endif %}
+                        <a href="{{path('app_admin_details_article', { 'id' : unInfoArticle.id,'idEtablissement' : idEtablissement})}}">  
+                        <i class="fa fa-anchor">  </i>
+                             {% if unInfoArticle.titre is defined %}
+                               {{unInfoArticle.titre}}
+                            {% else %}
+                               unInfoArticle.contenu
+                            {% endif %}
+                         </a>
+                     </li>
+                {% else %}
+
+                {% endif %}
+           {% endfor %}
+            </ul>
+       {% elseif tabTraiteZone[inc]['typeInfo'] == 1 %}
+            {% for unInfo in tabTraiteZone[inc]['information'] %}                                                   
+                  {{unInfo.contenuArticle|raw}}
+            {% endfor %}                    
+      {% endif %}
+   {% endfor %}
+ {% endif %}
+{% endmacro %}
+                
+{#Macro qui traite lees information des zones des principales page du Template 1#}                 
+{% macro traiteZoneSiteInternetSimpleTemplate1(tabTraiteZone,idEtablissement,inc,type)  %}
+  {% if tabTraiteZone[inc] is defined %}
+    {% for unInfo in tabTraiteZone[inc]['information'] %}
+        {% if tabTraiteZone[inc]['typeInfo'] == 2 %}
+          
+          {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+              {% if unInfoArticle.titre is defined %}
+                     <div class="indent-bot">
+                        	<time class="tdate-1" datetime="2011-12-24"><strong>{{unInfoArticle.datePublication|date('d')}}</strong>{{unInfoArticle.datePublication|date('M')}}</time>
+                            <div class="extra-wrap">
+                            	<h6><a class="link" href="{{path('app_admin_details_article', { 'id' : unInfoArticle.id,'idEtablissement' : idEtablissement})}}">
+                                    {% if unInfoArticle.titre is defined %}
+                                        {{unInfoArticle.titre}}
+                                     {% else %}
+                                        {{unInfoArticle.contenu}}
+                                     {% endif %}
+                                    </a></h6>
+                              
+                            </div>
+                            <div class="clear"></div>
+                     </div>                       
+                {% else %}
+
+                {% endif %}
+           {% endfor %}
+            
+       {% elseif tabTraiteZone[inc]['typeInfo'] == 1 %}
+            {% for unInfo in tabTraiteZone[inc]['information'] %}                                                   
+                  {{unInfo.contenuArticle|raw}}
+            {% endfor %}                    
+      {% endif %}
+   {% endfor %}
+ {% endif %}
+{% endmacro %}
+
+

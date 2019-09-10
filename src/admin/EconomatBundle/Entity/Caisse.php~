@@ -1,0 +1,211 @@
+<?php
+
+namespace admin\EconomatBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Caisse.
+ *
+ * @ORM\Table(name="caisse")
+ * @ORM\Entity(repositoryClass="admin\EconomatBundle\Entity\CaisseRepository")
+ */
+class Caisse
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_caisse", type="string", length=50)
+     */
+    private $nomCaisse;
+
+
+    /**
+     * @var date
+     *
+     * @ORM\Column(name="date_publication", type="date")
+     */
+    private $datePublication;    
+    
+    /**
+     * @var PlanComptable $planComptable
+     * @ORM\ManyToOne(targetEntity="admin\EconomatBundle\Entity\PlanComptable", inversedBy="caisses", cascade={"persist","merge"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="compte", referencedColumnName="compte")
+     * })
+     */
+    private $plancomptable;     
+    
+    
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="etat_ville", type="smallint")
+     */
+    private $etatCaisse;
+
+
+ 
+    /**
+     * @var ArrayCollection operations
+     * @ORM\OneToMany(targetEntity="admin\EconomatBundle\Entity\Operation", cascade={"persist", "remove"}, mappedBy="caisse")
+     */
+    private $operations;
+ 
+
+    public function __construct()
+    {
+        $this->operations = new \Doctrine\Common\Collections\ArrayCollection();
+    } 
+
+   
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nomCaisse
+     *
+     * @param string $nomCaisse
+     *
+     * @return Caisse
+     */
+    public function setNomCaisse($nomCaisse)
+    {
+        $this->nomCaisse = $nomCaisse;
+
+        return $this;
+    }
+
+    /**
+     * Get nomCaisse
+     *
+     * @return string
+     */
+    public function getNomCaisse()
+    {
+        return $this->nomCaisse;
+    }
+
+    /**
+     * Set datePublication
+     *
+     * @param \DateTime $datePublication
+     *
+     * @return Caisse
+     */
+    public function setDatePublication($datePublication)
+    {
+        $this->datePublication = $datePublication;
+
+        return $this;
+    }
+
+    /**
+     * Get datePublication
+     *
+     * @return \DateTime
+     */
+    public function getDatePublication()
+    {
+        return $this->datePublication;
+    }
+
+    /**
+     * Set etatCaisse
+     *
+     * @param integer $etatCaisse
+     *
+     * @return Caisse
+     */
+    public function setEtatCaisse($etatCaisse)
+    {
+        $this->etatCaisse = $etatCaisse;
+
+        return $this;
+    }
+
+    /**
+     * Get etatCaisse
+     *
+     * @return integer
+     */
+    public function getEtatCaisse()
+    {
+        return $this->etatCaisse;
+    }
+
+    /**
+     * Set plancomptable
+     *
+     * @param \admin\EconomatBundle\Entity\PlanComptable $plancomptable
+     *
+     * @return Caisse
+     */
+    public function setPlancomptable(\admin\EconomatBundle\Entity\PlanComptable $plancomptable = null)
+    {
+        $this->plancomptable = $plancomptable;
+
+        return $this;
+    }
+
+    /**
+     * Get plancomptable
+     *
+     * @return \admin\EconomatBundle\Entity\PlanComptable
+     */
+    public function getPlancomptable()
+    {
+        return $this->plancomptable;
+    }
+
+    /**
+     * Add operation
+     *
+     * @param \admin\EconomatBundle\Entity\Operation $operation
+     *
+     * @return Caisse
+     */
+    public function addOperation(\admin\EconomatBundle\Entity\Operation $operation)
+    {
+        $this->operations[] = $operation;
+
+        return $this;
+    }
+
+    /**
+     * Remove operation
+     *
+     * @param \admin\EconomatBundle\Entity\Operation $operation
+     */
+    public function removeOperation(\admin\EconomatBundle\Entity\Operation $operation)
+    {
+        $this->operations->removeElement($operation);
+    }
+
+    /**
+     * Get operations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOperations()
+    {
+        return $this->operations;
+    }
+}

@@ -1,0 +1,222 @@
+<?php
+
+namespace admin\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use \admin\UserBundle\Types\TypeEtat;
+
+/**
+ * EtreClient
+ *
+ * @ORM\Table(name="etre_client")
+ * @ORM\Entity(repositoryClass="admin\UserBundle\Entity\EtreClientRepository")
+ */
+class EtreClient {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $referenceClient
+     *
+     * @ORM\Column(name="reference_client", type="string", length=20, nullable=false)
+     * 
+     */
+    private $referenceClient;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="etat", type="smallint")
+     */
+    private $etat;
+
+    /**
+     * @var \DateTime $dateAjout
+     *
+     * @ORM\Column(name="date_ajout", type="datetime")
+     */
+    private $dateAjout;
+
+    /**
+     * @var \DateTime $dateModification
+     *
+     * @ORM\Column(name="date_edit", type="datetime", nullable=true)
+     */
+    private $dateModification;
+
+    /**
+     * @var Facturier  $facturier
+     * @ORM\ManyToOne(targetEntity="admin\FactureBundle\Entity\Facturier", inversedBy="etreClients")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $facturier;
+
+    /**
+     * @var Abonne  $facturier
+     * @ORM\ManyToOne(targetEntity="admin\UserBundle\Entity\Abonne", inversedBy="etreClients")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $abonne;
+
+    public function __construct() {
+        $this->etat = TypeEtat::ACTIF;
+        $this->dateAjout = new \DateTime();
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set referenceClient
+     *
+     * @param string $referenceClient
+     * @return EtreClient
+     */
+    public function setReferenceClient($referenceClient)
+    {
+        $this->referenceClient = $referenceClient;
+
+        return $this;
+    }
+
+    /**
+     * Get referenceClient
+     *
+     * @return string 
+     */
+    public function getReferenceClient()
+    {
+        return $this->referenceClient;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return EtreClient
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set dateAjout
+     *
+     * @param \DateTime $dateAjout
+     * @return EtreClient
+     */
+    public function setDateAjout($dateAjout)
+    {
+        $this->dateAjout = $dateAjout;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAjout
+     *
+     * @return \DateTime 
+     */
+    public function getDateAjout()
+    {
+        return $this->dateAjout;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return EtreClient
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
+     * Set facturier
+     *
+     * @param \admin\FactureBundle\Entity\Facturier $facturier
+     * @return EtreClient
+     */
+    public function setFacturier(\admin\FactureBundle\Entity\Facturier $facturier)
+    {
+        $this->facturier = $facturier;
+
+        return $this;
+    }
+
+    /**
+     * Get facturier
+     *
+     * @return \admin\FactureBundle\Entity\Facturier 
+     */
+    public function getFacturier()
+    {
+        return $this->facturier;
+    }
+
+    /**
+     * Set abonne
+     *
+     * @param \admin\UserBundle\Entity\Abonne $abonne
+     * @return EtreClient
+     */
+    public function setAbonne(\admin\UserBundle\Entity\Abonne $abonne)
+    {
+        $this->abonne = $abonne;
+
+        return $this;
+    }
+
+    /**
+     * Get abonne
+     *
+     * @return \admin\UserBundle\Entity\Abonne 
+     */
+    public function getAbonne()
+    {
+        return $this->abonne;
+    }
+}

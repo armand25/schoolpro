@@ -1,0 +1,16 @@
+{% block menu %}
+    {% set CurrentPath = app.request.attributes.get('_route') %}
+        {% if sessionData.codeProfil is defined %}
+{#            {% if isMaintenance(sessionData.codeProfil )%}#}
+                {% include 'adminUserBundle:Menu:menuAdmin.html.twig'%}
+           {# {% else %}
+                {% include 'pubSiteBundle:Menu:menuAbonne.html.twig'%}
+            {% endif %}#}
+        {% endif %}
+        <!-- end: MAIN NAVIGATION MENU -->
+        <!-- start: FEATURES -->
+
+        <!-- end: FEATURES -->
+   
+    <!-- end: SIDEBAR -->
+{% endblock %}

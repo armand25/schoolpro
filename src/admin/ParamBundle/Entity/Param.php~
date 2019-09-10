@@ -1,0 +1,286 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="param")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\ParamRepository")
+ */
+class Param
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+/**
+     * @var integer $nom
+     *
+     * @ORM\Column(name="nom", type="integer", unique=true)
+     */
+    private $nom;
+    
+    /**
+     * @var string $valeur
+     *
+     * @ORM\Column(name="valeur", type="string", length=255)
+     */
+    private $valeur;
+
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="type_donnee", type="integer")
+     */
+    private $typeDonnee;
+    
+    
+
+    /**
+     * @var string $libelle
+     *
+     * @ORM\Column(name="libelle", type="string", length=100, nullable=false, unique=true)
+     */
+    private $libelle;
+    
+
+    /**
+     * @var string $description
+     *
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    private $description;
+    
+    
+     /**
+     * @var integer $typeParam
+     *
+     * @ORM\Column(name="type_param", type="integer")
+     */
+    private $typeParam;
+    
+     /**
+     * @var integer $affiche
+     *
+     * @ORM\Column(name="affiche", type="integer")
+     */
+    private $affiche;
+     /**
+     * @var date $dateChoix
+     *
+     * @ORM\Column(name="date_choix", type="date", nullable=true)
+     */
+    private $dateChoix;
+    
+
+    public function __construct() {
+        $this->typeDonnee = \admin\ParamBundle\Types\TypeDonnees::INT;
+        $this->affiche = 1;
+    }
+
+   
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param integer $nom
+     * @return Param
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return integer 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set valeur
+     *
+     * @param string $valeur
+     * @return Param
+     */
+    public function setValeur($valeur)
+    {
+        $this->valeur = $valeur;
+
+        return $this;
+    }
+
+    /**
+     * Get valeur
+     *
+     * @return string 
+     */
+    public function getValeur()
+    {
+        return $this->valeur;
+    }
+
+    /**
+     * Set typeDonnee
+     *
+     * @param integer $typeDonnee
+     * @return Param
+     */
+    public function setTypeDonnee($typeDonnee)
+    {
+        $this->typeDonnee = $typeDonnee;
+
+        return $this;
+    }
+
+    /**
+     * Get typeDonnee
+     *
+     * @return integer 
+     */
+    public function getTypeDonnee()
+    {
+        return $this->typeDonnee;
+    }
+
+    /**
+     * Set libelle
+     *
+     * @param string $libelle
+     * @return Param
+     */
+    public function setLibelle($libelle)
+    {
+        $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * Get libelle
+     *
+     * @return string 
+     */
+    public function getLibelle()
+    {
+        return $this->libelle;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Param
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set typeParam
+     *
+     * @param integer $typeParam
+     * @return Param
+     */
+    public function setTypeParam($typeParam)
+    {
+        $this->typeParam = $typeParam;
+    
+        return $this;
+    }
+
+    /**
+     * Get typeParam
+     *
+     * @return integer 
+     */
+    public function getTypeParam()
+    {
+        return $this->typeParam;
+    }
+    
+    /**
+     * Get affiche
+     *
+     * @return integer 
+     */
+    public function getAffiche()
+    {
+        return $this->affiche;
+    }
+    
+
+    /**
+     * Set affiche
+     *
+     * @param integer $affiche
+     * @return Param
+     */
+    public function setAffiche($affiche)
+    {
+        $this->affiche = $affiche;
+    
+        return $this;
+    }
+
+    /**
+     * Set dateChoix
+     *
+     * @param \DateTime $dateChoix
+     * @return Param
+     */
+    public function setDateChoix($dateChoix)
+    {
+        $this->dateChoix = $dateChoix;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateChoix
+     *
+     * @return \DateTime 
+     */
+    public function getDateChoix()
+    {
+        return $this->dateChoix;
+    }
+}

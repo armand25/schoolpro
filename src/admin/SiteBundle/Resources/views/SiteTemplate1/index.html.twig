@@ -1,0 +1,65 @@
+{% extends 'baseTemplate1.html.twig' %}
+{% import 'macro.html.twig' as traiteinfo %}
+{% block body %}
+   {% set inc = 0 %}
+
+	</header>
+	<!--==============================content================================-->
+	 <div class="container_12">
+	 
+	 {{ traiteinfo.traiteZoneSiteInternetBanniereTemplate3(tabTraiteZone,idEtablissement,inc)}}
+	
+	 </div>
+	 {% set inc = inc+1 %} 
+    <section id="content">
+	            <div class="container_12">
+                	{{ traiteinfo.traiteZoneSiteInternetPresentationGeneral(tabTraiteZone,idEtablissement,inc)}}
+
+		</div>
+		<div class="clear"></div>
+
+		  {% set inc = inc+1 %} 
+        <div class="main">
+            <div class="container_12">
+			    
+                <div class="wrapper">
+                    <article class="grid_6">
+                    	<h3>Mot du Directeur</h3>
+                        
+                        {{ traiteinfo.traiteZoneSiteInternetSimple(tabTraiteZone,idEtablissement,inc,0)}}
+                    </article>
+                    {% set inc = inc+1 %} 
+                    <article class="grid_6">
+					<h3>Actus</h3>
+                    	<div class="indent-top">
+                            {#<div class="wrapper indent-bot2">
+                                <figure class="img-indent"><img src="images/page1-img1.jpg" alt=""></figure>
+                                <div class="extra-wrap">
+                                    <h4>We Know <strong>What It Takes</strong><strong class="color-3">to be the <em>Leader!</em></strong></h4>
+                                </div>
+                            </div>#}
+                            {{ traiteinfo.traiteZoneSiteInternetSimpleTemplate1(tabTraiteZone,idEtablissement,inc,0)}}
+                        </div>                        
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+{% block javascripts %}
+{{parent()}}
+	
+		<script type="text/javascript">
+			$('.carousel[data-mixed] ul').anoSlide(
+			{
+				items: 5,
+				speed: 500,
+				prev: 'a.prev[data-prev]',
+				next: 'a.next[data-next]',
+				lazy: true,
+				delay: 100
+			})
+		</script>
+{% endblock %}
+
+

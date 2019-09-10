@@ -1,0 +1,131 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}{{parent()}} - Ajout profil{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block Breadcrumb %}
+    <ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+        <li>
+            <a href="#/app/dashboard" >
+                <i class="fa fa-home margin-right-5 text-large text-dark"></i>Accueil
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <i class="fa fa-file margin-right-5 text-large text-dark"></i>Administrateur
+            </a>
+        </li>
+
+        <li class="ng-binding ng-scope" ><i class="fa fa-upload margin-right-5 text-large text-dark"></i>Ajout</li>
+    </ul>
+
+{% endblock %}
+{% block body %}
+    {#<div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-plus"></i>AJOUT PROFIL </h3>
+        </div>
+    </div>#}
+
+    <div class="row">
+        <div class="col-lg-12">
+            {% for contenu in app.session.getflashbag.get('profil.ajout.success')%}
+                {% if loop.index == 0%}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        {% endif%}
+                        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                        {% if loop.index == 0%} 
+                        </div>
+                    </div>
+                {% endif%}
+            {% endfor%}
+
+            {% for contenu in app.session.getflashbag.get('profil.ajout.error')%}
+                {% if loop.index == 0%}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        {% endif%}
+                        <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                        {% if loop.index == 0%} 
+                        </div>
+                    </div>
+                {% endif%}
+            {% endfor%}
+
+            {% for contenu in app.session.getflashbag.get('profil.ajout.already.exist')%}
+                {% if loop.index == 0%}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        {% endif%}
+                        <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                        {% if loop.index == 0%} 
+                        </div>
+                    </div>
+                {% endif%}
+            {% endfor%}
+        </div>
+    </div>
+
+    <div class="container-fluid container-fullw padding-bottom-10 ng-scope">        
+        <div class="row">
+            <div class="col-lg-12">
+                <section class="panel panel-white">
+                    <header class="panel-heading">
+                        <i class="fa fa-plus"></i> Modification d'un paramètre de configuration
+                    </header>
+                    <div class="panel-body">
+        <div class="text-info">Modification paramètre - {{parametre.libelle}}</div>
+        <form method="POST" action="{{path('app_param_edit', {'locale' : locale, 'nomParam': nom})}}">
+            
+            <div class="form-group clearfix margin-top-15px">
+                <label class="col-lg-3 control-label">  Libelle * </label>
+                <div class="col-lg-8 control">   
+                    <input  autocomplete="off" type="text" name="libelle_{{nom}}" id="libelle_{{nom}}"  value="{{parametre.libelle}}" required="true" placeholder="Libelle" class="form-control" />  
+                </div>
+            </div>
+
+            <div class="form-group clearfix margin-top-15px">
+                <label class="col-lg-3 control-label"> Description * </label>
+                <div class="col-lg-8 control">
+                    <textarea name="description_{{nom}}" id="description_{{nom}}" required="true" class="form-control">{{parametre.description}}</textarea>   
+                </div>
+            </div>
+
+            <div class="form-group clearfix margin-top-15px"> 
+                <label class="col-lg-3 control-label"> Valeur *  </label>
+                <div class="col-lg-8 control"> 
+                    <input  autocomplete="off" type="text" name="valeur_{{nom}}" id="valeur_{{nom}}"  value="{{parametre.valeur}}" required="true" placeholder="Valeur" class="form-control"/> 
+                </div>
+            </div>
+            
+            <div class="form-group clearfix margin-top-15px"> 
+                <label class="col-lg-3 control-label"> Type information *  </label>
+                <div class="col-lg-8 control"> 
+                    <select name="typeInfoPram" id="typeDonneePram" required="true" class="form-control">
+
+                            <option {% if parametre.typeParam == 1%} value="1" {% endif%} >Système</option>
+                            <option {% if parametre.typeParam == 2%} value="2" {% endif%} >Fichier</option>
+
+                    </select>                    
+{#                    <input  autocomplete="off" type="text" name="typeInfoPram_{{nom}}" id="typeInfoPram_{{nom}}"  value="{{parametre.valeur}}" required="true" placeholder="Valeur" class="form-control"/> 
+ #}                   
+                </div>
+            </div>            
+           
+            <div class="form-group clearfix margin-top-15px pull-right"> <button class="btn btn-success" type="submit" id="valider_{{nom}}">
+                    Modifier
+                </button>
+            </div>
+        </form>
+            </div>
+            </section>
+        </div>
+
+    </div>        
+</div>
+{% endblock %}
+
+

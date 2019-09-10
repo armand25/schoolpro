@@ -1,0 +1,154 @@
+<html class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths ng-scope" idmmzcc-ext-docid="100303556608" data-ng-app="app" lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style>
+        <style type="text/css">.uib-time input{width:50px;}</style>
+        <style type="text/css">.uib-datepicker .uib-title{width:100%;}.uib-day button,.uib-month button,.uib-year button{min-width:100%;}.uib-datepicker-popup.dropdown-menu{display:block;}.uib-button-bar{padding:10px 9px 2px;}</style>
+        <style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style>
+        <meta charset="utf-8">
+        {#<link rel="shortcut icon" href="{{asset('img/icon.png')}}">#}
+        <title class="ng-binding">
+            STOCK
+        </title>
+        {% block css %}
+        <!-- Google fonts -->
+        {#        <link href="{{ asset('packet/css/app.min.css') }}index_fichiers/css.css" rel="stylesheet" type="text/css">#}
+        <!-- Packet CSS -->
+        <link rel="stylesheet" href="{{ asset('packet/css/app.min.css') }}">
+        <!-- Packet Theme -->
+        <link href="{{ asset('packet/css/lyt1-theme-1.css') }}" rel="stylesheet" data-ng-href="{{ asset('packet/css/lyt1-theme-1.css') }}">
+        <!-- Favicon -->
+        <link href="{{ asset('packet/css/angular-chart.min.css') }}" rel="stylesheet" type="text/css">
+
+        {# Font awesome#}
+        <link href="{{ asset('librairies/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+        {# Themifuy font- awesome#}
+        <link href="{{ asset('librairies/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+
+
+        {# jquery file upload#}
+        {#        <link rel="stylesheet" href="{{ asset('librairies/jquery-file-upload/css/style.css') }}">#}
+        <!-- blueimp Gallery styles -->
+        <link rel="stylesheet" href="{{ asset('librairies/jquery-file-upload/css/blueimp-gallery.min.css') }}">
+        <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+        <link rel="stylesheet" href="{{ asset('librairies/jquery-file-upload/css/jquery.fileupload.css') }}">
+        <link rel="stylesheet" href="{{ asset('librairies/jquery-file-upload/css/jquery.fileupload-ui.css') }}">
+        <!-- CSS adjustments for browsers with JavaScript disabled -->
+
+        {# datepicker#}
+        <link href="{{ asset('css/jquery-ui.min.css') }}" rel="stylesheet" type="text/css">
+
+        <!-- CSS adjustments for browsers with JavaScript disabled -->
+        {#<noscript><link rel="stylesheet" href="css/jquery.fileupload-noscript.css"></noscript>
+        <noscript><link rel="stylesheet" href="css/jquery.fileupload-ui-noscript.css"></noscript>#}
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+        <!--[if lt IE 9]>
+          <script src="{{ asset('js/html5shiv.js') }}"></script>
+          <script src="{{ asset('js/respond.min.js') }}"></script>
+          <script src="{{ asset('js/lte-ie7.js') }}"></script>
+        <![endif]-->
+
+        {% endblock %}
+
+    </head>
+    <body class="ng-scope" >
+        {% set montantTotal =0 %}
+        <table class="table-bordered table center fond-image-recu" style="margin: auto;border-right: 6px #BBB solid;">
+            <tr>
+                <td colspan="2"></td>
+
+                <td colspan="4" style="background:#BBB; color:#FFF; font-size: 30px; text-align: left;font-weight: bold;border: none;"> 
+                    BON DE 
+                             {% if type== 1%} 
+                    RECEPTION
+                             {% else %}
+                    LIVRAISON
+                             {% endif %}
+                    N&deg; {{ref}}
+                </td>
+
+            </tr>
+            <tr>
+                <td colspan="3" style="border:none;text-align: left;" >
+                    Kiss French Togo<br/>
+                    Tel  <br/>
+                    Adresse de Lome <br/>
+
+                </td>
+
+                <td colspan="3" style="border:none;text-align: left;" >
+                    A Lomé, Le {{"now"|date("d M Y")}} 
+                </td>
+
+            </tr>
+            <tr>
+                        {% for uneCommande in infoClient %} 
+                <td colspan="3" style="border:none;text-align: left;">Commande numero : {{uneCommande.codeCommande}}</td>
+
+                <td colspan="3" style="border:none;text-align: left;">
+                              {% if type == 2 %}
+                                {{uneCommande.getAbonne.nom}}<br/>
+                                {{uneCommande.getAbonne.tel1}}<br/>
+                                {{uneCommande.getAbonne.adresse}}<br/>
+                              {% else %}
+
+                              {% endif %}
+
+                </td>
+                          {% endfor %}
+            </tr>
+            <tr style="background: #DDD;">
+                <td >Codes</td>
+                <td >Designations</td>
+                <td>Quantités Commandées</td>
+                <td>Quantités Livrées</td>
+                <td>Reste à Livrer </td>
+                <td>Observcation</td>
+            </tr>
+            <tr>
+                    {% for uneLigneCommande in ligneCommande %} 
+
+            <tr>
+                <td>{{uneLigneCommande.getProduit.codeProduit}}</td>
+                <td>{{uneLigneCommande.getProduit.nomProduit}}</td>
+                <td>{{uneLigneCommande.quantite}}</td>
+                <td>
+                              {% for uneLigne in uneLigneCommande.getLivrers %}
+                                            {{uneLigne.nbreLivre}}
+                              {% endfor %}
+
+                </td>
+                <td>
+                              {% for uneLigne2 in uneLigneCommande.getLivrers %}
+                                            {{uneLigne2.nbreReste}}
+                              {% endfor %}
+                                {#{{uneLigneCommande.nom}}{% set montantTotal=montantTotal+uneLigneCommande.nom%} #}
+                </td>
+            </tr>	
+		   {% endfor %} 
+            <tr>
+                <td colspan="5">
+                    Visas et observations éventuelles
+                </td>
+
+                <td colspan="1">
+                    Visa  du
+                              {% if type== 1%}
+                    Fournisseur
+                              {% else %}
+                    Client
+                              {% endif %}
+                </td>
+
+            </tr>	
+            <tr style="height: 100px;">
+                <td colspan="2" align="top">Recu le {{"now"|date("d/m/Y")}} </td>
+                <td colspan="3" align="top"></td>
+                <td></td>
+            </tr>                        
+        </table>
+    </body>
+</html>

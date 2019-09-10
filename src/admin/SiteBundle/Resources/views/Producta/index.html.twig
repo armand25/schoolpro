@@ -1,0 +1,71 @@
+{% extends 'baseProducta.html.twig' %}
+{% import 'macro.html.twig' as traiteinfo %}
+{% block body %}
+ {% set inc = 0 %}
+    <!-- Header -->
+        <div class="container">
+            <div class="header row">
+                <div class="logo span3">
+                    <h2><a href="">Produkta</a></h2>
+                </div>
+                <div class="tel-skype span9">
+                    <ul class="nav navbar-nav">
+                        
+                        {{ traiteinfo.traiteMenu(listeMenu,idEtablissement)}}
+                    </ul>
+                    <p><i class="icon-phone-sign"></i> Tel :  <span class="pipe">|</span> <i class="icon-user"></i> Mail : </p>
+                </div>
+            </div>
+        </div>
+        <div class="product-showcase">
+            <div class="product-showcase-pattern">
+                <div class="container">
+                    <div class="row">
+                        <div class="span12 product-background">
+                            <div class="row">
+                                {#{% for unInfo in tabTraiteZone[uneZone.id]['information'] %}
+                                    {% if tabTraiteZone[uneZone.id]['typeInfo'] == 2 %}
+                                    <div class="span12">
+                                        <h1> <strong>{{unInfo.designationRubrique}}</strong></h1>
+                                        <div class="product-description">
+                                            <div class="timer">
+                                                {{unInfo.descriptionRubrique|raw}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}#}
+                                {{ traiteinfo.traiteZoneSiteInternetSimple(tabTraiteZone,inc,0)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            {% set inc = inc+1 %}
+            <div class="row">
+               {{ traiteinfo.traiteZoneSiteInternetSimple(tabTraiteZone,inc,0)}}
+            </div> <!-- end row -->
+
+            <div class="row">
+                <!-- as seen on -->
+                {#<div class="span12 using-this">
+                    <h3>As Seen On</h3>
+                    <div class="using-this-container">
+                        <a class="using-this-google" href="#"></a>
+                        <a class="using-this-pinterest" href="#"></a>
+                        <a class="using-this-youtube" href="#"></a>
+                        <a class="using-this-google" href="#"></a>
+                        <a class="using-this-pinterest" href="#"></a>
+                    </div>
+                </div>#}
+            </div> <!-- end row -->
+           
+        </div> <!-- end container -->
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+{% endblock %}

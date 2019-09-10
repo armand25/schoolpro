@@ -1,0 +1,130 @@
+{% extends "layout.html.twig" %}
+
+{% block title %} {{parent()}}  - Infos Abonne {% endblock %}
+
+{% block Breadcrumb %}
+<ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+    <li>
+        <a href="#/app/dashboard" >
+            <i class="fa fa-home margin-right-5 text-large text-dark"></i>Accueil
+        </a>
+    </li>
+    <li>
+        <a href="#" >
+            <i class="fa fa-file margin-right-5 text-large text-dark"></i>Abonné
+        </a>
+    </li>
+
+    <li class="ng-binding ng-scope" ><i class="fa fa-upload margin-right-5 text-large text-dark"></i>Détails</li>
+</ul>
+{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+{# <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-edit"></i></strong>  </h3>
+            </div>
+        </div>#}
+
+
+<div class="col-lg-12"> 
+            {% for contenu in app.session.getflashbag.get('abonne.modifier.password.success')%}
+                {% if loop.index == 0%}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        {% endif%}
+            <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                        {% if loop.index == 0%} 
+        </div>
+    </div>
+                {% endif%}
+            {% endfor%}
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="" style="font-size: 18px; padding-left: 20px;padding-top: 3px; width: 400px; height: 40px; background: #30A5FF;color:#FFF;">Détail de l'abonné - <strong>{{abonne.nom~' '~abonne.prenoms}}</div>
+        <div class="panel panel-white">
+            {#<header class="panel-heading">
+                <i class="fa fa-table "></i> <span class="margin-right-20px "> Détail Abonné </span>
+            </header> #}
+            <table class="table table-hover table-striped">
+                <tbody>
+                    <tr >
+
+                        <td rowspan="7" style="width:200px;">  
+                                         {% for image in abonne.getImagepers %}
+                            <img src="{{asset('upload/chargement/'~image.urlImage)}}" alt="Packet" width="200">
+
+                                          {% endfor %}
+                        </td>
+                        <td class="table-droite-gras">Nom : </td>
+                        <td>{{abonne.nom~' '~abonne.prenoms}}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-droite-gras">Sexe :</td>
+                        <td>{{convertTypeSexe(abonne.sexe)}}</td>
+                    </tr>	
+                    <tr>
+                        <td class="table-droite-gras">Tel. :</td>
+                        <td>{{abonne.tel1}}  -  {{abonne.tel2}}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-droite-gras">Etat :</td>
+                        <td>
+                                        {% if isTypeEtatActif(abonne.etat)%}
+                            <img src="{{asset('img/ico/valider.png')}}"  style="width: 20px" title="Actif"/>
+                                        {% else%}
+                            <img src="{{asset('img/ico/icon-48-deny.png')}}" style="width: 20px" title="Inactif"/>
+                                        {% endif%}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="table-droite-gras"> Action :</td>
+                        <td>
+                       {# <div class="col-lg-1 margin-right-10px"> 
+                            <a target="_blank" href="{{path('app_admin_user_histo_connexion', {'idUser' : abonne.id, 'isUser': 0})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Historique de connexion  {{abonne.nom}}"> 
+                                <i class="fa fa-list-ol"></i>
+                            </a>
+                        </div>#}
+                            {% if  isMaintenance(sessionData.codeProfil)  %} 
+                                {#{% if abonne.etatConnecte %}   
+                                    <div class="col-lg-2 margin-left-5px"> 
+                                        <a  class="btn btn-mini btn  btn-logout" data-id="{{abonne.id}}" title="Déconnecter ( {{abonne.nom}} )">
+                                            <i class="icon  icon-lock"></i> Deconnecter {{abonne.nom}}
+                                        </a>
+                                    </div> 
+                                {% endif %}#}
+                            <div class="col-lg-1 margin-left-5px"> 
+                                <a href="{{path('app_admin_abonne_modifier', {'idProfil' : idProfil, 'idAbonne' : abonne.id})}}" class="btn btn-mini btn-success btnEdit tooltipGobi " title="Modifier  {{abonne.nom}}">
+                                    <i class="fa fa-edit"></i>  
+                                </a>
+                            </div>
+                            <a  href="{{path('admin_operation_get_operation_vente', {'id' : 10, 'idab': abonne.id})}}" class="btn btn-circle mini  btn-info btnEdit tooltipGobi" title="Traiter la cotisation du client  {{abonne.nom}}">
+                                                    <i class="fa fa-dashboard"></i>
+                                                </a>
+                        {#<div class="col-lg-1 margin-left-5px"> 
+                            <a href="{{path('app_admin_abonne_admin_set_password', {'idProfil' : idProfil, 'idAbonne' : abonne.id})}}" class="btn btn-mini btn-warning btnEdit tooltipGobi " title="Modifier password {{abonne.nom}}">
+                                <i class="fa fa-edit"></i> 
+                            </a>
+                        </div>#}
+                            {% endif %}
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>                    
+{% endblock %}
+{% block javascriptsPerso %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}

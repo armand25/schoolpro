@@ -1,0 +1,146 @@
+<?php
+/**
+ * Class NumeroCourt
+ */
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \Doctrine\Common\Collections\ArrayCollection ;
+use \admin\UserBundle\Types\TypeEtat;
+
+
+/**
+ * SmsCenter
+ * 
+ * @ORM\Table(name="sms_center")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\SmsCenterRepository")
+ */
+class SmsCenter
+{
+    /**
+     * 
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    
+    /**
+     * @var string $numero 
+     * 
+     * @ORM\Column(name="numero", type="string", length=20)
+     * @Assert\Length(max=20)
+     * @Assert\NotBlank(message="Numéro requis")
+     */
+    private $numero;
+    
+    
+    /**
+     * @var integer $etat 
+     * @ORM\Column(name="etat", type="integer")
+     */
+    private $etat;
+    
+   
+    
+    /**
+     * @var Operateur $operateur 
+     * 
+     * @ORM\ManyToOne(targetEntity="admin\SmsBundle\Entity\Operateur", inversedBy="smsCenters")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $operateur;
+    
+
+    public function __construct() 
+    {
+        $this->etat = TypeEtat::ACTIF;
+    }
+
+
+  
+   
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param string $numero
+     * @return SmsCenter
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return string 
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return SmsCenter
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set operateur
+     *
+     * @param \admin\SmsBundle\Entity\Operateur $operateur
+     * @return SmsCenter
+     */
+    public function setOperateur(\admin\SmsBundle\Entity\Operateur $operateur)
+    {
+        $this->operateur = $operateur;
+
+        return $this;
+    }
+
+    /**
+     * Get operateur
+     *
+     * @return \admin\SmsBundle\Entity\Operateur 
+     */
+    public function getOperateur()
+    {
+        return $this->operateur;
+    }
+}

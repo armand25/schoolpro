@@ -1,0 +1,71 @@
+
+
+<form method="POST" action="{{path('app_param_ajout', {'locale' : locale})}}">
+    <div class="form-group clearfix margin-top-15px">
+        <label class="col-lg-3 control-label"> Nom * </label>
+        <div class="col-lg-8 control"> 
+            <input type="number" name="nomPram" id="nomParam" min="{{nom}}" value="{{nom}}" required="true"  class="form-control" /> 
+        </div>
+    </div>
+
+    <div class="form-group clearfix margin-top-15px">
+        <label class="col-lg-3 control-label"> Libelle * </label>
+        <div class="col-lg-8 control">  
+            <input  autocomplete="off" type="text" name="libellePram" id="libelleParam"  value="{{libelle}}" required="true" placeholder="Libelle" class="form-control"/> 
+        </div>
+    </div>
+
+
+    <div class="form-group clearfix margin-top-15px">
+        <label class="col-lg-3 control-label"> Description *  </label>
+        <div class="col-lg-8 control">  
+            <textarea name="descriptionPram" id="descriptionPram" required="true" class="form-control">{{description}}</textarea>
+        </div>
+    </div>
+
+    <div class="form-group clearfix margin-top-15px">
+        <label class="col-lg-3 control-label">  Type de donnée *</label>
+        <div class="col-lg-8 control">
+            <select name="typeDonneePram" id="typeDonneePram" required="true" class="form-control">
+                {% for t in typesDonnees %}
+                    <option value="{{t.val}}" {% if t.val == typeDonnee %} selected="true" {% endif %}>{{t.libelle}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    
+    
+    <div class="form-group clearfix margin-top-15px">
+        <label class="col-lg-3 control-label">  Type information </label>
+        <div class="col-lg-8 control">
+            <select name="typeInfoPram" id="typeDonneePram" required="true" class="form-control">
+                
+                    <option value="1" >Système</option>
+                    <option value="2" >Fichier</option>
+                
+            </select>
+        </div>
+    </div>
+    
+
+    <div class="form-group clearfix margin-top-15px">
+        <label class="col-lg-3 control-label"> Valeur * </label>
+        <div class="col-lg-8 control">
+            <input  autocomplete="off" type="text" name="valeurPram" id="valeurParam"  value="{{valeur}}" required="true" placeholder="Valeur" class="form-control"/> 
+        </div>
+    </div>
+
+    <div class="form-group clearfix margin-top-15px pull-right">
+        <button class="btn btn-success" type="submit" id="valider">
+            Ajouter
+        </button>
+        <span class="newParam btn ">
+            Annuler
+        </span>
+    </div>
+</form>
+
+
+
+
+

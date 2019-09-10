@@ -1,0 +1,171 @@
+{% import 'macro.html.twig' as traiteinfo %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Bienvenue sur le site de schoolPro{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}   
+        <link rel="Stylesheet" type="text/css" href="{{asset('default/css/bootstrap.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('default/css/jquery.fancybox.css')}}" media="screen" />
+	<link rel="stylesheet" href="{{asset('default/css/ns/default/default.css')}}" type="text/css" media="screen" />
+        <link rel="stylesheet" href="{{asset('default/css/nivo-slider.css')}}" type="text/css" media="screen" />
+        <link rel="stylesheet" href="{{asset('default/css/csi.css')}}" type="text/css" media="screen" />        
+        <link rel="stylesheet" href="{{asset('default/css/anoware_suite.css')}}" type="text/css" media="screen" />        
+        <link rel="stylesheet" href="{{asset('default/css/anoware.css')}}" type="text/css" media="screen" />        
+{#        <link rel="icon" type="image/x-icon" href="{{asset('css/{{ asset('favicon.ico') }}" />#}
+    </head>
+    <body>
+        
+        <div style="border-top : 3px solid #303437;">
+</div>
+<div class="container zone-entete">
+	
+	<div class="row" >
+	
+		<div class="col-lg-2 col-sm-2 logo_img_rs" style="border : 1px solid #000; padding-top: 20px; height : 80px;background : #303437;margin-left:20px;">
+			<a href="#">
+			<img src="{{asset('default/imgs/logo.jpg')}}" class="img-responsive" alt=""></a>
+		</div>
+		<div class="col-lg-9 col-sm-9 logo_img_rs">
+			<div class="col-lg-12 col-sm-12 text-right" style="height: 30px;">
+				<div class="col-lg-8 col-sm-8 " >
+				</div>
+				<div class="col-lg-4 col-sm-4 " >
+                                        <div style="float: left;padding: 10px;font-size: 16px;color: #1067AA;font-weight: 600">Contact : {{unEtablissement.contactEtablissement}}</div>
+					<a   href="{{path('app_admin_user_login')}}" style="float:left;">
+                                         <img src="{{asset('default/imgs/lock.jpg')}}" class="img-responsive" alt="">
+                                        </a>
+				</div>
+			</div>
+			<div class="col-lg-12 col-sm-12">
+                                    
+				 <h3 class="text-left"> <i>{{unEtablissement.deviseEtablissement}} </i></h3>
+			</div>
+			
+		</div>
+		
+	
+	</div>
+</div>
+        
+<div class="container">
+	<nav id="menu" class="">
+		<div class="container"><div class="row"><div class="col-lg-12 col-sm-12">
+			<a title="Menu" href="" class="header_icon"> </a>
+			<ul id="menu-principal" class="nav navbar-nav">
+                            {{ traiteinfo.traiteMenu(listeMenu,idEtablissement)}}
+				
+				
+				
+			</ul>
+		</div></div></div>
+	</nav>
+</div>
+        {% block body %}
+        {% endblock %}
+        
+        
+   <footer class="footer_section">
+	<div class="footer_plan_site"><div class="container">
+		<div class="row">
+			{{ traiteinfo.traiteMenuPiedPage(listeMenu,idEtablissement)}}
+			<div class="col-lg-3 col-xs-3">
+                            {{unEtablissement.adresseEtablissement}}
+				{#School Pro <br>
+			pour vous accompagner dans l'éducation<br>
+			LOMÉ - TOGO<br>
+			Téléphone: +228 90 86 08 31
+			<p>&copy; Tous droits réservés#}
+			</div>
+		</div>	<!--End Div.Rows -->
+	</div></div>	<!--End Div.Container -->
+
+	
+
+		<!--End Div.Container </blockquote>-->
+</footer>
+        {% block javascripts %}
+       
+        <script type="text/javascript" src="{{asset('default/js/jquery.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('default/js/bootstrap.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('default/js/jquery.anoslide.js')}}"></script>
+	<script type="text/javascript" src="{{asset('default/js/jquery.nivo.slider.js')}}"></script>
+	<script type="text/javascript" src="{{asset('default/countdown/jquery.lwtCountdown-0.9.5.js')}}"></script>
+         <script src="{{asset('js/jquery.flexisel.js')}}"></script>
+         <script type="text/javascript" >
+           
+        $(window).load(function() {
+				$('#slider').nivoSlider();
+				$('marquee').marquee();
+			});
+                        $(document).ready(function() {
+				$('.fancybox').fancybox();
+				
+				$(".fancybox-effects-b").fancybox({
+					openEffect  : 'none',
+					closeEffect	: 'none',
+
+					helpers : {
+						title : {
+							type : 'over'
+						}
+					}
+				});
+				$(".fancybox-effects-a").fancybox({
+					helpers: {
+						title : {
+							type : 'outside'
+						},
+						overlay : {
+							speedOut : 0
+						}
+					}
+				});
+			});
+         $(window).load(function() {
+   
+    $("#flexiselDemo2").flexisel({
+        visibleItems: 4,
+        itemsToScroll: 3,
+        animationSpeed: 200,
+        infinite: true,
+        navigationTargetSelector: null,
+        autoPlay: {
+            enable: false,
+            interval: 5000,
+            pauseOnHover: true
+        },
+        responsiveBreakpoints: { 
+            portrait: { 
+                changePoint:480,
+                visibleItems: 1,
+                itemsToScroll: 1
+            }, 
+            landscape: { 
+                changePoint:640,
+                visibleItems: 2,
+                itemsToScroll: 2
+            },
+            tablet: { 
+                changePoint:768,
+                visibleItems: 3,
+                itemsToScroll: 3
+            }
+        },
+        loaded: function(object) {
+            console.log('Slider loaded...');
+        },
+        before: function(object){
+            console.log('Before transition...');
+        },
+        after: function(object) {
+            console.log('After transition...');
+        }
+    });      
+});
+</script>                  
+        </script>
+        
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,394 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="partyaddress")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\PartyAddressRepository")
+ */
+class PartyAddress {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $address1
+     *
+     * @ORM\Column(name="address1", type="string", length=35,nullable=true)
+     */
+    private $address1;
+
+    /**
+     * @var string $address2
+     *
+     * @ORM\Column(name="address2", type="string", length=35,nullable=true)
+     */
+    private $address2;
+
+    /**
+     * @var string $address3
+     *
+     * @ORM\Column(name="address3", type="string", length=35,nullable=true)
+     */
+    private $address3;
+
+    /**
+     * @var string $address4
+     *
+     * @ORM\Column(name="address4", type="string", length=35,nullable=true)
+     */
+    private $address4;
+
+    /**
+     * @var string $postcode
+     *
+     * @ORM\Column(name="postcode", type="string", length=17,nullable=true)
+     */
+    private $postcode;
+
+    /**
+     * @var string $city
+     *
+     * @ORM\Column(name="city", type="string", length=17,nullable=true)
+     */
+    private $city;
+
+    /**
+     * @var string $countrysubLib
+     *
+     * @ORM\Column(name="countrysub_lib", type="string", length=70,nullable=true)
+     */
+    private $countrysubLib;
+
+    /**
+     * @var string $countrysubCode
+     *
+     * @ORM\Column(name="countrysub_code", type="string", length=9,nullable=true)
+     */
+    private $countrysubCode;
+
+    /**
+     * @var string $countrysubTyplist
+     *
+     * @ORM\Column(name="countrysub_typlist", type="string", length=17,nullable=true)
+     */
+    private $countrysubTyplist;
+
+    /**
+     * @var string $countrysubResplist
+     *
+     * @ORM\Column(name="countrysub_resplist", type="string", length=3,nullable=true)
+     */
+    private $countrysubResplist;
+
+    /**
+     * @var string $country
+     *
+     * @ORM\Column(name="country", type="string", length=35,nullable=true)
+     */
+    private $country;
+
+    /**
+     * @var ShipperMani  $shippermani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\ShipperMani", inversedBy="partyaddresss")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $shippermani;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set address1
+     *
+     * @param string $address1
+     * @return PartyAddress
+     */
+    public function setAddress1($address1)
+    {
+        $this->address1 = $address1;
+    
+        return $this;
+    }
+
+    /**
+     * Get address1
+     *
+     * @return string 
+     */
+    public function getAddress1()
+    {
+        return $this->address1;
+    }
+
+    /**
+     * Set address2
+     *
+     * @param string $address2
+     * @return PartyAddress
+     */
+    public function setAddress2($address2)
+    {
+        $this->address2 = $address2;
+    
+        return $this;
+    }
+
+    /**
+     * Get address2
+     *
+     * @return string 
+     */
+    public function getAddress2()
+    {
+        return $this->address2;
+    }
+
+    /**
+     * Set address3
+     *
+     * @param string $address3
+     * @return PartyAddress
+     */
+    public function setAddress3($address3)
+    {
+        $this->address3 = $address3;
+    
+        return $this;
+    }
+
+    /**
+     * Get address3
+     *
+     * @return string 
+     */
+    public function getAddress3()
+    {
+        return $this->address3;
+    }
+
+    /**
+     * Set address4
+     *
+     * @param string $address4
+     * @return PartyAddress
+     */
+    public function setAddress4($address4)
+    {
+        $this->address4 = $address4;
+    
+        return $this;
+    }
+
+    /**
+     * Get address4
+     *
+     * @return string 
+     */
+    public function getAddress4()
+    {
+        return $this->address4;
+    }
+
+    /**
+     * Set postcode
+     *
+     * @param string $postcode
+     * @return PartyAddress
+     */
+    public function setPostcode($postcode)
+    {
+        $this->postcode = $postcode;
+    
+        return $this;
+    }
+
+    /**
+     * Get postcode
+     *
+     * @return string 
+     */
+    public function getPostcode()
+    {
+        return $this->postcode;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return PartyAddress
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+    
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string 
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set countrysubLib
+     *
+     * @param string $countrysubLib
+     * @return PartyAddress
+     */
+    public function setCountrysubLib($countrysubLib)
+    {
+        $this->countrysubLib = $countrysubLib;
+    
+        return $this;
+    }
+
+    /**
+     * Get countrysubLib
+     *
+     * @return string 
+     */
+    public function getCountrysubLib()
+    {
+        return $this->countrysubLib;
+    }
+
+    /**
+     * Set countrysubCode
+     *
+     * @param string $countrysubCode
+     * @return PartyAddress
+     */
+    public function setCountrysubCode($countrysubCode)
+    {
+        $this->countrysubCode = $countrysubCode;
+    
+        return $this;
+    }
+
+    /**
+     * Get countrysubCode
+     *
+     * @return string 
+     */
+    public function getCountrysubCode()
+    {
+        return $this->countrysubCode;
+    }
+
+    /**
+     * Set countrysubTyplist
+     *
+     * @param string $countrysubTyplist
+     * @return PartyAddress
+     */
+    public function setCountrysubTyplist($countrysubTyplist)
+    {
+        $this->countrysubTyplist = $countrysubTyplist;
+    
+        return $this;
+    }
+
+    /**
+     * Get countrysubTyplist
+     *
+     * @return string 
+     */
+    public function getCountrysubTyplist()
+    {
+        return $this->countrysubTyplist;
+    }
+
+    /**
+     * Set countrysubResplist
+     *
+     * @param string $countrysubResplist
+     * @return PartyAddress
+     */
+    public function setCountrysubResplist($countrysubResplist)
+    {
+        $this->countrysubResplist = $countrysubResplist;
+    
+        return $this;
+    }
+
+    /**
+     * Get countrysubResplist
+     *
+     * @return string 
+     */
+    public function getCountrysubResplist()
+    {
+        return $this->countrysubResplist;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return PartyAddress
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+    
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string 
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set shippermani
+     *
+     * @param \admin\ParamBundle\Entity\ShipperMani $shippermani
+     * @return PartyAddress
+     */
+    public function setShippermani(\admin\ParamBundle\Entity\ShipperMani $shippermani)
+    {
+        $this->shippermani = $shippermani;
+    
+        return $this;
+    }
+
+    /**
+     * Get shippermani
+     *
+     * @return \admin\ParamBundle\Entity\ShipperMani 
+     */
+    public function getShippermani()
+    {
+        return $this->shippermani;
+    }
+}

@@ -1,0 +1,134 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use admin\ParamBundle\Entity\PrincipalMani;
+use admin\ParamBundle\Entity\DocDouanierMani;
+use admin\ParamBundle\Entity\EquipementMani ;
+
+/**
+ * ScelleMani
+ *
+ * @ORM\Table(name="scelle_mani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\ScelleManiRepository")
+ */
+class ScelleMani {
+
+    /**
+     * @var integer $idScelleMani
+     *
+     * @ORM\Column(name="id_scelle_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $idScelleMani;
+
+    /**
+     * @var string $num
+     *
+     * @ORM\Column(name="num", type="string", length=35)
+     */
+    private $num ;
+    
+    /**
+     * @var string $num
+     *
+     * @ORM\Column(name="ori", type="string", length=2, nullable=true)
+     */
+    private $ori ;
+
+    /**
+     * @var EquipementMani $equipementMani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\EquipementMani", inversedBy="scelleManis", cascade={"persist"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_equipement_mani", referencedColumnName="id_equipement_mani")
+     * })
+     */
+    private $equipementMani;
+
+    public function __construct() {
+        
+    }
+
+
+    /**
+     * Get idScelleMani
+     *
+     * @return integer 
+     */
+    public function getIdScelleMani()
+    {
+        return $this->idScelleMani;
+    }
+
+    /**
+     * Set num
+     *
+     * @param string $num
+     * @return ScelleMani
+     */
+    public function setNum($num)
+    {
+        $this->num = $num;
+
+        return $this;
+    }
+
+    /**
+     * Get num
+     *
+     * @return string 
+     */
+    public function getNum()
+    {
+        return $this->num;
+    }
+
+    /**
+     * Set ori
+     *
+     * @param string $ori
+     * @return ScelleMani
+     */
+    public function setOri($ori)
+    {
+        $this->ori = $ori;
+
+        return $this;
+    }
+
+    /**
+     * Get ori
+     *
+     * @return string 
+     */
+    public function getOri()
+    {
+        return $this->ori;
+    }
+
+    /**
+     * Set equipementMani
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementMani
+     * @return ScelleMani
+     */
+    public function setEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementMani = null)
+    {
+        $this->equipementMani = $equipementMani;
+
+        return $this;
+    }
+
+    /**
+     * Get equipementMani
+     *
+     * @return \admin\ParamBundle\Entity\EquipementMani 
+     */
+    public function getEquipementMani()
+    {
+        return $this->equipementMani;
+    }
+}

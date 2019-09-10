@@ -1,0 +1,28 @@
+{% extends "::layout.html.twig" %}
+{% block corps %}
+
+    {% if sessionData is not null %}
+        <!--sidebar start-->
+        <aside>
+            {% if sessionData.isAbonne  %}
+                {% include 'pubSiteBundle::Menu/menuAbonne.html.twig' %}
+            {% else %}
+                {% include 'adminUserBundle::Menu/menuAdmin.html.twig' %}
+            {% endif %}
+        </aside>
+        <!--sidebar end-->
+
+        <!--main content start-->
+        <section id="main-content">
+            {% block page %}
+
+            {% endblock %}
+        </section>
+        <!--main content end-->
+    {% endif %}
+{% endblock %}
+{% block javascriptsPerso %}
+
+{% endblock %}
+
+

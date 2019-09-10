@@ -1,0 +1,160 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{parent()}} - Modif. filière{% endblock %}
+{% block file_arriane %}
+<div class="fond-fil-ariane" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Modifier une filière</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des filières</span> ><span class="fil-3"> Modif </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-success  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.error')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-danger  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.already.exist')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+        <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+<div class="panel panel-white">              
+    <div class="panel-body">
+        <div class="col-lg-12" >
+                                {{ form_start(formuView) }} 
+            <div class="form-group">
+                <label class=" control-label"> {{ form_label(formuView.libelleFiliere) }} </label>
+                <div class=" control">    {{ form_widget(formuView.libelleFiliere) }}</div>
+            </div>
+            <div class="form-group clearfix ">
+                <label class=" control-label">     {{ form_label(formuView.descriptionFiliere) }} </label>
+                <div class="control">      {{ form_widget(formuView.descriptionFiliere) }}</div>
+            </div>                                                                                                        
+            <div class="form-group clearfix ">
+                <label class=" control-label">     {{ form_label(formuView.enseignement) }} </label>
+                <div class="control">      {{ form_widget(formuView.enseignement) }}</div>
+            </div>                                                                                                        
+                                        {{form_rest(formuView) }}
+            <div class="form-group clearfix pull-right col-lg-3 zone-bouton-panel">
+                <a  class="btn" href="{{path('app_admin_filieres')}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+            </div> 
+                                {#</form>#}
+                                {{ form_end(formuView) }}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+
+<script type="text/javascript">
+
+    var $collectionHolder;
+
+// setup an "add a tag" link
+    var $addTagLink = $('<a href="#" class="add_tag_link">Ajouter une image</a>');
+    var $newLinkLi = $('<li></li>').append($addTagLink);
+
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul.produits');
+
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addTagLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addTagForm($collectionHolder, $newLinkLi);
+            $('.add_tag_link').hide();
+        });
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+    });
+    $(document).ready(function() {
+        $('.tel').numeric();
+        $('.tel').keyup(function() {
+            var saisie = $(this).val();
+            if (saisie.length > 0) {
+                var number = parseInt(saisie);
+                if ((typeof number != 'undefined') && (!isNaN(number))) {
+                    var newVal = (number == 0) ? '' : number;
+                    $(this).val(newVal);
+                }
+            }
+
+        });
+        $('#btn-rand-code').click(function() {
+            getNewCodeBase();
+        });
+    });
+
+
+</script>
+{% endblock %}

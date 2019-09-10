@@ -1,0 +1,144 @@
+<?php
+
+/**
+ * 
+ * Définition de l'entité Alias, Il permet de gerer les services a valeur ajoutée par SMS
+ * Les alias d'un service sont les mots clés qui sont pre defini et qui repond de la même facon
+ * que le service. Exemple OFFRE comme serviceVas peut avoir OFRE comme Alias.
+ * Donc toutes personne qui envoie OFRE au lieu OFFRE aura une réponse satisfaisante. 
+ * 
+ * @author Edmond AMUAKU <edmond.amuaku@ace3i.com> 
+ * 
+ * 
+ */
+
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \admin\UserBundle\Types\TypeEtat;
+
+/**
+ * Alias
+ * 
+ * @ORM\Table(name="alias")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\AliasRepository")
+ */
+class Alias {
+
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $nom
+     *
+     * @ORM\Column(name="nom", type="string", length=10)
+     * @Assert\NotBlank(message="Nom requis")
+     */
+    private $nom;
+
+    /**
+     * @var integer $etat 
+     *
+     * @ORM\Column(name="etat", type="integer")
+     */
+    private $etat;
+    
+     /**
+     * @var ServiceVas $serviceVas 
+     * 
+     * @ORM\ManyToOne(targetEntity="admin\SmsBundle\Entity\ServiceVas", inversedBy="alias")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $serviceVas;
+    
+    public function __construct() {
+        $this->etat = TypeEtat::ACTIF;
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Alias
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return Alias
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set serviceVas
+     *
+     * @param \admin\SmsBundle\Entity\ServiceVas $serviceVas
+     * @return Alias
+     */
+    public function setServiceVas(\admin\SmsBundle\Entity\ServiceVas $serviceVas)
+    {
+        $this->serviceVas = $serviceVas;
+
+        return $this;
+    }
+
+    /**
+     * Get serviceVas
+     *
+     * @return \admin\SmsBundle\Entity\ServiceVas 
+     */
+    public function getServiceVas()
+    {
+        return $this->serviceVas;
+    }
+}

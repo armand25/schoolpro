@@ -1,0 +1,231 @@
+<div class="panel panel-white" style="padding: auto">
+
+    <div class="panel-body">
+        <div class="col-lg-12" style ="margin-left:  125px;">
+        <div class="recto-carte" style ="width: 544px;height: 307px;" >
+            <table class="">
+
+                        <tr>
+                            <td style="padding-left: 20px; font-size: 18px;color :#FFF;font-weight: bold;">
+                                Carte d'Identité Scolaire 2016-2017
+                            </td>
+                            <td > 
+                                
+                            </td>
+                        </tr>
+                        <tr >
+                            <td style="padding-left: 20px; font-size: 17px;color :#FFF;padding-top: 10px;">
+                               <span style="margin-top: -22px;display: block;"> Complexe Scolaire LE ROGER DE DIEU  </span>
+                            </td>
+                            <td style="padding-left: 40px; font-size: 17px;color :#FFF;padding-top: -10px;">
+                                Classe . {% if classe[0] is defined %}  
+                                            {{classe[0].getLibelleClasse()}}
+                                         {% else %}
+                                             -
+                                         {% endif %}
+                            </td>
+                        </tr>
+             </table>            
+           <table class="" style="margin-top: 10px;">
+
+                        <tr >
+                           
+                             
+                            <td rowspan='9' style="width: 150px;padding-left: 20px; text-align: center;"> 
+                             <div style="width: 110px; background: #FFF; height: 150px;margin-top: 2px;">   
+                              <img src="{{asset('upload/chargement/eleves/'~eleve.id~'/'~eleve.titreImage)}}" style="width: 110px;  height: 150px;" alt=""/>
+                              <h5> signature</h5>
+                             </div>
+                                
+                             </td>
+
+                        </tr>
+                        <tr>
+                            <td style="width: 125px;">
+                               Matricule : 
+                            </td>
+                             
+                            <td > 
+                            <h4> 
+                              000001
+                             <h4> 
+                             </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                               Nom : 
+                            </td>
+                             
+                            <td > 
+                                <h4> 
+                             {{eleve.nom}}
+                                    </h4> 
+                             </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Prénoms :
+                            </td>
+                             
+                            <td > 
+                                <h4> 
+                              {{eleve.prenoms}}  
+                                    </h4> 
+                             </td>
+
+                        </tr>
+                         <tr>
+                            <td>
+                               Nationalité: 
+                            </td>
+                             
+                            <td > 
+                                 <h4>
+                             {{eleve.nationalite}}
+                                      </h4>
+                             </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                              sexe :  
+                            </td>
+                             
+                            <td > 
+                                <h4> 
+                             {{convertTypeSexe(eleve.sexe)}}
+                                    </h4> 
+                             </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                Date naissance :
+                            </td>
+                             
+                            <td > 
+                                 <h4>
+                             {{eleve.dateNaissance|date('d/m/Y')}}
+                                      </h4>
+                             </td>
+
+                        </tr>
+                       
+                       
+                        <tr>
+                            <td>
+                               Adresse :  
+                            </td>
+                             
+                            <td > 
+                              <h4>{{eleve.bp}} {{eleve.adresse}}  </h4>
+                             </td>
+
+                        </tr>
+                        {# <tr>
+                            <td>
+                               Validité: 
+                            </td>
+                             
+                            <td > 
+                                 <h4>
+                             Année scolaire 2016 - 2017
+                                      </h4>
+                             </td>
+
+                        </tr>#}
+                   
+                    
+             </table>
+               <div style="padding-top: 3px;padding-left: 140px;height: 40px;">
+                           
+                                <h5>
+                               En cas d'urgence 
+                    {% set inc = 1%}
+                    {% for infoparent in eleve.getEstparents %}
+                           {% if inc == 3 %}   
+                             {{infoparent.getUtilisateur.nom~' '~infoparent.getUtilisateur.prenoms~', '~infoparent.getUtilisateur.tel1}} 
+                           {% endif %}
+                    {% set inc = inc+1%}
+                    {% endfor %}
+                               </h5>
+                        </div>
+              <div style="padding-top: 20px;color:#FFF;padding-left: 30px;">
+                  
+                                <h5><i>
+                                 Cette Carte est stritement personnelle
+                               </i>
+                               </h5>
+                            
+                             
+                            
+
+                        </div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+        
+   <div class="col-lg-12" style ="margin-left:  125px;" >
+        <div class="verso-carte" style ="width: 544px;height: 307px;" >
+            
+           <table class="" >
+
+                       
+                        
+                        <tr>
+                            <td colspan='2' style="padding-top: 60px;padding-left: 120px;color:#fff; text-align: center; font-size: 20px;">
+                             <p> 
+                                 Complexe Scolaire LE ROCHER DE DIEU
+                             </p> 
+                             <p> 
+                                 BP : 31239 Lomé Agoè-Vakpossito
+                             </p> 
+                             <p> 
+                                 Tel. 22 35 98 93
+                             </p> 
+                            </td>
+                             
+                        
+
+                        </tr>
+                      
+                       
+                       
+                        <tr>
+                            <td style="padding-top: 20px;padding-left: 30px;color:#000;">
+                               Lomé le,---------------- 
+                              <h5> Signature </h5>
+                              <div style='width: 50%;height: 60px;'>
+                                  
+                              </div>
+                              Non du Directeur
+                            </td>
+                             
+                            <td > 
+                              
+                             </td>
+
+                        </tr>
+                        {# <tr>
+                            <td>
+                               Validité: 
+                            </td>
+                             
+                            <td > 
+                                 <h4>
+                             Année scolaire 2016 - 2017
+                                      </h4>
+                             </td>
+
+                        </tr>#}
+                   
+                    
+             </table>
+              
+        </div>
+    </div>     
+</div>
+</div>

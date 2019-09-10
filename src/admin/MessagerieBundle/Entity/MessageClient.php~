@@ -1,0 +1,52 @@
+<?php
+
+namespace admin\MessagerieBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * admin\MessagerieBundle\Entity
+ *
+ * @ORM\Table(name="messageclient")
+ * @ORM\Entity(repositoryClass="admin\MessagerieBundle\Entity\MessageClientRepository")
+ * @ORM\HasLifecycleCallbacks
+ */
+class MessageClient {
+
+    function __construct() {
+        
+      $this->messageSysteme=0; 
+      
+    }
+
+    /**
+     * @var integer $id
+     * @ORM\Id
+     * @ORM\Column(name="idmessageclient", type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @var string $objetMessageClient
+     * @ORM\Column(name="objetmessageclient",type="string",length=100)
+     */
+    private $objetMessageClient;
+
+    /**
+     * @var text $contenuMessageClient
+     * @ORM\Column(name="contenumessageclient",type="text",nullable=true)
+     */
+    private $contenuMessageClient;
+
+    /**
+     * @var integer $messageSysteme
+     * @ORM\Column(name="messageSysteme", type="integer",nullable=true)
+     * @Assert\NotBlank()  
+     */
+    private $messageSysteme;
+
+   
+}

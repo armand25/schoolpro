@@ -1,0 +1,1382 @@
+<?php
+
+namespace admin\ScolariteBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \admin\ScolariteBundle\Entity\Profil;
+use \admin\ScolariteBundle\Entity\Connexion;
+use \Doctrine\Common\Collections\ArrayCollection;
+use admin\UserBundle\Types\TypeEtat;
+use \admin\UserBundle\Types\TypeSexe;
+
+/**
+ * User
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="eleve")
+ * @ORM\Entity(repositoryClass="admin\ScolariteBundle\Entity\EleveRepository")
+ */
+class Eleve {
+
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titre_image", type="string",  nullable=true)
+     */
+    private $titreImage;
+    /**
+     * @var string $username
+     *
+     * @ORM\Column(name="username_eleve", type="string", length=50,  nullable=true)
+     * @Assert\Length(max=50)
+     */
+    private $username;
+
+    /**
+     * @var string $nom
+     *
+     * @ORM\Column(name="nom_eleve", type="string", length=50, nullable=true)
+     * @Assert\Length(max=50)
+     */
+    private $nom;
+    
+    
+    /**
+     * @var string $matricule
+     *
+     * @ORM\Column(name="matricule_eleve", type="string", length=50, nullable=true)
+     * @Assert\Length(max=50)
+     */
+    private $matricule;
+
+    /**
+     * @var string $prenoms
+     *
+     * @ORM\Column(name="prenoms_eleve", type="string", length=50, nullable=true, nullable=true)
+     * 
+     */
+    private $prenoms;
+
+    /**
+     * @var string $codeBase
+     *
+     * @ORM\Column(name="code_base_eleve", type="string", length=50, nullable=true)
+     * 
+     */
+    private $codeBase;
+    /**
+     * @var string $etablissementOrigine
+     *
+     * @ORM\Column(name="etablissement_origine", type="string", length=50, nullable=true)
+     * 
+     */
+    private $etablissementOrigine;
+    /**
+     * @var string $nationalite
+     *
+     * @ORM\Column(name="nationalite", type="string", length=50, nullable=true)
+     * 
+     */
+    private $nationalite;
+    /**
+     * @var string $numeroPieceNaissance
+     *
+     * @ORM\Column(name="numero_piece_naissance", type="string", length=50, nullable=true)
+     * 
+     */
+    private $numeroPieceNaissance;
+    /**
+     * @var string $numeroPieceNationnalite
+     *
+     * @ORM\Column(name="numero_piece_nationnalite", type="string", length=50, nullable=true)
+     * 
+     */
+    private $numeroPieceNationnalite;
+    /**
+     * @var string $lieuNaissance
+     *
+     * @ORM\Column(name="lieu_naissance", type="string", length=50, nullable=true)
+     * 
+     */
+    private $lieuNaissance;
+    
+    /**
+     * @var string $groupeSanguin
+     *
+     * @ORM\Column(name="groupe_sanguin", type="string", length=50, nullable=true)
+     * 
+     */
+    private $groupeSanguin;
+    
+    /**
+     * @var string $bp
+     *
+     * @ORM\Column(name="bp", type="string", length=50, nullable=true)
+     * 
+     */
+    private $bp;
+    
+
+    /**
+     * @var string $email
+     *
+     * @ORM\Column(name="email_eleve", type="string", length=50, unique=true, nullable=true)
+     * @Assert\Email
+     */
+    private $email;
+
+    /**
+     * @var string $tel1
+     *
+     * @ORM\Column(name="tel1_eleve", type="string", length=20, nullable=true)
+     */
+    private $tel1;
+
+    /**
+     * @var string $adresse
+     *
+     * @ORM\Column(name="adresse_eleve",   type="text", nullable=true)
+     */
+    private $adresse;
+
+    /**
+     * @var integer $etat
+     *
+     * @ORM\Column(name="etat_eleve", type="smallint")
+     */
+    private $etat;
+
+    /**
+     * @var integer $attempt
+     *
+     * @ORM\Column(name="attempt_eleve", type="smallint", nullable=true)
+     */
+    private $attempt;
+
+    /**
+     * @var string $password
+     *
+     * @ORM\Column(name="password_eleve", type="string", length=255, nullable=true, nullable=true)
+     * @Assert\Length(max=255)
+     */
+    private $password;
+
+    /**
+     * @var string $cPassword
+     *
+     * @ORM\Column(name="c_password_eleve", type="string", length=255, nullable=true)
+     */
+    private $cPassword;
+
+    /**
+     * @var string $salt
+     *
+     * @ORM\Column(name="salt_eleve", type="string", length=255, nullable=true)
+     */
+    private $salt;
+
+    /**
+     * @var boolean $etatConnecte
+     *
+     * @ORM\Column(name="etat_connecte", type="boolean", nullable=true)
+     */
+    private $etatConnecte;
+
+    /**
+     * @var string $adresseIp
+     *
+     * @ORM\Column(name="adresse_ip_eleve", type="string", length=100, nullable=true)
+     */
+    private $adresseIp;
+    
+
+    /**
+     * @var integer $sexe
+     *
+     * @ORM\Column(name="sexe_eleve", type="smallint", nullable=true)
+     */
+    private $sexe;
+
+    /**
+     * @var \DateTime $dateInscription
+     *
+     * @ORM\Column(name="date_inscription", type="datetime")
+     */
+    private $dateInscription;
+    
+    /**
+     * @var \DateTime $dateNaissance
+     *
+     * @ORM\Column(name="date_naissance", type="datetime")
+     */
+    private $dateNaissance;
+
+    /**
+     * @var \DateTime $dateModification
+     *
+     * @ORM\Column(name="date_edit_eleve", type="datetime", nullable=true)
+     */
+    private $dateModification;
+
+    /**
+     * @var string $lossPasswordUrl
+     *
+     * @ORM\Column(name="loss_password_url", type="string", length=255, nullable=true)
+     */
+    private $lossPasswordUrl;
+
+    /**
+     * @var \DateTime $dateLossPassword
+     *
+     * @ORM\Column(name="date_loss_password", type="datetime", nullable=true)
+     */
+    private $dateLossPassword;
+
+
+    /**
+     *
+     * @var ArrayCollection $connexions
+     * @ORM\OneToMany(targetEntity="admin\UserBundle\Entity\Connexion", mappedBy="eleve")
+     */
+    private $connexions;
+
+
+    
+    /**
+     * @var string $nomContact
+     *
+     * @ORM\Column(name="nom_contact", type="string", length=70, nullable=true)
+     * @Assert\Length(max=50)
+     */
+    private $nomContact; 
+    
+    
+    /**
+     * @var ArrayCollection medias
+     * @ORM\OneToMany(targetEntity="admin\ScolariteBundle\Entity\Media", cascade={"persist", "remove"}, mappedBy="eleve")
+     */
+    private $medias;  
+    
+    /**
+     * @var ArrayCollection $estparents
+     * @ORM\OneToMany(targetEntity="admin\ScolariteBundle\Entity\EstParent", cascade={"persist", "remove"}, mappedBy="eleve")
+     */
+    private $estparents;     
+    
+    
+    /**
+     *
+     * @var ArrayCollection $setrouvers 
+     * @ORM\OneToMany(targetEntity="admin\ScolariteBundle\Entity\SeTrouver", cascade={"persist", "remove"}, mappedBy="eleve")
+     * 
+     */
+    private $setrouvers;     
+    /**
+     *
+     * @var ArrayCollection $notes
+     * @ORM\OneToMany(targetEntity="admin\ScolariteBundle\Entity\Note", cascade={"persist", "remove"}, mappedBy="eleve")
+     * 
+     */
+    private $notes;   
+    
+    /**
+     * @var ArrayCollection operations
+     * @ORM\OneToMany(targetEntity="admin\EconomatBundle\Entity\Operation", cascade={"persist", "remove"}, mappedBy="eleve")
+     */
+    private $operations;   
+    
+    /**
+     * @var ArrayCollection utilisateurs
+     * @ORM\OneToMany(targetEntity="admin\UserBundle\Entity\Utilisateur", cascade={"persist", "remove"}, mappedBy="eleve")
+     */
+    private $utilisateurs;   
+    
+    /**
+     * @var Etablissement  $etablissement
+     * @ORM\ManyToOne(targetEntity="admin\ScolariteBundle\Entity\Etablissement", inversedBy="eleves")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $etablissement;
+    
+    
+    public function __construct() {
+        $this->dateAjout = new \DateTime();
+        $this->connexions = new ArrayCollection();
+        $this->attempt = 0;
+        $this->cPassword = '';
+        $this->salt = md5(uniqid(null, true));
+       // $this->titreImage = md5(uniqid(null, true));
+        $this->etat = TypeEtat::ACTIF;
+        $this->etatConnecte = FALSE;
+        $this->sexe = TypeSexe::MASCULIN;
+       // $this->messagesEnvois = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->medias = new ArrayCollection();
+    }
+     /**
+     * @Assert\File(
+     * maxSize = "100M",
+     * mimeTypesMessage = "Format invalide"
+     * )
+     */
+    public $file;
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload() {
+        $this->datePublication = new \DateTime();
+        //$nomFichier = ""; 
+        
+        if (null !== $this->file) {
+
+                $this->titreImage = uniqid(mt_rand(), true) . '.' . $this->file->guessExtension();
+                //$this->nomFile = $this->file->getClientOriginalName();
+               
+        }else{
+            $this->titreImage = 'default.png';
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload() {
+        if (null === $this->file) {
+           // return;
+        }else{
+            $this->file->move($this->getUploadRootDir()."/".$this->id, $this->titreImage);
+            //chmod($this->getUploadRootDir(), 0755);
+            unset($this->file);
+        }
+    }
+
+    public function removeUpload($file) {
+        unlink($file);
+    }
+
+    public function getAbsolutePath() {
+        return null === $this->titreImage ? null : $this->getUploadRootDir() . '' . $this->titreImage;
+    }
+
+    public function getWebPath() {
+        return null === $this->titreImage ? null : $this->getUploadDir() . '' . $this->titreImage;
+    }
+
+    public function getUploadRootDir() {
+        // le chemin absolu du r�pertoire o� les documents upload�s doivent �tre sauvegard�s
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+    }
+
+    public function getUploadDir() {
+        // on se d�barrasse de � __DIR__ � afin de ne pas avoir de probl�me lorsqu'on affiche
+        // le document/image dans la vue.
+        return 'upload/chargement/eleves';
+    }
+
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return Eleve
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Eleve
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set prenoms
+     *
+     * @param string $prenoms
+     *
+     * @return Eleve
+     */
+    public function setPrenoms($prenoms)
+    {
+        $this->prenoms = $prenoms;
+
+        return $this;
+    }
+
+    /**
+     * Get prenoms
+     *
+     * @return string
+     */
+    public function getPrenoms()
+    {
+        return $this->prenoms;
+    }
+
+    /**
+     * Set codeBase
+     *
+     * @param string $codeBase
+     *
+     * @return Eleve
+     */
+    public function setCodeBase($codeBase)
+    {
+        $this->codeBase = $codeBase;
+
+        return $this;
+    }
+
+    /**
+     * Get codeBase
+     *
+     * @return string
+     */
+    public function getCodeBase()
+    {
+        return $this->codeBase;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Eleve
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set tel1
+     *
+     * @param string $tel1
+     *
+     * @return Eleve
+     */
+    public function setTel1($tel1)
+    {
+        $this->tel1 = $tel1;
+
+        return $this;
+    }
+
+    /**
+     * Get tel1
+     *
+     * @return string
+     */
+    public function getTel1()
+    {
+        return $this->tel1;
+    }
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     *
+     * @return Eleve
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     *
+     * @return Eleve
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set attempt
+     *
+     * @param integer $attempt
+     *
+     * @return Eleve
+     */
+    public function setAttempt($attempt)
+    {
+        $this->attempt = $attempt;
+
+        return $this;
+    }
+
+    /**
+     * Get attempt
+     *
+     * @return integer
+     */
+    public function getAttempt()
+    {
+        return $this->attempt;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return Eleve
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set cPassword
+     *
+     * @param string $cPassword
+     *
+     * @return Eleve
+     */
+    public function setCPassword($cPassword)
+    {
+        $this->cPassword = $cPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get cPassword
+     *
+     * @return string
+     */
+    public function getCPassword()
+    {
+        return $this->cPassword;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     *
+     * @return Eleve
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Set etatConnecte
+     *
+     * @param boolean $etatConnecte
+     *
+     * @return Eleve
+     */
+    public function setEtatConnecte($etatConnecte)
+    {
+        $this->etatConnecte = $etatConnecte;
+
+        return $this;
+    }
+
+    /**
+     * Get etatConnecte
+     *
+     * @return boolean
+     */
+    public function getEtatConnecte()
+    {
+        return $this->etatConnecte;
+    }
+
+    /**
+     * Set adresseIp
+     *
+     * @param string $adresseIp
+     *
+     * @return Eleve
+     */
+    public function setAdresseIp($adresseIp)
+    {
+        $this->adresseIp = $adresseIp;
+
+        return $this;
+    }
+
+    /**
+     * Get adresseIp
+     *
+     * @return string
+     */
+    public function getAdresseIp()
+    {
+        return $this->adresseIp;
+    }
+
+    /**
+     * Set sexe
+     *
+     * @param integer $sexe
+     *
+     * @return Eleve
+     */
+    public function setSexe($sexe)
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    /**
+     * Get sexe
+     *
+     * @return integer
+     */
+    public function getSexe()
+    {
+        return $this->sexe;
+    }
+
+    /**
+     * Set dateInscription
+     *
+     * @param \DateTime $dateInscription
+     *
+     * @return Eleve
+     */
+    public function setDateInscription($dateInscription)
+    {
+        $this->dateInscription = $dateInscription;
+
+        return $this;
+    }
+
+    /**
+     * Get dateInscription
+     *
+     * @return \DateTime
+     */
+    public function getDateInscription()
+    {
+        return $this->dateInscription;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     *
+     * @return Eleve
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
+     * Set lossPasswordUrl
+     *
+     * @param string $lossPasswordUrl
+     *
+     * @return Eleve
+     */
+    public function setLossPasswordUrl($lossPasswordUrl)
+    {
+        $this->lossPasswordUrl = $lossPasswordUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get lossPasswordUrl
+     *
+     * @return string
+     */
+    public function getLossPasswordUrl()
+    {
+        return $this->lossPasswordUrl;
+    }
+
+    /**
+     * Set dateLossPassword
+     *
+     * @param \DateTime $dateLossPassword
+     *
+     * @return Eleve
+     */
+    public function setDateLossPassword($dateLossPassword)
+    {
+        $this->dateLossPassword = $dateLossPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get dateLossPassword
+     *
+     * @return \DateTime
+     */
+    public function getDateLossPassword()
+    {
+        return $this->dateLossPassword;
+    }
+
+    /**
+     * Set nomContact
+     *
+     * @param string $nomContact
+     *
+     * @return Eleve
+     */
+    public function setNomContact($nomContact)
+    {
+        $this->nomContact = $nomContact;
+
+        return $this;
+    }
+
+    /**
+     * Get nomContact
+     *
+     * @return string
+     */
+    public function getNomContact()
+    {
+        return $this->nomContact;
+    }
+
+    /**
+     * Add connexion
+     *
+     * @param \admin\UserBundle\Entity\Connexion $connexion
+     *
+     * @return Eleve
+     */
+    public function addConnexion(\admin\UserBundle\Entity\Connexion $connexion)
+    {
+        $this->connexions[] = $connexion;
+
+        return $this;
+    }
+
+    /**
+     * Remove connexion
+     *
+     * @param \admin\UserBundle\Entity\Connexion $connexion
+     */
+    public function removeConnexion(\admin\UserBundle\Entity\Connexion $connexion)
+    {
+        $this->connexions->removeElement($connexion);
+    }
+
+    /**
+     * Get connexions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getConnexions()
+    {
+        return $this->connexions;
+    }
+
+
+    /**
+     * Add medium
+     *
+     * @param \admin\ScolariteBundle\Entity\Media $media
+     *
+     * @return Eleve
+     */
+    public function addMedia(\admin\ScolariteBundle\Entity\Media $media)
+    {
+        $this->media[] = $media;
+
+        return $this;
+    }
+
+    /**
+     * Remove medium
+     *
+     * @param \admin\ScolariteBundle\Entity\Media $media
+     */
+    public function removeMedia(\admin\ScolariteBundle\Entity\Media $media)
+    {
+        $this->media->removeElement($media);
+    }
+
+    /**
+     * Get medias
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMedias()
+    {
+        return $this->medias;
+    }
+
+    /**
+     * Add setrouver
+     *
+     * @param \admin\ScolariteBundle\Entity\SeTrouver $setrouver
+     *
+     * @return Eleve
+     */
+    public function addSetrouver(\admin\ScolariteBundle\Entity\SeTrouver $setrouver)
+    {
+        $this->setrouvers[] = $setrouver;
+
+        return $this;
+    }
+
+    /**
+     * Remove setrouver
+     *
+     * @param \admin\ScolariteBundle\Entity\SeTrouver $setrouver
+     */
+    public function removeSetrouver(\admin\ScolariteBundle\Entity\SeTrouver $setrouver)
+    {
+        $this->setrouvers->removeElement($setrouver);
+    }
+
+    /**
+     * Get setrouvers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSetrouvers()
+    {
+        return $this->setrouvers;
+    }
+
+    /**
+     * Add note
+     *
+     * @param \admin\ScolariteBundle\Entity\Note $note
+     *
+     * @return Eleve
+     */
+    public function addNote(\admin\ScolariteBundle\Entity\Note $note)
+    {
+        $this->notes[] = $note;
+
+        return $this;
+    }
+
+    /**
+     * Remove note
+     *
+     * @param \admin\ScolariteBundle\Entity\Note $note
+     */
+    public function removeNote(\admin\ScolariteBundle\Entity\Note $note)
+    {
+        $this->notes->removeElement($note);
+    }
+
+    /**
+     * Get notes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
+    /**
+     * Add operation
+     *
+     * @param \admin\EconomatBundle\Entity\Operation $operation
+     *
+     * @return Eleve
+     */
+    public function addOperation(\admin\EconomatBundle\Entity\Operation $operation)
+    {
+        $this->operations[] = $operation;
+
+        return $this;
+    }
+
+    /**
+     * Remove operation
+     *
+     * @param \admin\EconomatBundle\Entity\Operation $operation
+     */
+    public function removeOperation(\admin\EconomatBundle\Entity\Operation $operation)
+    {
+        $this->operations->removeElement($operation);
+    }
+
+    /**
+     * Get operations
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOperations()
+    {
+        return $this->operations;
+    }
+
+    /**
+     * Set etablissement
+     *
+     * @param \admin\ScolariteBundle\Entity\Etablissement $etablissement
+     *
+     * @return Eleve
+     */
+    public function setEtablissement(\admin\ScolariteBundle\Entity\Etablissement $etablissement)
+    {
+        $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * Get etablissement
+     *
+     * @return \admin\ScolariteBundle\Entity\Etablissement
+     */
+    public function getEtablissement()
+    {
+        return $this->etablissement;
+    }
+
+
+
+    /**
+     * Set etablissementOrigine
+     *
+     * @param string $etablissementOrigine
+     *
+     * @return Eleve
+     */
+    public function setEtablissementOrigine($etablissementOrigine)
+    {
+        $this->etablissementOrigine = $etablissementOrigine;
+
+        return $this;
+    }
+
+    /**
+     * Get etablissementOrigine
+     *
+     * @return string
+     */
+    public function getEtablissementOrigine()
+    {
+        return $this->etablissementOrigine;
+    }
+
+    /**
+     * Set nationalite
+     *
+     * @param string $nationalite
+     *
+     * @return Eleve
+     */
+    public function setNationalite($nationalite)
+    {
+        $this->nationalite = $nationalite;
+
+        return $this;
+    }
+
+    /**
+     * Get nationalite
+     *
+     * @return string
+     */
+    public function getNationalite()
+    {
+        return $this->nationalite;
+    }
+
+    /**
+     * Set numeroPieceNaissance
+     *
+     * @param string $numeroPieceNaissance
+     *
+     * @return Eleve
+     */
+    public function setNumeroPieceNaissance($numeroPieceNaissance)
+    {
+        $this->numeroPieceNaissance = $numeroPieceNaissance;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroPieceNaissance
+     *
+     * @return string
+     */
+    public function getNumeroPieceNaissance()
+    {
+        return $this->numeroPieceNaissance;
+    }
+
+    /**
+     * Set numeroPieceNationnalite
+     *
+     * @param string $numeroPieceNationnalite
+     *
+     * @return Eleve
+     */
+    public function setNumeroPieceNationnalite($numeroPieceNationnalite)
+    {
+        $this->numeroPieceNationnalite = $numeroPieceNationnalite;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroPieceNationnalite
+     *
+     * @return string
+     */
+    public function getNumeroPieceNationnalite()
+    {
+        return $this->numeroPieceNationnalite;
+    }
+
+    /**
+     * Set lieuNaissance
+     *
+     * @param string $lieuNaissance
+     *
+     * @return Eleve
+     */
+    public function setLieuNaissance($lieuNaissance)
+    {
+        $this->lieuNaissance = $lieuNaissance;
+
+        return $this;
+    }
+
+    /**
+     * Get lieuNaissance
+     *
+     * @return string
+     */
+    public function getLieuNaissance()
+    {
+        return $this->lieuNaissance;
+    }
+
+    /**
+     * Set groupeSanguin
+     *
+     * @param string $groupeSanguin
+     *
+     * @return Eleve
+     */
+    public function setGroupeSanguin($groupeSanguin)
+    {
+        $this->groupeSanguin = $groupeSanguin;
+
+        return $this;
+    }
+
+    /**
+     * Get groupeSanguin
+     *
+     * @return string
+     */
+    public function getGroupeSanguin()
+    {
+        return $this->groupeSanguin;
+    }
+
+    /**
+     * Set bp
+     *
+     * @param string $bp
+     *
+     * @return Eleve
+     */
+    public function setBp($bp)
+    {
+        $this->bp = $bp;
+
+        return $this;
+    }
+
+    /**
+     * Get bp
+     *
+     * @return string
+     */
+    public function getBp()
+    {
+        return $this->bp;
+    }
+
+    /**
+     * Set dateNaissance
+     *
+     * @param \DateTime $dateNaissance
+     *
+     * @return Eleve
+     */
+    public function setDateNaissance($dateNaissance)
+    {
+        $this->dateNaissance = $dateNaissance;
+
+        return $this;
+    }
+
+    /**
+     * Get dateNaissance
+     *
+     * @return \DateTime
+     */
+    public function getDateNaissance()
+    {
+        return $this->dateNaissance;
+    }
+
+    /**
+     * Add estparent
+     *
+     * @param \admin\ScolariteBundle\Entity\EstParent $estparent
+     *
+     * @return Eleve
+     */
+    public function addEstparent(\admin\ScolariteBundle\Entity\EstParent $estparent)
+    {
+        $this->estparents[] = $estparent;
+
+        return $this;
+    }
+
+    /**
+     * Remove estparent
+     *
+     * @param \admin\ScolariteBundle\Entity\EstParent $estparent
+     */
+    public function removeEstparent(\admin\ScolariteBundle\Entity\EstParent $estparent)
+    {
+        $this->estparents->removeElement($estparent);
+    }
+
+    /**
+     * Get estparents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEstparents()
+    {
+        return $this->estparents;
+    }
+
+    /**
+     * Set titreImage
+     *
+     * @param string $titreImage
+     *
+     * @return Eleve
+     */
+    public function setTitreImage($titreImage)
+    {
+        $this->titreImage = $titreImage;
+
+        return $this;
+    }
+
+    /**
+     * Get titreImage
+     *
+     * @return string
+     */
+    public function getTitreImage()
+    {
+        return $this->titreImage;
+    }
+
+    /**
+     * Set matricule
+     *
+     * @param string $matricule
+     *
+     * @return Eleve
+     */
+    public function setMatricule($matricule)
+    {
+        $this->matricule = $matricule;
+
+        return $this;
+    }
+
+    /**
+     * Get matricule
+     *
+     * @return string
+     */
+    public function getMatricule()
+    {
+        return $this->matricule;
+    }
+
+    /**
+     * Add utilisateur
+     *
+     * @param \admin\UserBundle\Entity\Utilisateur $utilisateur
+     *
+     * @return Eleve
+     */
+    public function addUtilisateur(\admin\UserBundle\Entity\Utilisateur $utilisateur)
+    {
+        $this->utilisateurs[] = $utilisateur;
+
+        return $this;
+    }
+
+    /**
+     * Remove utilisateur
+     *
+     * @param \admin\UserBundle\Entity\Utilisateur $utilisateur
+     */
+    public function removeUtilisateur(\admin\UserBundle\Entity\Utilisateur $utilisateur)
+    {
+        $this->utilisateurs->removeElement($utilisateur);
+    }
+
+    /**
+     * Get utilisateurs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUtilisateurs()
+    {
+        return $this->utilisateurs;
+    }
+}

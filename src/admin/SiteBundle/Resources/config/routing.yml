@@ -1,0 +1,21 @@
+app_admin_site:
+    path: /info
+    defaults: { _controller: adminSiteBundle:Site:index}
+    
+app_admin_details_rubrique:
+    path: /{idEtablissement}/details/rubrique/{id}
+    defaults: { _controller: adminSiteBundle:Site:detailsRubrique, id : 0, idEtablissement : 1}
+    requirements:
+        id: \d+
+
+app_admin_details_article:
+    path: /{idEtablissement}/details/article/{id}
+    defaults: { _controller: adminSiteBundle:Site:detailsArticle, id : 0, idEtablissement : 1}
+    requirements:
+        id: \d+
+
+app_admin_info_page:
+    path: /{idEtablissement}/{idRubArt}/{id}
+    defaults: { _controller: adminSiteBundle:Site:traitePageTemplate, idEtablissement : 1, idRubArt : 0, id : 0}
+    requirements:
+        idRubArt: \d+

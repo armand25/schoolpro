@@ -1,0 +1,275 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="principalmani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\PrincipalManiRepository")
+ */
+class PrincipalMani
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="idprincipal_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var string $num
+     *
+     * @ORM\Column(name="num", type="string", length=17)
+     */
+    private $num;
+    
+    /**
+     * @var string $tbt
+     *
+     * @ORM\Column(name="tbt", type="string", length=1, nullable=true)
+     */
+    private $tbt;  
+    
+    /**
+     * @var string $refotc
+     *
+     * @ORM\Column(name="refotc", type="string", length=17, nullable=true)
+     */
+    private $refotc; 
+
+    
+    /**
+     * @var string $mrn
+     *
+     * @ORM\Column(name="mrn", type="string", length=22, nullable=true)
+     */
+    private $mrn;    
+    
+    
+    /**
+     * @var Apd  $apd
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\Apd", inversedBy="principalmani")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_apd", referencedColumnName="id_apd")
+     * })
+     */    
+    private $apd; 
+
+    /**
+     *
+     * @var ArrayCollection $lieuxmanis 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\LieuxMani", mappedBy="principalmani")
+     * 
+     */
+    private $lieuxmanis; 
+    
+    
+        
+    /**
+     * @var ArrayCollection LmarchandiseMani $lmarchandiseManis
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\LmarchandiseMani", mappedBy="principalMani")
+     * 
+     */
+    private $lmarchandiseManis;
+    
+    
+    
+    public function __construct() {
+        $this->lieuxmanis = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set num
+     *
+     * @param string $num
+     * @return PrincipalMani
+     */
+    public function setNum($num)
+    {
+        $this->num = $num;
+    
+        return $this;
+    }
+
+    /**
+     * Get num
+     *
+     * @return string 
+     */
+    public function getNum()
+    {
+        return $this->num;
+    }
+
+    /**
+     * Set tbt
+     *
+     * @param string $tbt
+     * @return PrincipalMani
+     */
+    public function setTbt($tbt)
+    {
+        $this->tbt = $tbt;
+    
+        return $this;
+    }
+
+    /**
+     * Get tbt
+     *
+     * @return string 
+     */
+    public function getTbt()
+    {
+        return $this->tbt;
+    }
+
+    /**
+     * Set refotc
+     *
+     * @param string $refotc
+     * @return PrincipalMani
+     */
+    public function setRefotc($refotc)
+    {
+        $this->refotc = $refotc;
+    
+        return $this;
+    }
+
+    /**
+     * Get refotc
+     *
+     * @return string 
+     */
+    public function getRefotc()
+    {
+        return $this->refotc;
+    }
+
+    /**
+     * Set mrn
+     *
+     * @param string $mrn
+     * @return PrincipalMani
+     */
+    public function setMrn($mrn)
+    {
+        $this->mrn = $mrn;
+    
+        return $this;
+    }
+
+    /**
+     * Get mrn
+     *
+     * @return string 
+     */
+    public function getMrn()
+    {
+        return $this->mrn;
+    }
+
+    /**
+     * Set apd
+     *
+     * @param \admin\ParamBundle\Entity\Apd $apd
+     * @return PrincipalMani
+     */
+    public function setApd(\admin\ParamBundle\Entity\Apd $apd)
+    {
+        $this->apd = $apd;
+    
+        return $this;
+    }
+
+    /**
+     * Get apd
+     *
+     * @return \admin\ParamBundle\Entity\Apd 
+     */
+    public function getApd()
+    {
+        return $this->apd;
+    }
+
+    /**
+     * Add lieuxmanis
+     *
+     * @param \admin\ParamBundle\Entity\Apd $lieuxmanis
+     * @return PrincipalMani
+     */
+    public function addLieuxmani(\admin\ParamBundle\Entity\Apd $lieuxmanis)
+    {
+        $this->lieuxmanis[] = $lieuxmanis;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lieuxmanis
+     *
+     * @param \admin\ParamBundle\Entity\Apd $lieuxmanis
+     */
+    public function removeLieuxmani(\admin\ParamBundle\Entity\Apd $lieuxmanis)
+    {
+        $this->lieuxmanis->removeElement($lieuxmanis);
+    }
+
+    /**
+     * Get lieuxmanis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLieuxmanis()
+    {
+        return $this->lieuxmanis;
+    }
+
+    /**
+     * Add lmarchandiseManis
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseManis
+     * @return PrincipalMani
+     */
+    public function addLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseManis)
+    {
+        $this->lmarchandiseManis[] = $lmarchandiseManis;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lmarchandiseManis
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseManis
+     */
+    public function removeLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseManis)
+    {
+        $this->lmarchandiseManis->removeElement($lmarchandiseManis);
+    }
+
+    /**
+     * Get lmarchandiseManis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLmarchandiseManis()
+    {
+        return $this->lmarchandiseManis;
+    }
+}

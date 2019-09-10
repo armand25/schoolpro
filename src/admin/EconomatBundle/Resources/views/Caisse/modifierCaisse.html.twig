@@ -1,0 +1,115 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}} - Ajout utilisateur{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+
+{% block Breadcrumb %}
+    <ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+        <li>
+            <a href="#/app/dashboard" >
+                <i class="fa fa-home margin-right-5 text-large text-dark"></i>Accueil
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <i class="fa fa-file margin-right-5 text-large text-dark"></i>Caisse
+            </a>
+        </li>
+
+        <li class="ng-binding ng-scope" ><i class="fa fa-upload margin-right-5 text-large text-dark"></i>Modification</li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+
+    <div class="col-lg-12">
+        {% for contenu in app.session.getflashbag.get('caisse.ajout.success')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-success">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('caisse.ajout.error')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-error">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('caisse.ajout.already.exist')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-error">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" >
+            <div class="panel panel-white">
+                <header class="panel-heading">
+                    <i class="fa fa-plus "></i> <span class="margin-right-20px "> Modifier une caisse </span>
+                </header> 
+                <div class="panel-body">
+                    <div class="row margin-top-10">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="panel-body">
+                                <form action="{{path('admin_caisse_modifier',{'id':id})}}" method="POST"  {#{form_enctype(formuView)}#}>
+
+{#                                    <div class="form-group clearfix margin-top-15px">
+                                        <label class="col-lg-3 control-label"> {{ form_label(formuView.codeCaisse) }} </label>
+                                        <div class="col-lg-8 control"> {{ form_widget(formuView.codeCaisse) }}</div>
+                                    </div>#}
+
+                                    <div class="form-group clearfix margin-top-15px">
+                                        <label class="col-lg-3 control-label">{{ form_label(formuView.nomCaisse) }} </label>
+                                        <div class="col-lg-8 control"> {{ form_widget(formuView.nomCaisse) }}</div>
+                                    </div>
+
+                                                      
+
+                                    {# <div class="form-group clearfix margin-top-15px">
+                                                <label class="col-lg-3 control-label"> {{ form_label(formuView.rubrique) }}</label>
+                                                <div class="col-lg-8 control">  {{ form_widget(formuView.rubrique) }}</div> 
+                                            </div>  #}                
+
+                                    <div class="form-group clearfix pull-right">
+                                        <a  class="btn" href="{{path('admin_caisses')}}"> 
+                                            <i class="icon icon-white icon-arrow-left"></i> Annuler
+                                        </a>
+                                        <button type="submit" class="btn btn-success" id="submit" > 
+                                            <i class="icon icon-white icon-ok"></i> Modifier 
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-12" style="height: 10px"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascriptsPerso %}
+
+{% endblock %}

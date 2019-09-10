@@ -1,0 +1,221 @@
+<?php
+/**
+ * 
+ * Définition de l'entité Pays
+ * Cette entité represente un pays
+ * 
+ * @author Edmond AMUAKU <edmond.amuaku@ace3i.com> 
+ * 
+ * 
+ */
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \Doctrine\Common\Collections\ArrayCollection;
+use \admin\UserBundle\Types\TypeEtat;
+
+/**
+ * pays
+ *
+ * @ORM\Table(name="pays")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\PaysRepository")
+ */
+class Pays{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    
+     /**
+     * @var string $nomPays
+     * 
+     * 
+     * @ORM\Column(name="nom_pays", type="string", length=50)
+     * @Assert\Length(max=50)
+     * @Assert\NotBlank(message="Pays requis")
+     */
+    private $nomPays;
+    
+
+    /**
+     * @var string $codePays
+     *
+     * @ORM\Column(name="code_pays", type="string", length=10)
+     * @Assert\Length(max=10)
+     * @Assert\NotBlank(message="Code requis") 
+     */
+    private $codePays;
+
+   
+
+    /**
+     * @var string $indicatifTel
+     *
+     * @ORM\Column(name="indicatif_tel", type="string", length=5, unique=true)
+     * @Assert\NotBlank(message="Indicatif requis")
+     */
+    private $indicatifTel;
+
+    /**
+     * @var integer $etat 
+     *
+     * @ORM\Column(name="etat", type="integer")
+     */
+    private $etat;
+    
+    
+   /**
+    * @var ArrayCollection $operateurs 
+    * 
+    * @ORM\OneToMany(targetEntity="admin\SmsBundle\Entity\Operateur", mappedBy="pays")
+    */
+    private $operateurs;
+  
+    
+    public function __construct() {
+        $this->etat = TypeEtat::ACTIF;
+        $this->operateurs = new ArrayCollection();
+    }
+   
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nomPays
+     *
+     * @param string $nomPays
+     * @return Pays
+     */
+    public function setNomPays($nomPays)
+    {
+        $this->nomPays = $nomPays;
+
+        return $this;
+    }
+
+    /**
+     * Get nomPays
+     *
+     * @return string 
+     */
+    public function getNomPays()
+    {
+        return $this->nomPays;
+    }
+
+    /**
+     * Set codePays
+     *
+     * @param string $codePays
+     * @return Pays
+     */
+    public function setCodePays($codePays)
+    {
+        $this->codePays = $codePays;
+
+        return $this;
+    }
+
+    /**
+     * Get codePays
+     *
+     * @return string 
+     */
+    public function getCodePays()
+    {
+        return $this->codePays;
+    }
+
+    /**
+     * Set indicatifTel
+     *
+     * @param string $indicatifTel
+     * @return Pays
+     */
+    public function setIndicatifTel($indicatifTel)
+    {
+        $this->indicatifTel = $indicatifTel;
+
+        return $this;
+    }
+
+    /**
+     * Get indicatifTel
+     *
+     * @return string 
+     */
+    public function getIndicatifTel()
+    {
+        return $this->indicatifTel;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return Pays
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Add operateurs
+     *
+     * @param \admin\SmsBundle\Entity\Operateur $operateurs
+     * @return Pays
+     */
+    public function addOperateur(\admin\SmsBundle\Entity\Operateur $operateurs)
+    {
+        $this->operateurs[] = $operateurs;
+
+        return $this;
+    }
+
+    /**
+     * Remove operateurs
+     *
+     * @param \admin\SmsBundle\Entity\Operateur $operateurs
+     */
+    public function removeOperateur(\admin\SmsBundle\Entity\Operateur $operateurs)
+    {
+        $this->operateurs->removeElement($operateurs);
+    }
+
+    /**
+     * Get operateurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOperateurs()
+    {
+        return $this->operateurs;
+    }
+}

@@ -1,0 +1,130 @@
+admin_economat_homepage:
+    path:     /
+    defaults: { _controller: adminEconomatBundle:Default:index }
+  # Gestion de plan comptable //DINAH    
+admin_planajouter:
+    path:   /plancomptable/ajouter/{locale}
+    defaults:  { _controller: adminEconomatBundle:PlanComptable:ajouterPlanComptable, locale: fr}
+admin_planmodifier:
+    path:   /plancomptable/modifier/{id}/{locale}
+    defaults:  { _controller: adminEconomatBundle:PlanComptable:modifierPlanComptable, locale: fr}
+admin_plansupprimer:
+    path:   /plancomptable/supprimer/{id}/{locale}
+    defaults:  { _controller: adminEconomatBundle:PlanComptable:supprimerPlanComptable, locale: fr}
+    
+admin_planliste:
+    path:   /plancomptable/liste/{page}/{nbparpage}/{locale}
+    defaults:  { _controller: adminEconomatBundle:PlanComptable:listePlanComptable, page: 1, nbparpage: 20, locale: fr}
+
+# Gestion des schema comptables ce 29 04 2014 
+admin_ajoutschema:
+    path:   /ajout/schema/{idType}/{locale}/{nbreLigne}
+    defaults:  { _controller: adminEconomatBundle:Schema:ajoutSchema, locale: fr, idType : 1, nbreLigne: 2}
+    requirements:
+       locale: fr|en
+       idType: \d+
+       nbreLigne: \d+
+
+admin_procschema:
+    path:   /porcess/schema
+    defaults:  { _controller: adminEconomatBundle:Schema:processSchema }
+       
+admin_listeschema:
+    path: /liste/schema/{page}/{locale}
+    defaults: { _controller: adminEconomatBundle:Schema:listeSchema, locale: fr, page: 1}
+    requirements:
+       locale: fr|en
+       page: \d+
+    
+admin_supprschema:
+    path:   /supprimer/schema/{id}/{locale}
+    defaults:  { _controller: adminEconomatBundle:Schema:supprSchema, locale: fr, id: ''}
+    requirements:
+       locale: fr|en
+    
+admin_modifschema:
+    path:  /modifier/schema/{id}/{locale}
+    defaults: { _controller: adminEconomatBundle:Schema:modifierSchema, locale: fr, id: ''}
+    requirements:
+       locale: fr|en
+
+admin_gererschema:
+    path:  /etat/schema/{id}/{etat}/{locale}
+    defaults: { _controller: adminEconomatBundle:Schema:gererEtatSchema, locale: fr, id: ''}
+    requirements:
+       locale: fr|en
+       
+admin_gererEtatAllschema:
+    path:  /etat/objet/agence
+    defaults: { _controller: adminEconomatBundle:Schema:gererAllSchema }
+       
+admin_deleteAllschema:
+    path:   /supprimer/selection/schema
+    defaults:  { _controller: adminEconomatBundle:Schema:supprAllSchema }
+
+
+# Gestion des type operation 
+admin_ajouttypeOperation:
+    path:   /ajout/typeoperation/{locale}
+    defaults:  { _controller: adminEconomatBundle:TypeOperation:ajoutTypeOperation, locale: fr}
+    requirements:
+       locale: fr|en
+       
+admin_listetypeOperation:
+    path: /liste/typeoperation/{ajoutprof}/{page}/{locale}
+    defaults: { _controller: adminEconomatBundle:TypeOperation:listeTypeOperation, locale: fr, ajoutprof : 0, page: 1}
+    requirements:
+       locale: fr|en
+       ajoutprof: \d+
+       page: \d+
+    
+admin_supprtypeOperation:
+    path:   /supprimer/typeoperation/{id}/{locale}
+    defaults:  { _controller: adminEconomatBundle:TypeOperation:supprTypeOperation, locale: fr, id: ''}
+    requirements:
+       locale: fr|en
+    
+admin_modiftypeOperation:
+    path:  /modifier/typeoperation/{id}/{locale}
+    defaults: { _controller: adminEconomatBundle:TypeOperation:modifierTypeOperation, locale: fr, id: ''}
+    requirements:
+       locale: fr|en
+
+admin_gerertypeOperation:
+    path:  /etat/typeoperation/{id}/{etat}/{locale}
+    defaults: { _controller: adminEconomatBundle:TypeOperation:gererEtatTypeOperation, locale: fr, id: ''}
+    requirements:
+       locale: fr|en
+       
+admin_gererEtatAlltypeOperation:
+    path:  /etat/objet/agence
+    defaults: { _controller: adminEconomatBundle:TypeOperation:gererAllTypeOperation }
+       
+admin_deleteAlltypeOperations:
+    path:   /supprimer/selection/typeoperation
+    defaults:  { _controller: adminEconomatBundle:TypeOperation:supprAllTypeOperations }
+    
+# Gestion des operations admin_operation_get_info_commande
+admin_operation_get_info_commande:
+    path: get/info/commande
+    defaults: { _controller: adminEconomatBundle:Operation:getInfoCommande}
+
+# Gestion des operations admin_operation_traite_espece
+admin_operation_traite_commande:
+    path: get/traite/commande
+    defaults: { _controller: adminEconomatBundle:Operation:traiteCommande}
+
+# Gestion des operations admin_operation_traite_espece
+admin_operation_traite_cheque:
+    path: get/traite/commande/cheque
+    defaults: { _controller: adminEconomatBundle:Operation:traiteCommandeCheque}
+#Afficher la page de paiement des operations
+admin_operation_get_operation_vente:
+    path: get/operation/ecolage/{idEleve}/{type}
+    defaults: { _controller: adminEconomatBundle:Operation:getPageOperation, idEleve : 0, type: 0}
+#Afficher la page de presentation de la facture
+admin_operation_get_presentation_facture:
+    path: presentation/facture/page
+    defaults: { _controller: adminEconomatBundle:Operation:afficherFacture}
+
+     

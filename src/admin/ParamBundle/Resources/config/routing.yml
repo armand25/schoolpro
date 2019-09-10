@@ -1,0 +1,75 @@
+admin_param_destinataire:
+    resource: "@adminParamBundle/Resources/config/routing/destinataire.yml"
+    prefix:   /destinataire
+
+admin_param_emetteur:
+    resource: "@adminParamBundle/Resources/config/routing/emetteur.yml"
+    prefix:   /emetteur
+
+
+# Ajout d'un parametre
+app_param_ajout:
+    path:     /ajout/param
+    defaults: { _controller: adminParamBundle:Parametre:ajoutParametre}
+   
+# Modifie un parametre
+app_param_edit:
+    path:     /modifier/param/{nomParam}
+    defaults: { _controller: adminParamBundle:Parametre:modifierParametre, locale: fr, nomParam : 0 }
+    requirements:
+        nomParam: \d+
+
+# affiche le liste des paramètres
+app_param_liste:
+    path:     /liste/params
+    defaults: { _controller: adminParamBundle:Parametre:parametres }
+   
+# Restauration des paramètres par défaut
+app_param_reset:
+    path:     /reset/params
+    defaults: { _controller: adminParamBundle:Parametre:resetAllParam }
+   
+   
+# affiche la liste des balises
+app_admin_balises_user:
+    path: /balises/user
+    defaults: { _controller: adminParamBundle:Balise:listeBalise}
+        
+# formulaire d'ajout  de balise
+app_admin_balise_ajout:
+    path: /ajout/balise
+    defaults: { _controller: adminParamBundle:Balise:ajoutBalise}
+        
+# formulaire de modification d'un balise
+app_admin_balise_modifier:
+    path: /modifier/balise/{idBalise}
+    defaults: { _controller: adminParamBundle:Balise:modifierBalise, idBalise: 0}
+    requirements:
+        idBalise: \d+
+        
+# activaton; desactivation, suppression de balise
+app_admin_balise_set_etat:
+    path: set/etat/balise
+    defaults: { _controller: adminParamBundle:Balise:changerEtatBalise}
+    
+# affiche la liste des attributs
+app_admin_attributs_user:
+    path: /attributs/user
+    defaults: { _controller: adminParamBundle:Attribut:listeAttribut}
+        
+# formulaire d'ajout  de attribut
+app_admin_attribut_ajout:
+    path: /ajout/attribut
+    defaults: { _controller: adminParamBundle:Attribut:ajoutAttribut}
+        
+# formulaire de modification d'un attribut
+app_admin_attribut_modifier:
+    path: /modifier/attribut/{idAttribut}
+    defaults: { _controller: adminParamBundle:Attribut:modifierAttribut, idAttribut: 0}
+    requirements:
+        idAttribut: \d+
+        
+# activaton; desactivation, suppression de attribut
+app_admin_attribut_set_etat:
+    path: set/etat/attribut
+    defaults: { _controller: adminParamBundle:Attribut:changerEtatAttribut}

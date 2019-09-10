@@ -1,0 +1,578 @@
+<?php
+
+namespace facture\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \facture\AdminBundle\Entity\Profil;
+use \facture\AdminBundle\Entity\Connexion;
+use \Doctrine\Common\Collections\ArrayCollection;
+/**
+ * User
+ *
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="facture\AdminBundle\Entity\UserRepository")
+ */
+class User
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $username
+     *
+     * @ORM\Column(name="username", type="string", length=50,  nullable=true)
+     * @Assert\Length(max=50)
+     */
+    private $username;
+
+    /**
+     * @var string $nom
+     *
+     * @ORM\Column(name="nom", type="string", length=50)
+     * @Assert\Length(max=50)
+     */
+    private $nom;
+
+    /**
+     * @var string $prenoms
+     *
+     * @ORM\Column(name="prenoms", type="string", length=50, nullable=true)
+     * 
+     */
+    private $prenoms;
+
+    /**
+     * @var string $email
+     *
+     * @ORM\Column(name="email", type="string", length=50, unique=true)
+     * @Assert\Email
+     */
+    private $email;
+
+    /**
+     * @var string $tel1
+     *
+     * @ORM\Column(name="tel1", type="string", length=20)
+     */
+    private $tel1;
+
+    /**
+     * @var string $tel2
+     *
+     * @ORM\Column(name="tel2", type="string", length=20, nullable=true)
+     */
+    private $tel2;
+
+    /**
+     * @var string $adresse
+     *
+     * @ORM\Column(name="adresse", type="text", nullable=true)
+     */
+    private $adresse;
+
+    /**
+     * @var integer $etat
+     *
+     * @ORM\Column(name="etat", type="smallint")
+     */
+    private $etat;
+
+    /**
+     * @var integer $attempt
+     *
+     * @ORM\Column(name="attempt", type="smallint")
+     */
+    private $attempt;
+
+    /**
+     * @var string $password
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @Assert\Length(max=255)
+     */
+    private $password;
+
+    /**
+     * @var string $cPassword
+     *
+     * @ORM\Column(name="c_password", type="string", length=255, nullable=true)
+     */
+    private $cPassword;
+
+    /**
+     * @var string $salt
+     *
+     * @ORM\Column(name="salt", type="string", length=255)
+     */
+    private $salt;
+
+    /**
+     * @var boolean $etatConnecte
+     *
+     * @ORM\Column(name="etat_connecte", type="boolean")
+     */
+    private $etatConnecte;
+
+    /**
+     * @var string $adresseIp
+     *
+     * @ORM\Column(name="adresse_ip", type="string", length=100, nullable=true)
+     */
+    private $adresseIp;
+
+    /**
+     * @var integer $sexe
+     *
+     * @ORM\Column(name="sexe", type="smallint", nullable=false)
+     */
+    private $sexe;
+
+    
+    /**
+     * @var Profil  $rofil
+     * @ORM\ManyToOne(targetEntity="facture\AdminBundle\Entity\Profil", inversedBy="users")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $rofil;
+    
+    /**
+     *
+     * @var ArrayCollection $connexions
+     * @ORM\OneToMany(targetEntity="facture\AdminBundle\Entity\Connexion",mappedBy="user", cascade={"remove", "persist"})
+     */
+    private $connexions;
+    
+   
+   
+    
+    
+    public function __construct() {
+        $this->attempt = 0;      
+        $this->cPassword = '';
+        $this->salt = md5(uniqid(null, true));
+        $this->etat = \TypeEtat::INACTIF;
+        $this->etatConnecte = FALSE;
+        $this->dateRecrutement = new \DateTime();
+        $this->connexions = new ArrayCollection();
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return User
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set prenoms
+     *
+     * @param string $prenoms
+     * @return User
+     */
+    public function setPrenoms($prenoms)
+    {
+        $this->prenoms = $prenoms;
+
+        return $this;
+    }
+
+    /**
+     * Get prenoms
+     *
+     * @return string 
+     */
+    public function getPrenoms()
+    {
+        return $this->prenoms;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set tel1
+     *
+     * @param string $tel1
+     * @return User
+     */
+    public function setTel1($tel1)
+    {
+        $this->tel1 = $tel1;
+
+        return $this;
+    }
+
+    /**
+     * Get tel1
+     *
+     * @return string 
+     */
+    public function getTel1()
+    {
+        return $this->tel1;
+    }
+
+    /**
+     * Set tel2
+     *
+     * @param string $tel2
+     * @return User
+     */
+    public function setTel2($tel2)
+    {
+        $this->tel2 = $tel2;
+
+        return $this;
+    }
+
+    /**
+     * Get tel2
+     *
+     * @return string 
+     */
+    public function getTel2()
+    {
+        return $this->tel2;
+    }
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     * @return User
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string 
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return User
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set attempt
+     *
+     * @param integer $attempt
+     * @return User
+     */
+    public function setAttempt($attempt)
+    {
+        $this->attempt = $attempt;
+
+        return $this;
+    }
+
+    /**
+     * Get attempt
+     *
+     * @return integer 
+     */
+    public function getAttempt()
+    {
+        return $this->attempt;
+    }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string 
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * Set cPassword
+     *
+     * @param string $cPassword
+     * @return User
+     */
+    public function setCPassword($cPassword)
+    {
+        $this->cPassword = $cPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get cPassword
+     *
+     * @return string 
+     */
+    public function getCPassword()
+    {
+        return $this->cPassword;
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string 
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * Set etatConnecte
+     *
+     * @param boolean $etatConnecte
+     * @return User
+     */
+    public function setEtatConnecte($etatConnecte)
+    {
+        $this->etatConnecte = $etatConnecte;
+
+        return $this;
+    }
+
+    /**
+     * Get etatConnecte
+     *
+     * @return boolean 
+     */
+    public function getEtatConnecte()
+    {
+        return $this->etatConnecte;
+    }
+
+    /**
+     * Set adresseIp
+     *
+     * @param string $adresseIp
+     * @return User
+     */
+    public function setAdresseIp($adresseIp)
+    {
+        $this->adresseIp = $adresseIp;
+
+        return $this;
+    }
+
+    /**
+     * Get adresseIp
+     *
+     * @return string 
+     */
+    public function getAdresseIp()
+    {
+        return $this->adresseIp;
+    }
+
+    /**
+     * Set sexe
+     *
+     * @param integer $sexe
+     * @return User
+     */
+    public function setSexe($sexe)
+    {
+        $this->sexe = $sexe;
+
+        return $this;
+    }
+
+    /**
+     * Get sexe
+     *
+     * @return integer 
+     */
+    public function getSexe()
+    {
+        return $this->sexe;
+    }
+
+    /**
+     * Set rofil
+     *
+     * @param \facture\AdminBundle\Entity\Profil $rofil
+     * @return User
+     */
+    public function setRofil(\facture\AdminBundle\Entity\Profil $rofil)
+    {
+        $this->rofil = $rofil;
+
+        return $this;
+    }
+
+    /**
+     * Get rofil
+     *
+     * @return \facture\AdminBundle\Entity\Profil 
+     */
+    public function getRofil()
+    {
+        return $this->rofil;
+    }
+
+    /**
+     * Add connexions
+     *
+     * @param \facture\AdminBundle\Entity\Connexion $connexions
+     * @return User
+     */
+    public function addConnexion(\facture\AdminBundle\Entity\Connexion $connexions)
+    {
+        $this->connexions[] = $connexions;
+
+        return $this;
+    }
+
+    /**
+     * Remove connexions
+     *
+     * @param \facture\AdminBundle\Entity\Connexion $connexions
+     */
+    public function removeConnexion(\facture\AdminBundle\Entity\Connexion $connexions)
+    {
+        $this->connexions->removeElement($connexions);
+    }
+
+    /**
+     * Get connexions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConnexions()
+    {
+        return $this->connexions;
+    }
+}

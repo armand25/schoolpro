@@ -1,0 +1,175 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use admin\ParamBundle\Entity\PrincipalMani;
+use admin\ParamBundle\Entity\LmarchandiseMani;
+use admin\ParamBundle\Entity\EquipementMani ;
+
+/**
+ * SupportMani
+ *
+ * @ORM\Table(name="support_mani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\SupportManiRepository")
+ */
+class SupportMani {
+
+    /**
+     * @var integer $idSupportMani
+     *
+     * @ORM\Column(name="id_support_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $idSupportMani;
+
+    /**
+     * @var string $id
+     *
+     * @ORM\Column(name="id", type="string", length=17, nullable=true)
+     */
+    private $id;
+
+    /**
+     * @var string $code
+     *
+     * @ORM\Column(name="code", type="string", length=4)
+     */
+    private $code;
+
+    /**
+     * @var string $tare
+     *
+     * @ORM\Column(name="tare", type="string", length=9, nullable=true)
+     */
+    private $tare;
+
+    /**
+     * @var ArrayCollection EquipementMani $equipementMani
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\EquipementMani", mappedBy="supportMani")
+     * 
+     */
+    private $equipementMani;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
+
+
+    /**
+     * Get idSupportMani
+     *
+     * @return integer 
+     */
+    public function getIdSupportMani()
+    {
+        return $this->idSupportMani;
+    }
+
+    /**
+     * Set id
+     *
+     * @param string $id
+     * @return SupportMani
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return string 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return SupportMani
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set tare
+     *
+     * @param string $tare
+     * @return SupportMani
+     */
+    public function setTare($tare)
+    {
+        $this->tare = $tare;
+
+        return $this;
+    }
+
+    /**
+     * Get tare
+     *
+     * @return string 
+     */
+    public function getTare()
+    {
+        return $this->tare;
+    }
+
+    /**
+     * Add equipementMani
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementMani
+     * @return SupportMani
+     */
+    public function addEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementMani)
+    {
+        $this->equipementMani[] = $equipementMani;
+
+        return $this;
+    }
+
+    /**
+     * Remove equipementMani
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementMani
+     */
+    public function removeEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementMani)
+    {
+        $this->equipementMani->removeElement($equipementMani);
+    }
+
+    /**
+     * Get equipementMani
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEquipementMani()
+    {
+        return $this->equipementMani;
+    }
+}

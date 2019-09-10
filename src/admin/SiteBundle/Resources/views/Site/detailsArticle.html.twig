@@ -1,0 +1,48 @@
+{% extends 'baseSite.html.twig' %}
+{% block body %}
+
+    <!-- Page Title -->
+    {% if article is defined %}
+        <div class="page-title" style="margin-top:55px;background-color:#ffaa31;color:#FFF;">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        
+                        <h2 style="color:#FFF;"><i class="icon-tasks page-title-icon"></i> {{article.titre}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <div class="container">
+
+
+                <!-- Contenu desticles -->
+                <div class="row">
+                    <div class="span3">
+                        <div class="image-article">
+                            {% if article.getMedias is defined %}
+                                {% for img in article.getMedias %}
+                                    <img src="{{asset(img.pathMedia)}}"></img>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="span9">
+                        <div class="contenuarticle">
+
+                            <h4 id="">{{article.titre}}</h4>
+                            <p class="infoarticle">{{article.datePublication|date('d M Y')}} | {{article.utilisateur.nom}}</p>
+                            <hr />
+                            <p>{{article.contenuArticle|raw}}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+
+            </div>   
+        </div>   
+    {% endif %}
+
+{% endblock %}

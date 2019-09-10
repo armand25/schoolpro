@@ -1,0 +1,170 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="request")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\RequestRepository")
+ */
+class Request
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+/**
+     * @var string $idRequest
+     *
+     * @ORM\Column(name="id_request", type="string", length=17)
+     */
+    private $idRequest;
+    
+    /**
+     * @var string $type
+     *
+     * @ORM\Column(name="type_request", type="string", length=3)
+     */
+    private $type;
+
+    /**
+     * @var string $action
+     *
+     * @ORM\Column(name="action", type="string", length=6,nullable=true)
+     */
+    private $action;
+
+    /**
+     *
+     * @var ArrayCollection $apds 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\Apd", cascade={"persist", "remove"}, mappedBy="request")
+     * 
+     */
+    private $apds;
+    
+    public function __construct() {
+        $this->apds = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+   
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idRequest
+     *
+     * @param string $idRequest
+     * @return Request
+     */
+    public function setIdRequest($idRequest)
+    {
+        $this->idRequest = $idRequest;
+    
+        return $this;
+    }
+
+    /**
+     * Get idRequest
+     *
+     * @return string 
+     */
+    public function getIdRequest()
+    {
+        return $this->idRequest;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Request
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set action
+     *
+     * @param string $action
+     * @return Request
+     */
+    public function setAction($action)
+    {
+        $this->action = $action;
+    
+        return $this;
+    }
+
+    /**
+     * Get action
+     *
+     * @return string 
+     */
+    public function getAction()
+    {
+        return $this->action;
+    }
+
+    /**
+     * Add apds
+     *
+     * @param \admin\ParamBundle\Entity\Apd $apds
+     * @return Request
+     */
+    public function addApd(\admin\ParamBundle\Entity\Apd $apds)
+    {
+        $this->apds[] = $apds;
+    
+        return $this;
+    }
+
+    /**
+     * Remove apds
+     *
+     * @param \admin\ParamBundle\Entity\Apd $apds
+     */
+    public function removeApd(\admin\ParamBundle\Entity\Apd $apds)
+    {
+        $this->apds->removeElement($apds);
+    }
+
+    /**
+     * Get apds
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getApds()
+    {
+        return $this->apds;
+    }
+}

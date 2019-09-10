@@ -1,0 +1,274 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use admin\ParamBundle\Entity\PrincipalMani;
+use admin\ParamBundle\Entity\LmarchandiseMani ;
+use admin\ParamBundle\Entity\EquipementMani ;
+
+/**
+ * LieuMani
+ *
+ * @ORM\Table(name="lieu_mani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\LieuManiRepository")
+ */
+class LieuMani {
+
+    /**
+     * @var integer $idLieuMani
+     *
+     * @ORM\Column(name="idlieu_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $idLieuMani;
+
+    /**
+     * @var string $zone
+     *
+     * @ORM\Column(name="zone", type="string", length=4)
+     */
+    private $zone ;
+            
+    
+    /**
+     * @var string $lieu
+     *
+     * @ORM\Column(name="lieu", type="string", length=8)
+     */
+    private $lieu ;
+            
+    /**
+     * @var string $manut
+     *
+     * @ORM\Column(name="manut", type="string", length=9, nullable=true)
+     */
+    private $manut ;
+            
+            
+    /**
+     * @var string $typeLieux
+     *
+     * @ORM\Column(name="type_lieux", type="string", length=50, nullable=true)
+     */
+    private $typeLieux ;
+            
+    
+    
+    /**
+     * @var string $commentaires
+     *
+     * @ORM\Column(name="commentaires", type="string", length=50)
+     */
+    private $commentaires ;
+            
+    
+    /**
+     * @var ArrayCollection LmarchandiseMani $lmarchandiseMani
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\LmarchandiseMani", mappedBy="lieuMani")
+     * 
+     */
+    private $lmarchandiseMani;
+    
+    /**
+     * @var EquipementMani $equipementMani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\EquipementMani", inversedBy="dgxManis", cascade={"persist"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_equipement_mani", referencedColumnName="id_equipement_mani")
+     * })
+     */
+    private $equipementMani;
+
+  
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
+
+
+    /**
+     * Get idLieuMani
+     *
+     * @return integer 
+     */
+    public function getIdLieuMani()
+    {
+        return $this->idLieuMani;
+    }
+
+    /**
+     * Set zone
+     *
+     * @param string $zone
+     * @return LieuMani
+     */
+    public function setZone($zone)
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * Get zone
+     *
+     * @return string 
+     */
+    public function getZone()
+    {
+        return $this->zone;
+    }
+
+    /**
+     * Set lieu
+     *
+     * @param string $lieu
+     * @return LieuMani
+     */
+    public function setLieu($lieu)
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
+    /**
+     * Get lieu
+     *
+     * @return string 
+     */
+    public function getLieu()
+    {
+        return $this->lieu;
+    }
+
+    /**
+     * Set manut
+     *
+     * @param string $manut
+     * @return LieuMani
+     */
+    public function setManut($manut)
+    {
+        $this->manut = $manut;
+
+        return $this;
+    }
+
+    /**
+     * Get manut
+     *
+     * @return string 
+     */
+    public function getManut()
+    {
+        return $this->manut;
+    }
+
+    /**
+     * Set typeLieux
+     *
+     * @param string $typeLieux
+     * @return LieuMani
+     */
+    public function setTypeLieux($typeLieux)
+    {
+        $this->typeLieux = $typeLieux;
+
+        return $this;
+    }
+
+    /**
+     * Get typeLieux
+     *
+     * @return string 
+     */
+    public function getTypeLieux()
+    {
+        return $this->typeLieux;
+    }
+
+    /**
+     * Set commentaires
+     *
+     * @param string $commentaires
+     * @return LieuMani
+     */
+    public function setCommentaires($commentaires)
+    {
+        $this->commentaires = $commentaires;
+
+        return $this;
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return string 
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
+    }
+
+    /**
+     * Add lmarchandiseMani
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani
+     * @return LieuMani
+     */
+    public function addLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani)
+    {
+        $this->lmarchandiseMani[] = $lmarchandiseMani;
+
+        return $this;
+    }
+
+    /**
+     * Remove lmarchandiseMani
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani
+     */
+    public function removeLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani)
+    {
+        $this->lmarchandiseMani->removeElement($lmarchandiseMani);
+    }
+
+    /**
+     * Get lmarchandiseMani
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLmarchandiseMani()
+    {
+        return $this->lmarchandiseMani;
+    }
+
+    /**
+     * Set equipementMani
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementMani
+     * @return LieuMani
+     */
+    public function setEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementMani = null)
+    {
+        $this->equipementMani = $equipementMani;
+
+        return $this;
+    }
+
+    /**
+     * Get equipementMani
+     *
+     * @return \admin\ParamBundle\Entity\EquipementMani 
+     */
+    public function getEquipementMani()
+    {
+        return $this->equipementMani;
+    }
+}

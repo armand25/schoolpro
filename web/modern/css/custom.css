@@ -1,0 +1,270 @@
+#wrapper {
+    width: 100%;
+}
+#page-wrapper {
+    padding:1em 2em 2.5em;
+}
+.fond-fil-ariane{
+background :url(../images/fond-eleve.fw.png) top left no-repeat;
+width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-config{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;
+width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-classe{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;
+width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-ens-accueil{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-ens-classe{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-ens-livre{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-peleve-accueil{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-peleve-message{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-eleve-accueil{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-eleve-diplome{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-peleve-diplome{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-eleve-info{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-peleve-info{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+
+.fond-fil-ariane-eleve-bul{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-peleve-bul{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-eleve-livre{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-peleve-livre{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.fond-fil-ariane-admin-accueil{
+background :url(../images/accueil-ens-accueil-livre.fw.png) top left no-repeat;width:100%;
+height:35px;margin-top: -25px;
+}
+.titre-general-eleve{
+    background:#F1F1F1;
+    padding: 5px;
+    color: #6f174c;
+    border-left: 5px #6f174c solid;
+}
+
+.titre-general-enseignant{
+    background:#F1F1F1;
+    padding: 5px;
+    color: #083d60;
+    border-left: 5px #083d60 solid;
+}
+.titre-general-peleve{
+    background:#F1F1F1;
+    padding: 5px;
+    color: #3a6a47;
+    border-left: 5px #3a6a47 solid;
+}
+.navbar-top-links {
+    margin-right: 0;
+}
+
+.navbar-top-links li {
+    display: inline-block;
+}
+
+.navbar-top-links li:last-child {
+    margin-right: 15px;
+}
+
+.navbar-top-links li a {
+    padding: 15px;
+    min-height: 35px;
+}
+
+.navbar-top-links .dropdown-menu li {
+    display: block;
+}
+
+.navbar-top-links .dropdown-menu li:last-child {
+    margin-right: 0;
+}
+
+.navbar-top-links .dropdown-menu li a {
+    padding: 3px 20px;
+    min-height: 0;
+}
+
+.navbar-top-links .dropdown-menu li a div {
+    white-space: normal;
+}
+
+.navbar-top-links .dropdown-messages,
+.navbar-top-links .dropdown-tasks,
+.navbar-top-links .dropdown-alerts {
+    width: 310px;
+    min-width: 0;
+}
+.navbar-top-links .dropdown-messages {
+    margin-left: 5px;
+}
+.navbar-top-links .dropdown-tasks {
+    margin-left: -59px;
+}
+
+.navbar-top-links .dropdown-alerts {
+    margin-left: -123px;
+}
+
+.navbar-top-links .dropdown-user {
+    right: 0;
+    left: auto;
+}
+
+.sidebar .sidebar-nav.navbar-collapse {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.sidebar .sidebar-search {
+    padding: 15px;
+}
+.sidebar .arrow {
+    float: right;
+}
+
+.sidebar .fa.arrow:before {
+    content: "\f104";
+}
+
+.sidebar .active>a>.fa.arrow:before {
+    content: "\f107";
+    
+}
+
+.sidebar .nav-second-level li,
+.sidebar .nav-third-level li {
+    border-bottom: 0!important;
+	margin-bottom: 0;
+}
+
+.sidebar .nav-second-level li a {
+    padding-left: 20px;
+    font-size: .9em;
+    text-align: left;
+    border-left: #FFF 2px solid;
+    background:rgba(0,0,0,0.6);
+}
+.sidebar .nav-third-level li a {
+    padding-left: 52px;
+}
+@media(min-width:768px){
+    .navbar-top-links .dropdown-messages,
+    .navbar-top-links .dropdown-tasks,
+    .navbar-top-links .dropdown-alerts {
+        margin-left: auto;
+    }
+}
+@media(min-width:320px){
+#page-wrapper {
+    padding: 1em 1em 2.5em;
+}
+.sidebar.nav-second-level li a {
+    font-size: .7em;
+    text-align: left;
+}
+}
+
+ .groupe-form-admin {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    border-left: 3px solid #F7AA47; 
+    padding-left: 2px;
+}
+ .groupe-form-eleve {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    border-left: 3px solid #6f174c; 
+    padding-left: 2px;
+}
+ .groupe-form-peleve {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    border-left: 3px solid #3a6a47 ; 
+    padding-left: 2px;
+}
+ .groupe-form-enseignant {
+    width: 100%;
+    margin-bottom: 10px;
+    margin-left: -10px;
+    border-left: 3px solid #083d60; 
+    padding-left: 2px;
+}
+
+.nom-form-admin  {
+    width: 100%;
+    margin-bottom: 2px;
+    background: #F1F1F1 none repeat scroll 0% 0%;
+    padding: 7px;
+} 
+.margin-moin-10{
+    margin-top:-15px;
+}
+
+.ca-menu li{
+    width: 190px;
+    height: 40px;
+    list-style: none;
+    margin-top: 5px;
+    background: #269abc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .5);
+
+}
+.ca-menu li a{
+    color :#FFF;
+    font-weight: bold;
+}
+.ca-menu li h2{
+    font-size: 14px;
+    padding: 15px 10px;
+}
+.ca-menu .ca-icon{
+   display: none;
+}

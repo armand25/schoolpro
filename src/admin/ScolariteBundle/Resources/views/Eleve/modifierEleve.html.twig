@@ -1,0 +1,404 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{parent()}} - Modifier élève{% endblock %}
+{% block file_arriane %}
+     <div class="fond-fil-ariane" >
+                    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+                        <div class="row" style="background:rgba(0,0,0,0.3)">
+                            <div class="col-xs-7" >
+                               <h1> modifier un élève</h1>
+                            </div>
+                            <div class="col-xs-5" style="margin-top: 15px; ">
+                               <span class="fil-1"> Accueil</span> > 
+                               <span class="fil-2"><a href="{{path('app_admin_eleves')}}" >Gestion des élèves</a></span> ><span class="fil-3"> Modif. </span>
+                            </div>
+                        </div>
+                    </div>
+		</div>           
+{% endblock  %}
+
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+
+
+
+
+        {% for contenu in app.session.getflashbag.get('abonne.modifier.success')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('abonne.modifier.error')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                    {% endif%}
+                    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('abonne.modifier.already.exist')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+
+<div class="panel panel-white">              
+    <div class="panel-body">
+        <div class="col-lg-6" >
+                    
+{#                        <form action="{{path('app_admin_abonne_modifier', {'idProfil' : idProfil, 'idAbonne' : idAbonne})}}" method="POST"  {{form_enctype(formuView)}}>#}
+                              {{ form_start(formuView) }} 
+                                    <div class="form-group">
+                                        <label class=" control-label"> {{ form_label(formuView.nom) }} </label>
+                                        <div class=" control">    {{ form_widget(formuView.nom) }}</div>
+                                    </div>
+
+                                    <div class="form-group clearfix ">
+                                        <label class=" control-label">     {{ form_label(formuView.prenoms) }} </label>
+                                        <div class="control">      {{ form_widget(formuView.prenoms) }}</div>
+                                    </div>  
+            
+                                    <div class="form-group clearfix ">
+                                        <label class=" control-label">     {{ form_label(formuView.matricule) }} </label>
+                                        <div class="control">      {{ form_widget(formuView.matricule) }}</div>
+                                    </div> 
+            
+                                    <div class="form-group clearfix ">
+                                    <div class="col-lg-6 ">
+                                        <label class="control-label"> Mot de passe </label>
+{#                                        <div class="control">{{motDePasse}} </div>#}
+                                    </div>
+                                  {#  <div class="col-lg-6 ">
+                                        <label class="control-label"> Numéro Matricule </label>
+{#                                        <div class="control">{{motDePasse}} </div>
+                                    </div>#}
+                                       {# <div class="control"> {{ form_widget(formuView.tel2) }}</div>#}
+                                    </div>
+                                    {#<div class="form-group">
+                                        <label class="control-label">  {{ form_label(formuView.profil) }} </label>
+                                        <div class="control">  {{ form_widget(formuView.profil) }}</div>
+                                    </div>#}
+                                    <div class="form-group clearfix ">
+                                        <label class=" control-label">{{ form_label(formuView.sexe) }} </label>
+                                        <div class="control">   {{ form_widget(formuView.sexe) }}</div>
+                                    </div>
+                                     {#<div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.dateNaissance) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.dateNaissance) }}</div>
+                                    </div>#}
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.lieuNaissance) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.lieuNaissance) }}</div>
+                                    </div>
+                                   <div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.numeroPieceNaissance) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.numeroPieceNaissance) }}</div>
+                                    </div>
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.numeroPieceNationnalite) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.numeroPieceNationnalite) }}</div>
+                                    </div>
+                                    </div>
+           <div class="col-lg-6" >
+                                    {#
+                                        <div class="form-group clearfix ">
+                                            <label class="col-lg-2 control-label">{{ form_label(formuView.username) }} </label>
+                                            <div class="col-lg-4 control"> {{ form_widget(formuView.username) }}</div>
+                                        </div>
+
+                                        <div class="form-group clearfix ">
+                                            <label class="col-lg-2 control-label"> Code base</label><img src="{{asset('img/ico/load.gif')}}" class="loadProcess hide"  />
+                                            <div class="col-lg-2 control">  
+                                                <input  autocomplete="off" type="text" name="codeBase" id="codeBase" value="{{codeBase}}" placeholder="code de base * " required="true" readonly="true" class="form-control"/> 
+                                            </div>
+                                            <div class="col-lg-3 control"> <span class="btn btn-mini btn-info  tooltipGobi" id="btn-rand-code" title="Générer un autre code">
+                                                    Générer </span> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group clearfix ">
+                                            <label class="col-lg-2 control-label">  {{ form_label(formuView.password) }} </label>
+                                            <div class="col-lg-4 control">  {{ form_widget(formuView.password) }}</div>
+                                            <div class="col-lg-4 control">  {{ form_widget(formuView.cPassword) }}</div>
+                                        </div>
+                                        {#<div class="form-group clearfix ">
+                                            <label class="col-lg-3 control-label"> Confirmer</label>                                            
+                                        </div>#}
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label"> {{ form_label(formuView.tel1) }} </label>
+                                        <div class="control">{{ form_widget(formuView.tel1) }} </div>
+                                       {# <div class="control"> {{ form_widget(formuView.tel2) }}</div>#}
+                                    </div>
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label"> Class </label>
+                                        <div class="control">
+                                            <select class="form-control" name="la-classe">
+                                                 <option value="">Classe</option>
+                                                {% for unClasse in listeClasse%}
+                                                <option value="{{unClasse.id}}">{{unClasse.libelleClasse}}</option>
+                                                {% endfor %}
+                                           </select>
+                                        </div>
+                                       {# <div class="control"> {{ form_widget(formuView.tel2) }}</div>#}
+                                    </div>
+                                    
+                                        {# <div class="form-group clearfix ">
+                                             <label class="col-lg-3 control-label"> {{ form_label(formuView.tel2) }}</label>                                             
+                                         </div>#}
+                                    <div class="form-group clearfix ">
+                                        <label class=" control-label">  {{ form_label(formuView.email) }}</label>
+                                        <div class=" control">   {{ form_widget(formuView.email) }}</div>
+                                    </div>
+
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.adresse) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.adresse) }}</div>
+                                    </div>
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.bp) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.bp) }}</div>
+                                    </div>
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.etablissementOrigine) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.etablissementOrigine) }}</div>
+                                    </div>
+                                                                                                         
+                                    <div class="form-group clearfix ">
+                                        <label class="control-label">{{ form_label(formuView.nationalite) }} </label>
+                                        <div class="control"> {{ form_widget(formuView.nationalite) }}</div>
+                                    </div>
+                                    
+                                    {#  
+                                       <ul class="produits" data-prototype="{{ form_widget(formuView.imagepers.vars.prototype)|e }}">
+                                    </ul>#}
+                                
+               {#                     <input name='password' type='hidden' class='form-control' value="{{motDePasse}}"/>
+                                    <input name='cPassword' type='hidden' class='form-control' value="{{motDePasse}}"/>
+{#                                        {{form_rest(formuView) }}#}
+                                
+{#                                traitement information  parent d'eleve#}
+                               {# <fieldset class="group-parent">
+                                     <legend > Information père </legend>
+                                    <div class="  col-lg-6">
+                                            <label class=" control-label"> Nom </label>
+                                            <div class=" control">   <input name='nom-pere' type='text' class='form-control' value="{{pere.getUtilisateur.nom}}"/> </div>
+                                        </div>
+
+                                        <div class="col-lg-6  ">
+                                            <label class=" control-label">     Prénom </label>
+                                            <div class="control">      <input name='prenom-pere' type='text' class='form-control' value="{{pere.getUtilisateur.prenoms}}"/></div>
+                                        </div>                                   
+                                        
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Téléphone </label>
+                                            <div class="control"><input name='tel-pere' type='text' class='form-control' value="{{pere.getUtilisateur.tel1}}"/> </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Email </label>
+                                            <div class="control"><input name='email-pere' type='text' class='form-control' value="{{pere.getUtilisateur.email}}"/> </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Adresse </label>
+                                            <div class="control"><input name='adresse-pere' type='text' class='form-control' value="{{pere.getUtilisateur.adresse}}"/> </div>
+                                        </div>
+                                    </fieldset>
+                                <fieldset class="group-parent">
+                                    <legend > Information mère </legend>
+                                    <div class="  col-lg-6">
+                                            <label class=" control-label"> Nom </label>
+                                            <div class=" control">   <input name='nom-mere' type='text' class='form-control' value="{{mere.getUtilisateur.nom}}"/> </div>
+                                        </div>
+
+                                        <div class="col-lg-6  ">
+                                            <label class=" control-label">     Prénom </label>
+                                            <div class="control">      <input name='prenom-mere' type='text' class='form-control' value="{{mere.getUtilisateur.prenoms}}"/></div>
+                                        </div>                                   
+                                        
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Téléphone </label>
+                                            <div class="control"><input name='tel-mere' type='text' class='form-control' value="{{mere.getUtilisateur.tel1}}"/> </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Email </label>
+                                            <div class="control"><input name='email-mere' type='text' class='form-control' value="{{pere.getUtilisateur.email}}"/> </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Adresse </label>
+                                            <div class="control"><input name='adresse-mere' type='text' class='form-control' value="{{pere.getUtilisateur.adresse}}"/> </div>
+                                        </div>
+                                    </fieldset>
+                                        <div class="  col-lg-4">
+                                            <label class=" control-label"> Père </label><input name='info-parent' type='radio' class='form-control' value="1"/>
+                                            
+                                        </div>
+
+                                        <div class="col-lg-4  ">
+                                            <label class=" control-label"> Mère </label><input name='info-parent' type='radio' class='form-control' value="2"/>
+                                        </div>                                      
+                                        <div class="col-lg-4  ">
+                                            <label class=" control-label"> Autres </label><input name='info-parent' type='radio' class='form-control' value="0"/>
+                                        </div>                                      
+                               <fieldset class="group-parent info-personne-prevenir" style="display: none;">
+                                    <legend > Information personne à prevenir </legend>
+                                                                     
+                                    <div class="  col-lg-6">
+                                            <label class=" control-label"> Nom </label>
+                                            <div class=" control">   <input name='nom-pers-prevenue' type='text' class='form-control'/> </div>
+                                        </div>
+
+                                        <div class="col-lg-6  ">
+                                            <label class=" control-label">     Prénom </label>
+                                            <div class="control">      <input name='prenom-pers-prevenue' type='text' class='form-control'/></div>
+                                        </div>                                   
+                                        
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Téléphone </label>
+                                            <div class="control"><input name='tel-pers-prevenue' type='text' class='form-control'/> </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Email </label>
+                                            <div class="control"><input name='email-pers-prevenue' type='text' class='form-control'/> </div>
+                                        </div>
+                                        <div class="col-lg-6 ">
+                                            <label class="control-label"> Adresse </label>
+                                            <div class="control"><input name='adresse-pers-prevenue' type='text' class='form-control'/> </div>
+                                        </div>
+                                    </fieldset> #}
+                                
+
+                                    <div class="form-group clearfix pull-right col-lg-6 zone-bouton-panel">
+                                        <a  class="btn" href="{{path('app_admin_eleves', {'idProfil' : idProfil})}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                                        <button type="submit" class="btn btn-success" id="submit"  > <i class="icon icon-white icon-ok"></i> Valider </button>
+                                    </div> 
+                                {#</form>#}
+                                {{ form_end(formuView) }}
+                           </div>
+                        </div>
+                    </div>
+              
+    
+{% endblock %}
+
+{% block scripts %}
+{{parent()}}
+
+<script type="text/javascript">
+   
+   
+   
+    var $collectionHolder;
+
+setup an "add a tag" link
+    var $addTagLink = $('<a href="#" class="add_tag_link">Ajouter une image</a>');
+    var $newLinkLi = $('<li></li>').append($addTagLink);
+
+    jQuery(document).ready(function() {
+     {#    $('#eleve_password').val({{motDePasse}});
+        $('#eleve_cPassword').val({{motDePasse}});
+     #}   // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul.produits');
+
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addTagLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addTagForm($collectionHolder, $newLinkLi);
+            $('.add_tag_link').hide();
+        });
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+    });
+    $(document).ready(function() {
+        $('.tel').numeric();
+        $('.tel').keyup(function() {
+            var saisie = $(this).val();
+            if (saisie.length > 0) {
+                var number = parseInt(saisie);
+                if ((typeof number != 'undefined') && (!isNaN(number))) {
+                    var newVal = (number == 0) ? '' : number;
+                    $(this).val(newVal);
+                }
+            }
+
+        });
+        $('#btn-rand-code').click(function() {
+            getNewCodeBase();
+        });
+    });
+
+    $("input[type=radio]").click(function() {
+            if($(this).val()==0){
+                $(".info-personne-prevenir").toggle(500);
+            }else{
+                $(".info-personne-prevenir").hide();
+            }
+        });
+
+    function getNewCodeBase() {
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_code_base_new') }}",
+            beforeSend: function() {
+                $('.loadProcess').show();
+            },
+            success: function(rep) {
+                $('.loadProcess').hide();
+                if (rep['etat']) {
+                    $('#codeBase').val(rep['code']);
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+                $('.loadProcess').hide();
+            }
+
+        });
+    }
+</script>
+{% endblock %}

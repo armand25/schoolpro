@@ -1,0 +1,213 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{parent()}} - Modifier abonné{% endblock %}
+{% block gestStatistique %}
+<div>
+    <h4>Statistiques {#<span class="badge badge-info pull-right">16</span>#}</h4>
+    <ul class="sortable-list connectList agile-list">
+        <li class="warning-element">
+            Nombre Total des élèves
+
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-white">500</a>
+                <i class="fa fa-clock-o"></i> Fille
+            </div>
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-white">500</a>
+                <i class="fa fa-clock-o"></i> Garcon
+            </div>
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-white">1000</a>
+                <i class="fa fa-clock-o"></i> Total
+            </div>
+        </li>
+        <li class="success-element">
+            Nombre d'élève à jour 
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-white">Mark</a>
+                <i class="fa fa-clock-o"></i> 05.04.2015
+            </div>
+        </li>
+        <li class="info-element">
+            Nombre inscrit cette année
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-white">Mark</a>
+                <i class="fa fa-clock-o"></i> 
+            </div>
+        </li>
+        <li class="info-element">
+            Nombre par tranche d'âge
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-white">Mark</a>
+                <i class="fa fa-clock-o"></i> 
+            </div>
+        </li>
+        <li class="danger-element">
+            Statistiques par niveau
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-primary">Done</a>
+                <i class="fa fa-clock-o"> </i> 6 eme
+            </div>
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-primary">Done</a>
+                <i class="fa fa-clock-o"> </i> 5 eme
+            </div>
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-primary">Done</a>
+                <i class="fa fa-clock-o"> </i> 4 eme
+            </div>
+            <div class="agile-detail">
+                <a href="#" class="pull-right btn btn-xs btn-primary">Done</a>
+                <i class="fa fa-clock-o"></i> 3 eme
+            </div>
+        </li>
+
+    </ul>   
+</div>
+{% endblock %}
+{#{% block Breadcrumb %}
+    <ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+        <li>
+            <a href="#/app/dashboard" >
+                <i class="fa fa-home margin-right-5 text-large text-dark"></i>Accueil
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <i class="fa fa-file margin-right-5 text-large text-dark"></i>Abonné
+            </a>
+        </li>
+        <li class="ng-binding ng-scope" ><i class="fa fa-upload margin-right-5 text-large text-dark"></i>Modifier</li>
+    </ul>
+{% endblock %}#}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+<ul class="page-tree">
+    <li>
+        <a href="#">Home</a>
+    </li>
+    <li>Liste des Abonnés</li>
+</ul>    
+ 
+    
+       {# <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-edit"></i>modifier un abonné - <strong>{{abonne.nom~' '~abonne.prenoms}}</strong>  </h3>
+            </div>
+        </div>#}
+
+
+
+        {% for contenu in app.session.getflashbag.get('abonne.modifier.success')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('abonne.modifier.error')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                    {% endif%}
+                    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('abonne.modifier.already.exist')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+
+<div class="ibox float-e-margins panel-white entete-panel" >
+        <div class="row">
+            <div class="col-lg-12" >
+                <div class="panel panel-white">
+                    
+                    <header class="panel-heading title-panel">
+                        <i class="fa fa-plus "></i> <span class="margin-right-20px "> Modifier un Abonné </span>
+                    </header> 
+                     <div class="panel-body">
+                    <div class="row margin-top-10">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="panel-body">
+                    
+{#                        <form action="{{path('app_admin_abonne_modifier', {'idProfil' : idProfil, 'idAbonne' : idAbonne})}}" method="POST"  {{form_enctype(formuView)}}>#}
+                               {{ form_start(formuView) }} 
+                                   <div class="form-group clearfix ">
+                                        <label class=" control-label">     {{ form_label(formuView.filiere) }} </label>
+                                        <div class="control">      {{ form_widget(formuView.filiere) }}</div>
+                                    </div>                                                                                                        
+                                    <div class="form-group clearfix ">
+                                        <label class=" control-label">     {{ form_label(formuView.niveau) }} </label>
+                                        <div class="control">      {{ form_widget(formuView.niveau) }}</div>
+                                    </div>                                                                                                        
+                                    <div class="form-group clearfix ">
+                                        <label class=" control-label">     {{ form_label(formuView.indice) }} </label>
+                                        <div class="control">      {{ form_widget(formuView.indice) }}</div>
+                                    </div> 
+                                    <div class="form-group">
+                                        <label class=" control-label"> {{ form_label(formuView.libelleClasse) }} </label>
+                                        <div class=" control">    {{ form_widget(formuView.libelleClasse) }}</div>
+                                    </div>
+                                    <div class="form-group clearfix ">
+                                        <label class=" control-label">     {{ form_label(formuView.descriptionClasse) }} </label>
+                                        <div class="control">      {{ form_widget(formuView.descriptionClasse) }}</div>
+                                    </div>  
+                                        {{form_rest(formuView) }}
+                                    <div class="form-group clearfix pull-right col-lg-6 zone-bouton-panel">
+                                        <a  class="btn" href="{{path('app_admin_classes')}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                                        <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                                    </div> 
+                                {#</form>#}
+                                {{ form_end(formuView) }}
+                     </div>
+                        </div>
+                    </div>
+                </div>
+                   
+                </div>
+            </div>
+        </div>
+ 
+    
+    </div>
+{% endblock %}
+{% block javascriptsPerso %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.tel').numeric();
+            $('.tel').keyup(function () {
+                var saisie = $(this).val();
+                if (saisie.length > 0) {
+                    var number = parseInt(saisie);
+                    if ((typeof number != 'undefined') && (!isNaN(number))) {
+                        var newVal = (number == 0) ? '' : number;
+                        $(this).val(newVal);
+                    }
+                }
+
+            });
+        });
+
+    </script>
+{% endblock %}

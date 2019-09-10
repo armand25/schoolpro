@@ -1,0 +1,262 @@
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  {{ parent() }} - Accueil
+{% endblock %}	
+			
+{% block body %}  
+  
+  
+{# notification #}  
+ {% for contenu in app.session.flashbag.get('notice') %}
+        {% if contenu == "success" %}
+            <div class="span-25">
+                <div class="success successMsg center">                        
+                    Lignes comptables ajoutées avec succès! 
+                </div>    
+            </div> 
+        {% endif %}
+        {% if contenu == "modifsuccess" %}
+            <div class="span-25">
+                <div class="success successMsg center">                        
+                    Lignes comptables modifiées avec succès!  
+                </div>    
+            </div> 
+        {% endif %}
+        {% if contenu == "failure" %}
+            <div class="span-25">
+                <div class="error center">                        
+                    Erreur lors de l'ajout des Lignes comptables! 
+                </div>    
+            </div> 
+        {% endif %} 
+        {% if contenu == "memesens" %}
+            <div class="span-25">
+                <div class="error center">                        
+                    Lignes comptables ne peuvent avoir un même sens
+                </div>    
+            </div>
+        {% endif %}
+ {% endfor%} 
+{#  Menu #}
+  
+  {% set i = 1 %}
+  <div class="padding10p20p">
+      <form action=" {{ path( "admin_ajoutschema", {'locale':locale,'idType':id,'nbreLigne':nbreLg} ) }} " method="post"  id="ajoutLangueSchema" class="form ajout" >
+          <h4 class="fwNormal styleItalic txtAlignR colorCACAD8">(*) Champs obligatoires</h4>
+          <fieldset>
+              <legend>Ajout d'un schema Comptable</legend>
+              {#<div id="divligne">
+                  <input type="hidden" id="ligne" >
+              </div>#}
+              
+              <div class="FrmAbonne champsGrp">
+                  <label>Type Operation* :</label>
+                  <select  class="ncompte w323" id="typeop" disabled="true"> 
+                        {% if listeTypeOp is defined %}    
+                          <option value="0">-- Sélectionnez le type d'opération --</option>
+                            {% for type in listeTypeOp %}
+                                <option {% if type.id == id %} selected {% endif %} value={{type.id}}>{{type.libTypeOperation}} - {{type.nbreLigne}}</option>
+                            {% endfor %}
+                        {% endif %}  
+                  </select><div class="clear"></div>                 
+              </div>
+             <input type="hidden" value="{{nbreLg}}" name="nbreLg" id="nbreLg" />
+
+              {% for i in 1..nbreLg %}
+              <fieldset>
+                  Ligne N° {{i}}
+                  <div class="FrmAbonne champsGrp">
+                        <label>Type Compte * :</label>
+                        <select name="{{"typecpte"~i}}" class="typecpte" id="{{"tcpte"~i}}" class="w323"> 
+                            <option value="8" selected>-- Type de Compte --</option>
+                            <option value="0"> Compte Caisse</option>      
+                            <option value="1"> Compte Chèque UTB</option>
+                            <option value="2"> Compte Chèque Certifié UTB</option>
+                            <option value="3"> Compte Chèque Certifié Confère</option>
+                            <option value="4"> Compte SEGUCE </option>
+                            <option value="5"> Compte REGUL Surplus </option>
+                            <option value="6"> Compte REGUL Manquant </option>
+                            <option value="7"> Autre compte comptable</option> 
+                        </select>                        
+                  </div>
+                  {#{ dump( "plancompte"~i ) }#}
+                  <input type="hidden" name="{{"plancompte"~i}}" id="{{"plancompte"~i}}" value="">
+                  
+                  <div class="FrmAbonne champsGrp">
+                      <label>Compte comptable* :</label>
+                      <select  name="{{"plancompte"~i}}" class="ncompte w323" id="{{"cpte"~i}}"> 
+                        {% if listeCompte is defined %}    
+                          <option value="0" selected>-- Compte comptable --</option>
+                            {% for liste in listeCompte %}
+                                <option value={{liste.compte}}>{{liste.compte}} - {{liste.libelle}}</option>
+                            {% endfor %}
+                        {% endif %}  
+                      </select><div class="clear"></div>
+                  </div>
+                  
+                  <div class="FrmAbonne champsGrp">
+                      <label>Sens* :</label>
+                      <select name="{{"sens"~i}}" class="ncompte w100" id="{{"sens"~i}}"> 
+                          <option value="0" selected> -- Sens -- *</option>                        
+                          <option value="D">Débit</option>
+                          <option value="C">Crédit</option> 
+                      </select>
+
+                      <div class="clear"></div>
+                  </div>
+                </fieldset>
+                {% endfor  %}
+              
+              <span class="btnimage "><img src="{{asset('img/client-img/formulaire/valid.png')}}" alt="Créer" /><input type="submit" value="Créer  schema Comptable" class="boutonSubmit" name="op" id="j_bouton" /></span>
+              <span class="btnimage "><img src="{{asset('img/client-img/formulaire/retour.png')}}" alt="Annuler" /><a href="{{ path("admin_listeschema")}}"><input class="annulerBut " type="button" value="Annuler la création" /></a></span>
+          </fieldset>
+      </form>
+  </div>
+  
+  <script type="text/javascript">
+
+        jQuery(document).ready(function() {  
+
+        });
+        
+        
+        $("#tcpte1").change(function() {            
+            var nom = 'typecpte1';
+            var cas = $(tcpte1).val();            
+            var DATA = 'nom='+nom+'&'+'cas='+cas;   
+            
+             $('#cpte1').empty();
+            
+            doProcess(DATA);
+                        
+        });
+        
+        
+     
+
+        $("#tcpte1").change(function() {            
+            var nom = 'typecpte1';
+            var cas = $(tcpte1).val();            
+            var DATA = 'nom='+nom+'&'+'cas='+cas;   
+            
+             $('#cpte1').empty();
+            
+            doProcess(DATA);
+                        
+        });
+     
+        $("#tcpte2").change(function() {            
+            var nom = 'typecpte2';
+            var cas = $(tcpte2).val();
+            var DATA = 'nom='+nom+'&'+'cas='+cas;      
+             
+            if ((nom != '')) { 
+                
+                 $('#cpte2').empty();
+                 doProcess(DATA);
+            }             
+        });
+        
+        $("#tcpte3").change(function() {            
+            var nom = 'typecpte3';
+            var cas = $(tcpte3).val();
+            var DATA = 'nom='+nom+'&'+'cas='+cas;   
+             
+            if ((nom != '')) { 
+                
+                 $('#cpte3').empty();
+                 doProcess(DATA);
+            }             
+        });
+     
+         $("#tcpte4").change(function() {            
+            var nom = 'typecpte4';
+            var cas = $(tcpte4).val();
+            var DATA = 'nom='+nom+'&'+'cas='+cas;       
+             
+            if ((nom != '')) { 
+                 $('#cpte4').empty();
+                 doProcess(DATA);
+            }             
+        });
+     
+        $("#tcpte5").change(function() {            
+            var nom = 'typecpte5';
+            var cas = $(tcpte5).val();
+            var DATA = 'nom='+nom+'&'+'cas='+cas;      
+             
+            if ((nom != '')) { 
+                 $('#cpte5').empty();
+                 doProcess(DATA);
+            }             
+        });
+        
+        $("#tcpte6").change(function() {            
+            var nom = 'typecpte6';
+            var cas = $(tcpte6).val();
+            var DATA = 'nom='+nom+'&'+'cas='+cas;     
+             
+            if ((nom != '')) { 
+                 $('#cpte6').empty();
+                 doProcess(DATA);
+            }             
+        });
+        
+        $("#tcpte7").change(function() {            
+            var nom = 'typecpte7';
+            var cas = $(tcpte7).val();
+            var DATA = 'nom='+nom+'&'+'cas='+cas;      
+             
+            if ((nom != '')) { 
+                 $('#cpte7').empty();
+                 doProcess(DATA);
+            }             
+        });
+     
+        $("#tcpte8").change(function() {            
+            var nom = 'typecpte8';
+            var cas = $(tcpte8).val();
+            var DATA = 'nom='+nom+'&'+'cas='+cas;      
+             
+            if ((nom != '')) { 
+                 $('#cpte8').empty();
+                 doProcess(DATA);
+            }             
+        });
+        
+        function doProcess( DATA ){
+             $.ajax({
+                 type: "POST",
+                 dataType: 'json',
+                 url:  "{{ path('admin_procschema')}}",
+                 data: DATA,
+                 success: function(msg)
+                 {                       
+                     $.each(msg, function(index,tcpte)
+                     {     
+                        
+                        if (tcpte.length > 0){
+                            
+                            var numro ='';
+                           
+                            
+                            for(var i =0;i <tcpte.length;i++){ 
+                               numro = tcpte[i].num;
+                               // alert(numro ) ;
+                              // $('#cpte'+numro).empty();
+                               $("#cpte"+numro).append('<option value="'+ tcpte[i].compte+'" > '+ tcpte[i].libelle +' </option>');                                    
+                            }  
+                        }
+                    });
+                 }
+             }); 
+       
+      }
+        
+        
+</script> 
+  
+  
+  {%endblock%}

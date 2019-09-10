@@ -1,0 +1,184 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="tauxdefretman")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\TauxDeFretManRepository")
+ */
+class TauxDeFretMan {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $typeTaxation
+     *
+     * @ORM\Column(name="typeTaxation", type="string", length=35,nullable=true)
+     */
+    private $typeTaxation;
+
+    /**
+     * @var string $amount
+     *
+     * @ORM\Column(name="amount", type="string", length=18,nullable=true)
+     */
+    private $amount;
+
+    /**
+     * @var string $currencyCode
+     *
+     * @ORM\Column(name="currencyCode", type="string", length=3,nullable=true)
+     */
+    private $currencyCode;
+
+    /**
+     * @var string $currencyQualifier
+     *
+     * @ORM\Column(name="currencyQualifier", type="string", length=3,nullable=true)
+     */
+    private $currencyQualifier;
+
+    /**
+     * @var ShipperMani  $shippermani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\ShipperMani", inversedBy="tauxdefretmans")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $shippermani;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set typeTaxation
+     *
+     * @param string $typeTaxation
+     * @return TauxDeFretMan
+     */
+    public function setTypeTaxation($typeTaxation)
+    {
+        $this->typeTaxation = $typeTaxation;
+    
+        return $this;
+    }
+
+    /**
+     * Get typeTaxation
+     *
+     * @return string 
+     */
+    public function getTypeTaxation()
+    {
+        return $this->typeTaxation;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param string $amount
+     * @return TauxDeFretMan
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+    
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return string 
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+
+    /**
+     * Set currencyCode
+     *
+     * @param string $currencyCode
+     * @return TauxDeFretMan
+     */
+    public function setCurrencyCode($currencyCode)
+    {
+        $this->currencyCode = $currencyCode;
+    
+        return $this;
+    }
+
+    /**
+     * Get currencyCode
+     *
+     * @return string 
+     */
+    public function getCurrencyCode()
+    {
+        return $this->currencyCode;
+    }
+
+    /**
+     * Set currencyQualifier
+     *
+     * @param string $currencyQualifier
+     * @return TauxDeFretMan
+     */
+    public function setCurrencyQualifier($currencyQualifier)
+    {
+        $this->currencyQualifier = $currencyQualifier;
+    
+        return $this;
+    }
+
+    /**
+     * Get currencyQualifier
+     *
+     * @return string 
+     */
+    public function getCurrencyQualifier()
+    {
+        return $this->currencyQualifier;
+    }
+
+    /**
+     * Set shippermani
+     *
+     * @param \admin\ParamBundle\Entity\ShipperMani $shippermani
+     * @return TauxDeFretMan
+     */
+    public function setShippermani(\admin\ParamBundle\Entity\ShipperMani $shippermani)
+    {
+        $this->shippermani = $shippermani;
+    
+        return $this;
+    }
+
+    /**
+     * Get shippermani
+     *
+     * @return \admin\ParamBundle\Entity\ShipperMani 
+     */
+    public function getShippermani()
+    {
+        return $this->shippermani;
+    }
+}

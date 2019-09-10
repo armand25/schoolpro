@@ -1,0 +1,67 @@
+
+
+<form action=" {{ path( "admin_ajouttypeOperation", {'locale':locale} ) }} " method="post" {#{{ form_enctype(form) }}#} id="ajouttype" class="form" >
+{#//#}{{ form_start(form) }}  
+<h4 class="champs">(*) Champs obligatoires</h4>
+
+        <div class="groupedElements">
+            <div class="newFormAbonne champsGrp">
+                {{ form_errors(form.codeOperation) }}
+                {#			{{ form_label(form.codeOperation, 'Code opération* :') }}#}
+                <label><img src="{{ asset('img/client-img/formulaire/code.png')}}" alt="" title="" /></label>
+
+                {{ form_widget(form.codeOperation) }}			
+
+                <div class="clr"></div>
+            </div>         
+
+            <div class="newFormAbonne champsGrp lastElement">
+                {{ form_errors(form.libTypeOperation) }}
+                {#			{{ form_label(form.libTypeOperation, 'Libellé type opération* :') }}#}
+                <label><img src="{{ asset('img/client-img/formulaire/libelle.png')}}" alt="" title="" /></label>
+
+                {{ form_widget(form.libTypeOperation) }}
+                <div class="clear"></div>
+            </div> 
+            <div class="clear"></div>
+        </div>
+        <div class="groupedElements">
+
+            <div class="newFormAbonne champsGrp">
+                {{ form_errors(form.mouvFonds) }}
+                {#			{{ form_label(form.mouvFonds, 'Relatif au* :') }}#}
+                <label><img src="{{ asset('img/client-img/formulaire/liea.png')}}" alt="" title="" /></label>
+
+                {{ form_widget(form.mouvFonds) }}	
+                <div class="clr"></div>
+            </div>
+
+            <div class="newFormAbonne champsGrp lastElement">
+                {{ form_errors(form.nbreLigne) }}
+                {#			{{ form_label(form.nbreLigne, 'Nbre lignes comptables* :') }}#}
+                <label><img src="{{ asset('img/client-img/formulaire/numero_compte.png')}}" alt="" title="" /></label>
+
+                {{ form_widget(form.nbreLigne) }}			
+
+                <div class="clr"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        
+{#                <div class="groupedElements">#}
+
+
+{#        </div>#}
+   <div class="form-group clearfix pull-right col-lg-3 zone-bouton-panel">
+                <a href="#" onClick="AnnulerAjoutTypeOperation();
+                return false;">Annuler</a>
+                <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+            </div> 
+
+       {# <span class="btnimage "><img src="{{asset('img/client-img/formulaire/retour.png')}}" alt="Annuler" /><a href="#" onClick="AnnulerAjoutTypeOperation();
+                return false;"><input class="annulerBut " type="button" value="Annuler ajout" /></a></span>
+        <span class="btnimage "><img src="{{asset('img/client-img/formulaire/valid.png')}}" alt="Créer" /><input type="submit" value="Ajout type" class="boutonSubmit" name="op" id="j_bouton" /></span>
+#}
+ 
+{#    {{ form_end(form) }} #}
+</form>

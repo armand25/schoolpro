@@ -1,0 +1,272 @@
+<?php
+
+/**
+ * ServiceVas: Service à valeur ajoutée comme definition d'acronyme. Il rend les informations très utile a la population
+ * Exemple: Je veux avoir d'emploi j'envoie OFFRE au 5050 pour voir les offres défini si seulement le service est defini.
+ */
+
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \admin\UserBundle\Types\TypeEtat;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * ServiceVas
+ *
+ * @ORM\Table(name="service_vas")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\ServiceVasRepository")
+ */
+class ServiceVas {
+
+    /**
+     * 
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $libelle 
+     * 
+     * @ORM\Column(name="libelle", type="string", length=50)
+     * @Assert\Length(max=50)
+     * @Assert\NotBlank(message="Libelle requis")
+     */
+    private $libelle;
+
+    /**
+     * @var string $motCle 
+     * 
+     * @ORM\Column(name="mot_cle", type="string", length=10)
+     * @Assert\Length(max=10)
+     * @Assert\NotBlank(message="Mot requis")
+     */
+    private $motCle;
+    
+    /**
+     * @var string $code 
+     * 
+     * @ORM\Column(name="code", type="string", length=5)
+     */
+    private $code;
+
+    /**
+     * @var integer $etat 
+     * @ORM\Column(name="etat", type="integer")
+     */
+    private $etat;
+    
+        /**
+     * @var ArrayCollection $numeroCourts 
+     * 
+     * @ORM\ManyToMany(targetEntity="admin\SmsBundle\Entity\NumeroCourt")
+     */
+    private $numeroCourts;
+
+
+ 
+
+    /**
+     * @var ArrayCollection $alias
+     * 
+     * @ORM\OneToMany(targetEntity="admin\SmsBundle\Entity\Alias", mappedBy="serviceVas")
+     */
+    private $alias;
+
+    public function __construct() {
+        $this->etat = TypeEtat::ACTIF;
+        $this->numerosCourts = new ArrayCollection();
+        $this->alias = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set libelle
+     *
+     * @param string $libelle
+     * @return ServiceVas
+     */
+    public function setLibelle($libelle) {
+        $this->libelle = $libelle;
+
+        return $this;
+    }
+
+    /**
+     * Get libelle
+     *
+     * @return string 
+     */
+    public function getLibelle() {
+        return $this->libelle;
+    }
+
+    /**
+     * Set motCle
+     *
+     * @param string $motCle
+     * @return ServiceVas
+     */
+    public function setMotCle($motCle) {
+        $this->motCle = $motCle;
+
+        return $this;
+    }
+
+    /**
+     * Get motCle
+     *
+     * @return string 
+     */
+    public function getMotCle() {
+        return $this->motCle;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return ServiceVas
+     */
+    public function setEtat($etat) {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat() {
+        return $this->etat;
+    }
+
+    public function __toString() {
+        return $this->libelle . '-' . $this->motCle;
+    }
+
+    /**
+     * Add alias
+     *
+     * @param \admin\SmsBundle\Entity\Alias $alias
+     * @return ServiceVas
+     */
+    public function addAlias(\admin\SmsBundle\Entity\Alias $alias) {
+        $this->alias[] = $alias;
+
+        return $this;
+    }
+
+    /**
+     * Remove alias
+     *
+     * @param \admin\SmsBundle\Entity\Alias $alias
+     */
+    public function removeAlias(\admin\SmsBundle\Entity\Alias $alias) {
+        $this->alias->removeElement($alias);
+    }
+
+    /**
+     * Get alias
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAlias() {
+        return $this->alias;
+    }
+
+
+
+    /**
+     * Add numeroCourts
+     *
+     * @param \admin\SmsBundle\Entity\NumeroCourt $numeroCourts
+     * @return ServiceVas
+     */
+    public function addNumeroCourt(\admin\SmsBundle\Entity\NumeroCourt $numeroCourts)
+    {
+        $this->numeroCourts[] = $numeroCourts;
+    
+        return $this;
+    }
+
+    /**
+     * Remove numeroCourts
+     *
+     * @param \admin\SmsBundle\Entity\NumeroCourt $numeroCourts
+     */
+    public function removeNumeroCourt(\admin\SmsBundle\Entity\NumeroCourt $numeroCourts)
+    {
+        $this->numeroCourts->removeElement($numeroCourts);
+    }
+
+    /**
+     * Get numeroCourts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNumeroCourts()
+    {
+        return $this->numeroCourts;
+    }
+    
+    
+        /**
+     * Set etat
+     *
+     * @param  $numeroCourts
+     * @return ServiceVas
+     */
+    public function setNumeroCourts($numeroCourts) {
+        
+        if(!is_array($numeroCourts)){
+            $numeroCourts = array($numeroCourts) ;
+        }
+        $this->numeroCourts = $numeroCourts ;
+      //  $this->etat = $etat;
+
+        //return $this;
+    }
+
+    
+    
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return ServiceVas
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+    
+}

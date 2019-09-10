@@ -1,0 +1,475 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{parent()}} - Paiement scolarité{% endblock %}
+{% block file_arriane %}
+     <div class="fond-fil-ariane-classe" >
+                    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+                        <div class="row" style="background:rgba(0,0,0,0.3)">
+                            <div class="col-xs-7" >
+                               <h1> Paiement</h1>
+                            </div>
+                            <div class="col-xs-5" style="margin-top: 15px; ">
+                               <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des scolarités</span> ><span class="fil-3"> Paiement </span>
+                            </div>
+                        </div>
+                    </div>
+		</div>           
+{% endblock  %}
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+
+    {% for contenu in app.session.getflashbag.get('eleve.modifier.success')%}
+        {% if loop.index == 0%}
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-success  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.modifier.error')%}
+        {% if loop.index == 0%}
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-danger  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.modifier.already.exist')%}
+        {% if loop.index == 0%}
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+        <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+
+        {% endif%}
+    {% endfor%}
+
+                                                      
+<div class="panel panel-white" >
+
+    <div class="panel-body">
+                <div class="col-lg-12">
+                <header class="panel-heading" style="text-align: center;">
+                    {#Code commande#}
+                    <span class="margin-right-20px "> {#<input type="hidden" class="codeCommande" {% if codecommande !='0' %} value="{{codecommande}}" {% else %}{% endif %}/>#}</span>
+                    <input type="button" class="btRechercher btn-red btn" value="Lancer l'opération"/>                    
+                                      
+                    <input type="hidden" class="typeAction" value="0"/>                    
+                    <input type="hidden" class="idEleve" value="{{idEleve}}"/>                    
+                    <input type="hidden" class="montantResteCommande"/>                    
+                    <input type="hidden" class="idabonne"/>                    
+                    <input type="hidden" class="montantCommande"/>                                       
+                </header>                 
+            
+                <div class="text-center alert alert-error pasLigneTrouve" style="display:none">Pas de paiement en cours pour ce code de commande</div>
+            
+           
+               <table class="table table-hover table-striped zoneProduitCommande" style="width: 100%;display:none">
+                    <thead class="" >
+                        <tr class="">
+                            <th>Date</th>   
+                            <th >
+                                Num mvt
+                            </th>
+                                                     
+                            <th style="">info déposant</th>
+                            <th>Montant</th>
+                        </tr>
+                    </thead>
+                    <tbody class="zoneListeOperationScolarite">
+                    </tbody>
+                    <tfoot>
+                        <tr class="">
+                            <td colspan="3">
+                            </td>
+                            <th class="montantTotalScolarite">
+                            </th>
+                        </tr>
+                        <tr class="">
+                            <td colspan="4">
+
+                            </td>
+                            <td colspan="1">
+                                <input type="button" class="btPayer btn-red btn" value="Suivant >" />
+                            </td>
+                        </tr>							
+                    </tfoot>
+                </table>
+
+                     
+            <header class="panel-heading recapMontantPayer" style="display:none">
+                Reste à payer : <span class="totalRestePaye"></span> / <span class="totatTotalAPaye">{{montant}}</span>
+                <input type="hidden" class="nbreTranche" />
+                <input type="hidden" class="nbreTotalTranche"  value="{{nbreTotalTranche}}"  />
+                <input type="hidden" class="totatTotalAPayeInput" value="{{montant}}" />
+                
+            </header>
+
+            <table class="table table-hover table-striped zoneModePaiement col-lg-6 center " style="display:none">
+
+                <tr class="">
+                    <td style='padding-left: 100px'>
+                        <input type="checkbox" class="checkChoix choixCheckEsp" name="choixCheckEsp"/> Espèce
+                    </td>
+
+                    <td style='padding-left: 100px'>
+                        <input type="checkbox" class="checkChoix choixCheckCheq" name="choixCheckCheq" /> Chèque
+                    </td>
+                </tr>
+
+            </table>
+
+            <table class="table table-hover table-striped zoneModePaiementEspece" style="display:none">
+                 <tr class="" style='text-align: right;'>
+                    <td>
+                        Montant
+                    </td>
+
+                    <td>
+                        <input type="text" class="montantEsp formaMontant form-control"  /> 
+                    </td>
+                </tr> 
+                <tr class="">
+                    <td style='text-align: right;'>
+                        Info Deposant
+                    </td>
+
+                    <td>
+                        <input type="text" class="infoDeposantEsp form-control"  /> 
+                    </td>
+                </tr>
+               
+                <tr class="" style='text-align: right;'>
+                    <td>
+                        Montant Rendu
+                    </td>
+
+                    <td>
+                       
+                    </td>
+                </tr>	
+                <tr class="">
+                    <td colspan="2" class="center">
+                        <input type="button" class="btEspece btn-red btn"  value="Suivant > "/> 
+                    </td>
+                </tr>                
+            </table>
+            <table class="table table-hover table-striped zoneModePaiementCheque" style="display:none">
+                <tr class="" style='text-align: right;'>
+                    <td>
+                        Montant
+                    </td>
+
+                    <td>
+                        <input type="text" class="montantCheq formaMontant form-control"  /> 
+                        <input type="hidden" class="typeUtil"  value="{{type}}" /> 
+                    </td>
+                </tr> 
+                <tr class="" style='text-align: right;'>
+                    <td>
+                        Info Deposant
+                    </td>
+
+                    <td>
+                        <input type="text" class="infoDeposantCheq form-control"   /> 
+                    </td>
+                </tr>
+                
+                <tr class="">
+                    <td style='text-align: right;'>
+                        Numéro Compte
+                    </td>
+
+                    <td>
+                        <input type="text" class="numCompte form-control"  /> 
+                    </td>
+                </tr>		
+                <tr class="">
+                    <td style='text-align: right;'>
+                        Numéro Chèque
+                    </td>
+
+                    <td>
+                        <input type="text" class="numCheque form-control"  /> 
+                    </td>
+                </tr>	
+                <tr class="">
+                    <td colspan="2" class="center" style='padding-left: 300px;'>
+                        <input type="button" class="btEspece btn-red btn" value="Suivant > " /> 
+                    </td>
+                </tr>
+            </table>
+                
+            <table class="table table-hover table-striped zoneRecaptCheque" style="display:none">
+                 <tr>
+                    <td>
+                        Montant
+                    </td>
+                    <td class="recapMontant">
+                      
+                    </td>
+                </tr> 
+                <tr>
+                    <td>
+                        Info Deposant
+                    </td>
+                    <td class="recapInfoDepo">
+                        
+                    </td>
+                </tr>
+               
+                <tr>
+                    <td>
+                        Numéro Compte
+                    </td>
+                    <td class="recapNumCompte"> 
+                    </td>
+                </tr>		
+                <tr>
+                    <td>
+                        Numéro Chèque
+                    </td>
+                    <td class="recapNumCheque">
+                    </td>
+                </tr>	
+                <tr class="">
+                    <td colspan="2" class="center">
+                        <input type="button" class="btImprRecu btn-red btn" value="valider et imprimer le reçu" /> 
+                    </td>
+                </tr>
+            </table>
+                
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        toutDecocher('checkOne');
+        $('#btnNew').click(function() {
+            $('#formNew').toggle(500);
+        });
+        $('#resetNew').click(function() {
+            $('#formNew').toggle(500);
+        });
+        $('.btnEdit').click(function() {
+            $(this).parent('td').parent('tr').children('td').eq(2).children('.formEdit').toggle(500);
+        });
+        $('.checkAll').change(function() {
+            if ($(this).is(':checked')) {
+                toutCocher('checkOne');
+            } else {
+                toutDecocher('checkOne');
+            }
+        });
+    })
+
+   $('.btEspece').click(function() {
+       // Les paramettre à envoyer 
+       var type =0;
+        if ($('.choixCheckEsp').is(':Checked')) {
+             type =1;
+        }else{
+            type =2;
+        }
+       //info deposant
+       var infoDepoEsp = $('.infoDeposantEsp').val();
+       //Montant Recu
+       var montantEsp = $('.montantEsp').val();
+       //Recuperation id commande
+       var idEleve = $('.idEleve').val();
+       //info deposant
+       var infoDepoCheq = $('.infoDeposantCheq').val();
+       //Montant Recu
+       var montantCheq = $('.montantCheq').val();
+       //Montant Recu
+       var numCheque = $('.numCheque').val();
+       //Montant Recu
+       var numCompte = $('.numCompte').val();
+       var idAbonne = $('.idabonne').val();
+       var totalRestePaye = $('.totalRestePaye').html();
+       var nbreTotalTranche =$('.nbreTotalTranche').val()
+       var nbreTranche=$('.nbreTranche').val();
+       if(nbreTranche == nbreTotalTranche ){
+           if(type == 1){
+                if( montantEsp < totalRestePaye){
+                     error_message('Attention', 'Vous devez payer la totalité du montant restant');
+                }
+           }else{
+               if( montantCheq < totalRestePaye){
+                    error_message('Attention', 'Vous devez payer la totalité du montant restant');
+                }
+               
+           }
+       }
+       
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('admin_operation_traite_commande') }}",
+            data: 'infoDepoEsp=' + infoDepoEsp+ '&infoDepoCheq=' + infoDepoCheq + '&montantEsp=' + montantEsp+ '&montantCheq=' + montantCheq+ '&numCheque=' + numCheque+ '&numCompte=' + numCompte+ '&type=' + type+'&idEleve='+idEleve+'&idabonne='+idAbonne,
+            beforeSend: function() {
+                //onLoadGobi();
+            },
+            success: function(rep) {
+                //closeOnLoadGobi();
+                if (rep['etat']) {
+                    //Traitement après paiement                   
+                    $('.zoneModePaiementEspece').hide();
+                    $('.zoneModePaiementCheque').hide();
+                    $('.zoneRecaptCheque').show();
+                    initialeZoneRecap();
+                    if(type ==1){
+                        $('.recapInfoDepo').append(infoDepoEsp);
+                        $('.recapMontant').append(montantEsp);       
+                        $('.recapNumCompte').append("-");       
+                        $('.recapNumCheque').append("-");  
+                    }else{
+                        $('.recapInfoDepo').append(infoDepoCheq);
+                        $('.recapMontant').append(montantCheq);       
+                        $('.recapNumCompte').append(numCompte);       
+                        $('.recapNumCheque').append(numCheque); 
+                    }
+                    
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+                //closeOnLoadGobi();
+            }
+
+        });
+    })
+    //Mise en place de l'action de traitement du click sur le bouton btRechercher
+
+
+    $('.btRechercher').click(function() {
+        var ajaxId = $('.idEleve').val();
+        //Reinitialise les zones de paiements des produits
+        toutInitiale();
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('admin_operation_get_info_commande') }}",
+            data: 'code=' + ajaxId+'&type='+$('.typeUtil').val(),
+            beforeSend: function() {
+                //onLoadGobi();
+            },
+            success: function(rep) {
+                //closeOnLoadGobi();
+               
+                //Traitement à réaliser si tout c'est bien passé 
+                if (rep['etat'] == 1) {
+                    
+                    $('.zoneProduitCommande').show();
+                    //recuperation des informations sur la commande du client
+                    $('.listeProduitCommande').html("");
+                  
+                     // 
+                    var montantRestant  = parseInt($('.totatTotalAPayeInput').val()) - parseInt(rep['reponse'][0].solde);
+                    $('.montantResteCommande').val(rep['reponse'][0].solde);
+                    $('.totalRestePaye').html(montantRestant);
+                  
+                    $('.montantTotalScolarite').append(rep['reponse'][0].solde);
+                 //   alert(rep['reponse'][0].solde);
+                    
+                   {# if(rep['reponse'][0].solde <0){
+                        $('.btPayer').hide();
+                    }#}
+                    var nbreTranche = 0;
+                     
+                    for(var i=0;i < rep['listeOperationScolarite'].length;i++){
+                        nbreTranche++;
+                       $('.zoneListeOperationScolarite').append("<tr><td></td><td>"+rep['listeOperationScolarite'][i].num_mvt+"</td><td>"+rep['listeOperationScolarite'][i].nom_deposant+"</td><td>"+rep['listeOperationScolarite'][i].montant+"</td></tr>");
+                    }
+                    nbreTranche++;
+                  $('.nbreTranche').val(nbreTranche);
+                    
+                    
+                } else {
+                    $('.noTrouve').html("");
+                    $('.pasLigneTrouve').show();                    
+                }
+            },
+            complete: function() {
+                //closeOnLoadGobi();
+            }
+
+        });
+    });
+
+    //Mise en place de l'action de traitement du click sur le bouton btRechercher
+
+
+    $('.btPayer').click(function() {
+        $('.zoneProduitCommande').hide();
+        $('.recapMontantPayer').show();
+        $('.zoneModePaiement').show();
+
+    });
+
+
+    $('.checkChoix').click(function() {
+
+        
+        if ($('.choixCheckEsp').is(':Checked')) {
+            //traitment cas Espece
+            $('.zoneModePaiementEspece').show();
+
+        } else {
+            //traitement cas chèque
+            $('.zoneModePaiementCheque').show();
+        }
+        $('.checkChoix').attr('disabled',"disabled");
+    });
+    
+    $('.btImprRecu').click(function() {
+         var idEleve = $('.idEleve').val();
+         var typeAction = $('.typeAction').val();
+         //Traitement de l'impression du recu de paiement               
+        javascript:window.open("{{ path('app_admin_classes') }}");
+         
+        
+    });
+    
+ 
+
+function toutInitiale(){
+    $('.zoneModePaiementEspece').hide();
+    $('.zoneModePaiementCheque').hide();
+    $('.pasLigneTrouve').hide();
+    $('.zoneProduitCommande').hide();
+    $('.montantCommande').val("");       
+}
+function initialeZoneRecap(){
+    $('.recapInfoDepo').html("");
+    $('.recapMontant').html("");       
+    $('.recapNumCompte').html("");       
+    $('.numCheque').html("");       
+    
+}
+  $(".formaMontant").on('keyup', function() {
+               // alert('tester');
+               var n = parseInt($(this).val().replace(/\D/g, ''), 10);
+               $(this).val(n.toLocaleString());
+           })
+
+
+</script>
+{% endblock %}

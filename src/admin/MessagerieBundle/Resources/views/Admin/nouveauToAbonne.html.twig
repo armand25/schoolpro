@@ -1,0 +1,354 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}Nouveau message{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} 
+{% endblock %}
+{% block body %}
+    <section class="wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-edit"></i> 
+                    {% if  messageRepondre is not null   %}
+                        REPONDRE A UN MESSAGE - {{messageRepondre.objet}}
+                    {% elseif  messageTransfere is not null   %}
+                        TRANFERER UN MESSAGE - {{messageTransfere.objet}}
+                    {% else %}
+                        ECRIRE A UN NOUVEAU MESSAGE
+                    {% endif %}
+
+                </h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{#{sessionData.homeUrl}#}">Home</a></li>
+                    <li><i class="fa fa-envelope"></i><a href="{{path('app_messagerie_boite_reception')}}">Messagerie</a></li>
+                    <li><i class="fa fa-edit"></i>Ecrire à un abonné</li>						  	
+                </ol>
+            </div>
+        </div>
+
+        {% for contenu in app.session.getflashbag.get('ajout.msg.error')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+                    <div class="text-center alert alert-error fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <section class="panel">
+                    <header class="panel-heading tab-bg-primary ">
+                        <ul class="nav nav-tabs">
+                            <li >
+                                <a  href="{{path('app_messagerie_boite_reception')}}">Boîte de récpetion</a>
+                            </li>
+                            <li class="">
+                                <a href="{{path('app_messagerie_msg_envoyes')}}">Messages envoiés</a>
+                            </li>
+                            <li class="active">
+                                <a data-toggle="tab"  href="#home" >Écrire aux abonnés</a>
+                            </li>
+                            <li class="">
+                                <a href="{{path('app_messagerie_send_msg_to_utilisateur')}}" >Écrire aux utilisateurs</a>
+                            </li>
+                        </ul>
+                    </header>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div id="home" class="tab-pane active">
+
+                                {% if fils is not null %}
+                                    <div class="col-lg-12">
+                                        <!--collapse start-->
+                                        <div class="panel-group m-bot20" id="accordion" >
+
+                                            {% for env in fils.fil %}
+                                                {% if env.message is not null %}
+                                                    {% set unMessage = env.message  %}
+                                                    {%  set expe = getEmetteurOfMessage(unMessage) %}
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title panel-heading-gobi {% if (loop.last) %}  lastEnvoi {% endif %}" data-id="{{env.id}}" data-lu="{% if isMsgNonLu(env.statut) %} 0 {% else %} 1 {% endif %}">
+                                                                <a class="accordion-toggle " style="" data-toggle="collapse"  data-parent="#accordion" href="#collapse{{env.id}}">
+                                                                    <div class="pointer-cursor"  style="line-height: 20px" >
+                                                                        {% if (unMessage.utilisateur is not null ) and (unMessage.utilisateur.id == sessionData.id) %}
+                                                                            Moi
+                                                                        {% else %}
+                                                                            {{expe.nom~' '~expe.prenoms}}
+                                                                        {% endif %}
+                                                                        <small class="pull-right">{{unMessage.dateEnvoi|date('d/m/Y H:i:s')}}</small> 
+                                                                    </div>
+                                                                    <div class="pointer-cursor" style="line-height: 20px">
+                                                                        {{unMessage.objet}}
+                                                                        {% if isMsgNonLu(env.statut) %}
+                                                                            <span class="label label-success">Nouveau</span>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapse{{env.id}}" class="panel-collapse collapse {% if (fils.idFirstEnvoiNonLu == env.id) or (loop.last) %} in  {% endif %}">
+                                                            <div class="panel-body">
+                                                                <div>
+                                                                    {{unMessage.contenu|raw}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </div>
+                                        <!--collapse end-->
+                                    </div>
+                                {% endif %}
+
+
+                                <div class="col-lg-12">
+                                    <form class="form-horizontal " role="form">
+                                        <div class="form-group margin-top-10px">
+                                            <label for="abonne" class="col-lg-2 control-label ">Abonnés</label>
+                                            <div class="col-lg-10"  >
+                                                <select data-placeholder="Choisir les abonnés" id="abonne" name="abonne[]" multiple class="chosen-select-abonne form-control">
+                                                    {% for ab in allAbonne %}
+                                                        <option value="{{ab.id}}"   {% if inArray(ab.id, tabIdAbonne)  %} selected {% endif %}> {{ab.nom~' '~ab.prenoms}}</option>
+                                                    {% endfor %}
+
+                                                    {#<option disabled>Spectacled Bear</option>#}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group margin-top-10px">
+                                            <label  class="col-lg-7 control-label labelAllAbonne" for="allAbonne">Envoyer le message à tous les abonnés</label>
+                                            <div class="col-lg-5">
+                                                <input type="checkbox"  data-toggle="switch"  id="allAbonne" name="allAbonne" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="admin" class="col-lg-2 control-label">Admins</label>
+                                            <div class="col-lg-10">
+                                                <select data-placeholder="Choisir les admins" id="admin" name="admin[]"  multiple class="chosen-select-admin form-control">
+                                                    {% for ab in allAdmin %}
+                                                        <option value="{{ab.id}}"   {% if inArray(ab.id, tabIdAdmin ) %} selected {% endif %}> {{ab.nom~' '~ab.prenoms}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group margin-top-10px">
+                                            <label  class="col-lg-7 control-label labelAllAdmin" for="allAdmin">Envoyer le message à tous les admins</label>
+                                            <div class="col-lg-5">
+                                                <input type="checkbox"  data-toggle="switch"  id="allAdmin" name="allAdmin" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group margin-top-10px">
+                                            <label  class="col-lg-2 control-label " for="objet">Objet</label>
+                                            <div class="col-lg-10">
+                                                <input type="text"   id="objet" name="objet" {% if messageRepondre is not null %} value="{{messageRepondre.objet}}" {% endif %}   {% if messageTransfere is not null %} value="{{messageTransfere.objet}}" {% endif %} class="form-control" placeholder="Objet du message" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <label  class="col-lg-2 control-label " for="ckeditor">Message</label>
+                                            <div class="col-lg-10">
+                                                <textarea name="ckeditor" id="ckeditor" class="form-control ckeditor" placeholder="Votre message">{% if messageTransfere is not null %} {{messageTransfere.contenu}} {% endif %}</textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-offset-2 col-lg-10">
+                                                <a  class="btn btn-success" id="btnSendMsg">
+                                                    <i class="fa fa-envelope"></i> Envoyer
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+
+    </section>     
+
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            /**
+             * Initialisation des selects multiples
+             */
+            $('.chosen-select-abonne').chosen({});
+            $('.chosen-select-admin').chosen({});
+            /**
+             * Choix de tous les abonnés
+             */
+            $('#allAbonne').change(function () {
+                if ($(this).is(':checked')) {
+                    $('.labelAllAbonne').addClass('alert-success fade in');
+                } else {
+                    $('.labelAllAbonne').removeClass('alert-success fade in');
+                }
+            });
+            /**
+             * Choix de tous les admins
+             */
+            $('#allAdmin').change(function () {
+                if ($(this).is(':checked')) {
+                    $('.labelAllAdmin').addClass('alert-success fade in');
+                } else {
+                    $('.labelAllAdmin').removeClass('alert-success fade in');
+                }
+            });
+            /**
+             * Validation du formulaire
+             */
+            $('#btnSendMsg').click(function () {
+                var tabIdABonne = getTabIdDestinaire('chosen-select-abonne ');
+                var tabIdAdmin = getTabIdDestinaire('chosen-select-admin ');
+                var allAbonne = $('#allAbonne').is(':checked') ? 1 : 0;
+                var allAdmin = $('#allAdmin').is(':checked') ? 1 : 0;
+                if (((tabIdABonne.length) < 1) && (allAbonne == 0)) {
+                    error_message('Attention', "Vous devez indiquer au moins un abonné");
+                } else {
+                    var objet = $('#objet').val();
+                    if (objet.length < 1) {
+                        error_message('Attention', "Vous devez renseigner l'objet du message");
+                    } else {
+                        var message = CKEDITOR.instances.ckeditor.getData();
+
+                        if (message.length < 1) {
+                            error_message('Attention', "Vous devez renseigner le contenu du message");
+                        } else {
+                            objet = encodeURIComponent(objet);
+                            message = encodeURIComponent(message);
+                            sendMessage(tabIdABonne, tabIdAdmin, allAbonne, allAdmin, objet, message);
+                        }
+                    }
+                }
+            });
+
+            /**
+             * Quand on dépli un message , il sera marqué comme lu par la requette ci dessous
+             */
+            $('.panel-heading-gobi').click(function () {
+                var tab = [];
+                var lu = parseInt($(this).attr('data-lu'));
+                if (lu == 0) {
+
+                    var id = parseInt($(this).attr('data-id'));
+                    if (id > 0) {
+                        tab[0] = id;
+                    }
+                    var nb = tab.length;
+                    if (nb > 0) {
+                        setEtatEnvoiToLu(tab);
+                    }
+                }
+            });
+
+            /**
+             * AU chargement de la page, le dernier message du fil de discussion est déplié. On suppose kil est lu et son déclenche l'évement on click de le
+             * class .panel-heading-gobi pour le marque comme lu
+             */
+            $('.lastEnvoi').trigger('click');
+
+        });
+
+        /**
+         * Change le statut  d'un envoi à lu dans lea BD
+         **/
+        function setEtatEnvoiToLu(tabIds) {
+            var ajaxId = prepareAjaxData(tabIds);
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: "{{ path('app_messagerie_set_etat_envoi_to_lu') }}",
+                data: 'sId=' + ajaxId,
+                beforeSend: function () {
+                    //onLoadGobi();
+                },
+                success: function (rep) {
+                },
+                complete: function () {
+                    //  closeOnLoadGobi();
+                }
+
+            });
+        }
+
+        /**
+         *  Retourne un tableau contenant l'id des distinataires du message
+         
+         * @param {type} nomClass
+         * @returns {Array} */
+        function getTabIdDestinaire(nomClass) {
+            var tab = [];
+            var i = 0;
+            $("." + nomClass + " option:selected").each(function () {
+                var tmp = parseInt($(this).val());
+                if (tmp > 0) {
+                    tab[i++] = parseInt($(this).val());
+                }
+
+            });
+            return tab;
+        }
+
+        /**
+         * envoi du message
+         
+         * @param {type} tabIdABonne
+         * @param {type} tabIdAdmin
+         * @param {type} allAbonne
+         * @param {type} allAdmin
+         * @param {type} objet
+         * @param {type} message
+         * @returns {undefined} */
+        function sendMessage(tabIdABonne, tabIdAdmin, allAbonne, allAdmin, objet, message) {
+            var idMessageRepondre = '{{idMessageRepondre}}';
+            var idMessageTransfere = '{{idMessageTransfere}}';
+            var DATA = 'idMessageTransfere=' + idMessageTransfere + '&idMessageRepondre=' + idMessageRepondre + '&message=' + message + '&idsAbonne=' +
+                    prepareAjaxData(tabIdABonne) + '&idsAdmin=' + prepareAjaxData(tabIdAdmin) + '&allAbonne=' + allAbonne + '&allAdmin=' + allAdmin +
+                    '&objet=' + objet;
+            
+                $.ajax({
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "{{ path('app_messagerie_send_msg_to_abonne_save') }}",
+                    data: DATA,
+                    beforeSend: function () {
+                        onLoadGobi();
+                    },
+                    success: function (rep) {
+                        closeOnLoadGobi();
+                        if (rep['etat']) {
+                            window.location.href = '{{path('app_messagerie_boite_reception')}}';
+                        } else {
+                            error_message('Erreur', rep['msg']);
+                        }
+                    },
+                    complete: function () {
+                        closeOnLoadGobi();
+                    }
+
+                });
+            }
+
+           
+
+
+    </script>
+{% endblock %}

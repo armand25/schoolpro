@@ -1,0 +1,186 @@
+{% extends "::layout.html.twig" %}
+{% block title %}
+  {{ parent() }} - Liste Plan comptable
+{% endblock %}	
+{% block file_arriane %}
+<div class="fond-fil-ariane-classe" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Liste des plans comptable</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des plans comptables</span> ><span class="fil-3"> Liste </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+{% block body %}  
+{#  Menu #}
+
+
+      {% for message in app.session.flashbag.get('info') %}
+
+    
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                
+        <div class="text-center alert alert-success  fade in">{{ message }}</div>
+                
+    </div>
+{% endfor %}
+  
+  
+<div class="row" style="margin-bottom:10px;margin-top: -5px; ">
+    <div class="col-lg-9">
+    </div>    
+    <div class="btn-toolbar col-lg-3">
+        <div aria-label="First group" role="group" class="btn-group">
+              {#  <a class=" " href="{{path('app_admin_eleves')}}" id="" title="Afficher tous les clients">
+                    <button class="circle-social" type="button">
+                        <i class="fa fa-list"></i>
+                    </button>
+                </a>#}
+               {% if  isMaintenance(sessionData.codeProfil)  %}
+            <a class="circle-social btn  btn-default " href="{{path('admin_planajouter')}} " id="" title="Ajouter">                           
+                <i class="fa fa-plus"></i>                            
+            </a>
+                    {% endif %}
+            <button id="btnActive" class="circle-social btSuppr btn btn-default" btnActionVal="1" type="button" title="Activer">
+                <i class="fa fa-check"></i>
+            </button>
+            <button id="btnActive" class="circle-social btModif btn  btn-default" btnActionVal="0" type="button" title="Modification">
+                <i class="fa fa-minus"></i>
+            </button>
+           {# <button id="btnSupprimer" class="circle-social btnAction btn  btn-default" btnActionVal="2" type="button" title="Supprimer">
+                <i class="fa fa-trash-o"></i>
+            </button>#}
+
+        </div>
+    </div>
+</div>  
+
+<div class="panel panel-white">
+  {#                  <header class="panel-heading">
+                        <i class="fa fa-list"></i> Liste des profils
+                    </header>#}
+    <div class="panel-body">
+        <div class="col-lg-12" >
+        <table class="listePlanComptable infoCompte noLeftBorder table table-striped table-hover">
+            <thead>
+              {#  <tr>
+                    <th colspan="4" class="colspan">
+            <div class="btSuppr floatR ">ACTIVER SUPPRESSION <span><img class="" src="{{ asset('img/client-img/formulaire/supprimer.png')}}"  /></span></div>       
+            <div class="btModif floatR marginRight20p">ACTIVER MODIFICATION <span><img class="" src="{{ asset('img/client-img/formulaire/modifier.png')}}"  /></span></div>
+            <div class="clear"></div>
+            </th>
+            </tr>#}
+
+            <tr>
+                <th>Comptes </th>
+                <th>Libellés</th>
+                <th>Relatifs à</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+        {%for liste in listeplan %}
+                <tr>
+                    <td class="txtAlignL">{{liste.compte}}</td>
+                    <td class="txtAlignL">{{liste.libelle}}</td>
+                    <td class="txtAlignL">
+                            {% if liste.liea|upper == 0 %} A aucun
+                            {% elseif liste.liea|upper == 1%} Caisse
+                            {% elseif liste.liea|upper == 2%} Chèque UTB
+                            {% elseif liste.liea|upper == 3%} Chèque Certifié UTB
+                            {% elseif liste.liea|upper == 4%} Chèque Certifié Confrère
+                            {% elseif liste.liea|upper == 5%} Prélèvement Direct
+                            {% elseif liste.liea|upper == 6%} Crédit SEGUCE                            
+                            {% elseif liste.liea|upper == 9%} Mouvement de fonds                            
+                            {% elseif liste.liea|upper == 10%} Espèce en route                            
+                            {% endif%}
+                    </td>
+           {# {% if (liste.caisses != null and liste.operationcaisses != null    and liste.operationcaisses|length ==0 and liste.caisses|length ==0 and liste.agences!= null and liste.agences|length ==0 and liste.schemas!= null and liste.schemas|length ==0 and liste.compte|trim|upper != 'CPTE_CAISSE') %}#}
+                    <td class="reinit center">
+                       {# <a href="{{ path('admin_planmodifier', {'id': liste.compte}) }}" class="btToutModif">
+                            <img src="{{ asset('img/client-img/formulaire/modifier.png')}}" alt="{{'client.desactiver'|trans({},'messages') }}" title="{{'client.modifier'|trans({},'messages') }}" />
+                        </a>#}
+                        <a href="{{path('admin_planmodifier', {'id': liste.compte})}}" class="btToutModif btn btn-circle mini btn-info btnEdit tooltipGobi" >
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                        <a href="{#{{ path('admin_plansupprimer',{'id':liste.compte,'locale':locale})}}#}#" onClick="{#return(confirm('{{ 'Voulez vous vraiment Supprimer ce compte '|trans({}, 'plan') }}'));#}$('#sup{{liste.compte}}').modal();" class="btToutSuppr" style="display: none;">
+                    
+
+                            <img src="{{ asset('img/client-img/formulaire/supprimer.png')}}" alt="{{'client.supprimer'|trans({},'messages') }}" title="{{'client.supprimer'|trans({},'messages') }}"/>
+                        </a>
+                        {#{{information.modalboxconfirm("Confirmation","Voulez vous supprimer ce compte?","sup"~liste.compte, path('admin_plansupprimer',{'id':liste.compte,'locale':locale}))}}
+                    #}</td> 
+
+            {# {% else %}
+                 <td class="center"><a href="#"><img src="{{ asset('img/client-img/formulaire/impossible.png')}}" alt="Aucune action possible" title="Aucune action possible"/></a></td>  
+             {%endif%} #}       
+
+                </tr>
+        {%endfor%}
+            </tbody>
+            {# <tr>
+                <td colspan="10">
+                    <ul class="page floatL">
+                        <li>
+                            <a href="{{ path('admin_planliste', {'locale':locale , 'page': 1,'nbparpage': nbparpage}) }}" class="first"></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_planliste', {'locale':locale  ,'page': previous_page,'nbparpage': nbparpage}) }}" class="prev"></a>
+                        </li>
+
+                            {% for page in 1..last_page %}
+                                {% if page == current_page %}
+                        <li> <a href="#" class="actif"><span> {{ page }} </span></a> </li>
+                                {% else %}                                
+                        <li> <a href="{{ path('admin_planliste', {'locale':locale , 'page': page,'nbparpage': nbparpage}) }}"><span> {{ page }} </span></a> </li>
+                                {% endif %}
+                            {% endfor %}
+
+                        <li>
+                            <a href="{{ path('admin_planliste', {'locale':locale , 'page': next_page,'nbparpage': nbparpage}) }}" class="next"> </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_planliste', {'locale':locale , 'page': last_page,'nbparpage': nbparpage}) }}" class="last"></a>
+                        </li>
+                        <div class="clear"></div>
+                    </ul>
+                    <form  class="floatL">
+                        <select id="selnbpage" class="floatL">
+{#                            <option value="10" {% if nbparpage == 10 %} selected {% endif %} >10</option>
+                            <option value="20" {% if nbparpage == 20 %} selected {% endif %} >20</option>
+                            <option value="30" {% if nbparpage == 30 %} selected {% endif %} >30</option>
+                            <option value="100" {% if nbparpage == 100 %} selected {% endif %} >100</option>
+
+                        </select>
+                        <label class="floatL" for="sel">Eléments par page</label>
+                        <div class="clear"></div>
+                    </form>
+                    <div class="clear"></div>
+                </td>
+            </tr>#}
+
+        </table>
+        <div class='points'></div>
+    </div>
+</div>
+</div>
+  {% endblock %}
+  {% block scripts %}
+{{parent()}}
+<script language="javascript">
+   $('#selnbpage').on('change', function() {
+        //alert( this.value ); // or $(this).val()
+        document.location.href = "{{ path('admin_planliste',{'nbparpage': '%s'})|format('"+this.value+"')|raw }}";
+    });
+   $('.btModif').on('click', function() {
+        //alert( this.value ); // or $(this).val()
+        $('.btToutModif').show();
+    });
+    </script>
+
+{%endblock%}

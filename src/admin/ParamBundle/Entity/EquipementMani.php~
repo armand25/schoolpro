@@ -1,0 +1,978 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use admin\ParamBundle\Entity\PrincipalMani;
+use admin\ParamBundle\Entity\DocDouanierMani ;
+use admin\ParamBundle\Entity\ScelleMani ;
+use admin\ParamBundle\Entity\Apd ;
+use admin\ParamBundle\Entity\SupportMani ;
+use admin\ParamBundle\Entity\InstructionMani ;
+use admin\ParamBundle\Entity\DgxMani ;
+
+/**
+ * EquipementMani
+ *
+ * @ORM\Table(name="equipement_mani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\EquipementManiRepository")
+ */
+class EquipementMani {
+
+    /**
+     * @var integer $idEquipementMani
+     *
+     * @ORM\Column(name="id_equipement_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $idEquipementMani;
+
+    /**
+     * @var string $sic
+     *
+     * @ORM\Column(name="sic", type="string", length=11, nullable=true)
+     */
+    private $sic;
+
+    /**
+     * @var string $id
+     *
+     * @ORM\Column(name="id", type="string", length=17)
+     */
+    private $id;
+
+    /**
+     * @var string $code
+     *
+     * @ORM\Column(name="code", type="string", length=4)
+     */
+    private $code;
+
+    /**
+     * @var string $poids
+     *
+     * @ORM\Column(name="poids", type="integer", length=9)
+     */
+    private $poids ;
+
+    /**
+     * @var string $tare
+     *
+     * @ORM\Column(name="tare", type="integer", length=4)
+     */
+    private $tare;
+
+    /**
+     * @var string $fclLcl
+     *
+     * @ORM\Column(name="fcllcl", type="string", length=3, nullable=true)
+     */
+    private $fclLcl;
+
+    /**
+     * @var string $haulage
+     *
+     * @ORM\Column(name="haulage", type="string", length=1, nullable=true)
+     */
+    private $haulage;
+
+    /**
+     * @var string $vide
+     *
+     * @ORM\Column(name="vide", type="string", length=1, nullable=true)
+     */
+    private $vide ;
+
+    /**
+     * @var string $frigo
+     *
+     * @ORM\Column(name="frigo", type="string", length=1, nullable=true)
+     */
+    private $frigo ;
+
+    /**
+     * @var string $dgx
+     *
+     * @ORM\Column(name="dgx", type="string", length=1, nullable=true)
+     */
+    private $dgx ;
+
+    /**
+     * @var string $polluant
+     *
+     * @ORM\Column(name="polluant", type="string", length=1, nullable=true)
+     */
+    private $polluant;
+
+    /**
+     * @var string $dim
+     *
+     * @ORM\Column(name="dim", type="string", length=1, nullable=true)
+     */
+    private $dim ;
+
+    /**
+     * @var string $oh
+     *
+     * @ORM\Column(name="oh", type="integer", length=5, nullable=true)
+     */
+    private $oh ;
+
+    /**
+     * @var string $olf
+     *
+     * @ORM\Column(name="olf", type="integer", length=5, nullable=true)
+     */
+    private $olf ;
+
+
+    /**
+     * @var string $olb
+     *
+     * @ORM\Column(name="olb", type="integer", length=5, nullable=true)
+     */
+    private $olb ;
+
+    /**
+     * @var string $owl
+     *
+     * @ORM\Column(name="owl", type="integer", length=5, nullable=true)
+     */
+    private $owl ;
+
+    /**
+     * @var string $owr
+     *
+     * @ORM\Column(name="owr", type="integer", length=5, nullable=true)
+     */
+    private $owr ;
+
+    /**
+     * @var string $min
+     *
+     * @ORM\Column(name="min", type="integer", length=4, nullable=true)
+     */
+    private $min ;
+
+    /**
+     * @var string $max
+     *
+     * @ORM\Column(name="max", type="integer", length=4, nullable=true)
+     */
+    private $max ;
+
+    /**
+     * @var string $consignee
+     *
+     * @ORM\Column(name="consignee", type="integer", length=4, nullable=true)
+     */
+    private $consignee ;
+    
+
+    /**
+     * @var string $unite
+     *
+     * @ORM\Column(name="unite", type="string", length=3, nullable=true)
+     */
+    private $unite  ;
+
+    /**
+     * @var string $loc
+     *
+     * @ORM\Column(name="loc", type="string", length=35, nullable=true)
+     */
+    private $loc   ;
+    
+    /**
+     * @var string $vol
+     *
+     * @ORM\Column(name="vol", type="integer", length=9, nullable=true)
+     */
+    private $vol   ;
+    
+    /**
+     * @var string $elCommentaires
+     *
+     * @ORM\Column(name="elcommentaires", type="string", length=100,  nullable=true)
+     */
+    private $elCommentaires   ;
+
+    /**
+     * @var DgxMani $dgxMani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\DgxMani", inversedBy="equipementManis", cascade={"persist"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_dgx_mani", referencedColumnName="id_dgx_mani")
+     * })
+     */
+    private $dgxMani;
+        
+  /**
+   * @var Notification $docDouanierMani
+   * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\DocDouanierMani", cascade={"persist","merge"})
+   * @ORM\JoinColumns({
+   * @ORM\JoinColumn(name="iddoc_douanier_mani", referencedColumnName="iddoc_douanier_mani")
+   * })
+   */
+   private $docDouanierMani;
+   
+   /**
+   * @var InstructionMani $instructionMani
+   * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\InstructionMani", cascade={"persist","merge"})
+   * @ORM\JoinColumns({
+   * @ORM\JoinColumn(name="id_instruction_mani", referencedColumnName="id_instruction_mani")
+   * })
+   */
+   private $instructionMani ;
+     
+     
+   
+   /**
+   * @var SupportMani $supportMani
+   * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\SupportMani", cascade={"persist","merge"})
+   * @ORM\JoinColumns({
+   * @ORM\JoinColumn(name="id_support_mani", referencedColumnName="id_support_mani")
+   * })
+   */
+   private $supportMani ;
+     
+     
+    /**
+     * @var Apd $apd
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\Apd", inversedBy="equipementManis", cascade={"persist"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_apd", referencedColumnName="id_apd")
+     * })
+     */
+    private $apd;
+    
+        
+    /**
+     * @var ArrayCollection ScelleMani $scelleManis
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\ScelleMani", mappedBy="equipementMani")
+     * 
+     */
+    private $scelleManis;
+    
+    
+    
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        
+    }
+
+
+
+    /**
+     * Get idEquipementMani
+     *
+     * @return integer 
+     */
+    public function getIdEquipementMani()
+    {
+        return $this->idEquipementMani;
+    }
+
+    /**
+     * Set sic
+     *
+     * @param string $sic
+     * @return EquipementMani
+     */
+    public function setSic($sic)
+    {
+        $this->sic = $sic;
+
+        return $this;
+    }
+
+    /**
+     * Get sic
+     *
+     * @return string 
+     */
+    public function getSic()
+    {
+        return $this->sic;
+    }
+
+    /**
+     * Set id
+     *
+     * @param string $id
+     * @return EquipementMani
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get id
+     *
+     * @return string 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return EquipementMani
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set poids
+     *
+     * @param integer $poids
+     * @return EquipementMani
+     */
+    public function setPoids($poids)
+    {
+        $this->poids = $poids;
+
+        return $this;
+    }
+
+    /**
+     * Get poids
+     *
+     * @return integer 
+     */
+    public function getPoids()
+    {
+        return $this->poids;
+    }
+
+    /**
+     * Set tare
+     *
+     * @param integer $tare
+     * @return EquipementMani
+     */
+    public function setTare($tare)
+    {
+        $this->tare = $tare;
+
+        return $this;
+    }
+
+    /**
+     * Get tare
+     *
+     * @return integer 
+     */
+    public function getTare()
+    {
+        return $this->tare;
+    }
+
+    /**
+     * Set fclLcl
+     *
+     * @param string $fclLcl
+     * @return EquipementMani
+     */
+    public function setFclLcl($fclLcl)
+    {
+        $this->fclLcl = $fclLcl;
+
+        return $this;
+    }
+
+    /**
+     * Get fclLcl
+     *
+     * @return string 
+     */
+    public function getFclLcl()
+    {
+        return $this->fclLcl;
+    }
+
+    /**
+     * Set haulage
+     *
+     * @param string $haulage
+     * @return EquipementMani
+     */
+    public function setHaulage($haulage)
+    {
+        $this->haulage = $haulage;
+
+        return $this;
+    }
+
+    /**
+     * Get haulage
+     *
+     * @return string 
+     */
+    public function getHaulage()
+    {
+        return $this->haulage;
+    }
+
+    /**
+     * Set vide
+     *
+     * @param string $vide
+     * @return EquipementMani
+     */
+    public function setVide($vide)
+    {
+        $this->vide = $vide;
+
+        return $this;
+    }
+
+    /**
+     * Get vide
+     *
+     * @return string 
+     */
+    public function getVide()
+    {
+        return $this->vide;
+    }
+
+    /**
+     * Set frigo
+     *
+     * @param string $frigo
+     * @return EquipementMani
+     */
+    public function setFrigo($frigo)
+    {
+        $this->frigo = $frigo;
+
+        return $this;
+    }
+
+    /**
+     * Get frigo
+     *
+     * @return string 
+     */
+    public function getFrigo()
+    {
+        return $this->frigo;
+    }
+
+    /**
+     * Set dgx
+     *
+     * @param string $dgx
+     * @return EquipementMani
+     */
+    public function setDgx($dgx)
+    {
+        $this->dgx = $dgx;
+
+        return $this;
+    }
+
+    /**
+     * Get dgx
+     *
+     * @return string 
+     */
+    public function getDgx()
+    {
+        return $this->dgx;
+    }
+
+    /**
+     * Set polluant
+     *
+     * @param string $polluant
+     * @return EquipementMani
+     */
+    public function setPolluant($polluant)
+    {
+        $this->polluant = $polluant;
+
+        return $this;
+    }
+
+    /**
+     * Get polluant
+     *
+     * @return string 
+     */
+    public function getPolluant()
+    {
+        return $this->polluant;
+    }
+
+    /**
+     * Set dim
+     *
+     * @param string $dim
+     * @return EquipementMani
+     */
+    public function setDim($dim)
+    {
+        $this->dim = $dim;
+
+        return $this;
+    }
+
+    /**
+     * Get dim
+     *
+     * @return string 
+     */
+    public function getDim()
+    {
+        return $this->dim;
+    }
+
+    /**
+     * Set oh
+     *
+     * @param integer $oh
+     * @return EquipementMani
+     */
+    public function setOh($oh)
+    {
+        $this->oh = $oh;
+
+        return $this;
+    }
+
+    /**
+     * Get oh
+     *
+     * @return integer 
+     */
+    public function getOh()
+    {
+        return $this->oh;
+    }
+
+    /**
+     * Set olf
+     *
+     * @param integer $olf
+     * @return EquipementMani
+     */
+    public function setOlf($olf)
+    {
+        $this->olf = $olf;
+
+        return $this;
+    }
+
+    /**
+     * Get olf
+     *
+     * @return integer 
+     */
+    public function getOlf()
+    {
+        return $this->olf;
+    }
+
+    /**
+     * Set olb
+     *
+     * @param integer $olb
+     * @return EquipementMani
+     */
+    public function setOlb($olb)
+    {
+        $this->olb = $olb;
+
+        return $this;
+    }
+
+    /**
+     * Get olb
+     *
+     * @return integer 
+     */
+    public function getOlb()
+    {
+        return $this->olb;
+    }
+
+    /**
+     * Set owl
+     *
+     * @param integer $owl
+     * @return EquipementMani
+     */
+    public function setOwl($owl)
+    {
+        $this->owl = $owl;
+
+        return $this;
+    }
+
+    /**
+     * Get owl
+     *
+     * @return integer 
+     */
+    public function getOwl()
+    {
+        return $this->owl;
+    }
+
+    /**
+     * Set owr
+     *
+     * @param integer $owr
+     * @return EquipementMani
+     */
+    public function setOwr($owr)
+    {
+        $this->owr = $owr;
+
+        return $this;
+    }
+
+    /**
+     * Get owr
+     *
+     * @return integer 
+     */
+    public function getOwr()
+    {
+        return $this->owr;
+    }
+
+    /**
+     * Set min
+     *
+     * @param integer $min
+     * @return EquipementMani
+     */
+    public function setMin($min)
+    {
+        $this->min = $min;
+
+        return $this;
+    }
+
+    /**
+     * Get min
+     *
+     * @return integer 
+     */
+    public function getMin()
+    {
+        return $this->min;
+    }
+
+    /**
+     * Set max
+     *
+     * @param integer $max
+     * @return EquipementMani
+     */
+    public function setMax($max)
+    {
+        $this->max = $max;
+
+        return $this;
+    }
+
+    /**
+     * Get max
+     *
+     * @return integer 
+     */
+    public function getMax()
+    {
+        return $this->max;
+    }
+
+    /**
+     * Set consignee
+     *
+     * @param integer $consignee
+     * @return EquipementMani
+     */
+    public function setConsignee($consignee)
+    {
+        $this->consignee = $consignee;
+
+        return $this;
+    }
+
+    /**
+     * Get consignee
+     *
+     * @return integer 
+     */
+    public function getConsignee()
+    {
+        return $this->consignee;
+    }
+
+    /**
+     * Set unite
+     *
+     * @param string $unite
+     * @return EquipementMani
+     */
+    public function setUnite($unite)
+    {
+        $this->unite = $unite;
+
+        return $this;
+    }
+
+    /**
+     * Get unite
+     *
+     * @return string 
+     */
+    public function getUnite()
+    {
+        return $this->unite;
+    }
+
+    /**
+     * Set loc
+     *
+     * @param string $loc
+     * @return EquipementMani
+     */
+    public function setLoc($loc)
+    {
+        $this->loc = $loc;
+
+        return $this;
+    }
+
+    /**
+     * Get loc
+     *
+     * @return string 
+     */
+    public function getLoc()
+    {
+        return $this->loc;
+    }
+
+    /**
+     * Set vol
+     *
+     * @param integer $vol
+     * @return EquipementMani
+     */
+    public function setVol($vol)
+    {
+        $this->vol = $vol;
+
+        return $this;
+    }
+
+    /**
+     * Get vol
+     *
+     * @return integer 
+     */
+    public function getVol()
+    {
+        return $this->vol;
+    }
+
+    /**
+     * Set elCommentaires
+     *
+     * @param string $elCommentaires
+     * @return EquipementMani
+     */
+    public function setElCommentaires($elCommentaires)
+    {
+        $this->elCommentaires = $elCommentaires;
+
+        return $this;
+    }
+
+    /**
+     * Get elCommentaires
+     *
+     * @return string 
+     */
+    public function getElCommentaires()
+    {
+        return $this->elCommentaires;
+    }
+
+    /**
+     * Set dgxMani
+     *
+     * @param \admin\ParamBundle\Entity\DgxMani $dgxMani
+     * @return EquipementMani
+     */
+    public function setDgxMani(\admin\ParamBundle\Entity\DgxMani $dgxMani = null)
+    {
+        $this->dgxMani = $dgxMani;
+
+        return $this;
+    }
+
+    /**
+     * Get dgxMani
+     *
+     * @return \admin\ParamBundle\Entity\DgxMani 
+     */
+    public function getDgxMani()
+    {
+        return $this->dgxMani;
+    }
+
+    /**
+     * Set docDouanierMani
+     *
+     * @param \admin\ParamBundle\Entity\DocDouanierMani $docDouanierMani
+     * @return EquipementMani
+     */
+    public function setDocDouanierMani(\admin\ParamBundle\Entity\DocDouanierMani $docDouanierMani = null)
+    {
+        $this->docDouanierMani = $docDouanierMani;
+
+        return $this;
+    }
+
+    /**
+     * Get docDouanierMani
+     *
+     * @return \admin\ParamBundle\Entity\DocDouanierMani 
+     */
+    public function getDocDouanierMani()
+    {
+        return $this->docDouanierMani;
+    }
+
+    /**
+     * Set instructionMani
+     *
+     * @param \admin\ParamBundle\Entity\InstructionMani $instructionMani
+     * @return EquipementMani
+     */
+    public function setInstructionMani(\admin\ParamBundle\Entity\InstructionMani $instructionMani = null)
+    {
+        $this->instructionMani = $instructionMani;
+
+        return $this;
+    }
+
+    /**
+     * Get instructionMani
+     *
+     * @return \admin\ParamBundle\Entity\InstructionMani 
+     */
+    public function getInstructionMani()
+    {
+        return $this->instructionMani;
+    }
+
+    /**
+     * Set supportMani
+     *
+     * @param \admin\ParamBundle\Entity\SupportMani $supportMani
+     * @return EquipementMani
+     */
+    public function setSupportMani(\admin\ParamBundle\Entity\SupportMani $supportMani = null)
+    {
+        $this->supportMani = $supportMani;
+
+        return $this;
+    }
+
+    /**
+     * Get supportMani
+     *
+     * @return \admin\ParamBundle\Entity\SupportMani 
+     */
+    public function getSupportMani()
+    {
+        return $this->supportMani;
+    }
+
+    /**
+     * Set apd
+     *
+     * @param \admin\ParamBundle\Entity\Apd $apd
+     * @return EquipementMani
+     */
+    public function setApd(\admin\ParamBundle\Entity\Apd $apd = null)
+    {
+        $this->apd = $apd;
+
+        return $this;
+    }
+
+    /**
+     * Get apd
+     *
+     * @return \admin\ParamBundle\Entity\Apd 
+     */
+    public function getApd()
+    {
+        return $this->apd;
+    }
+
+    /**
+     * Add scelleManis
+     *
+     * @param \admin\ParamBundle\Entity\ScelleMani $scelleManis
+     * @return EquipementMani
+     */
+    public function addScelleMani(\admin\ParamBundle\Entity\ScelleMani $scelleManis)
+    {
+        $this->scelleManis[] = $scelleManis;
+
+        return $this;
+    }
+
+    /**
+     * Remove scelleManis
+     *
+     * @param \admin\ParamBundle\Entity\ScelleMani $scelleManis
+     */
+    public function removeScelleMani(\admin\ParamBundle\Entity\ScelleMani $scelleManis)
+    {
+        $this->scelleManis->removeElement($scelleManis);
+    }
+
+    /**
+     * Get scelleManis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getScelleManis()
+    {
+        return $this->scelleManis;
+    }
+}

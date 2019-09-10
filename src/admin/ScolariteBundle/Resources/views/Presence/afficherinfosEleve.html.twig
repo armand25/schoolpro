@@ -1,0 +1,382 @@
+{% extends "layout.html.twig" %}
+
+{% block title %} {{parent()}}  - Infos élève {% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block file_arriane %}
+<div class="fond-fil-ariane" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Détail d'un élève</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2"><a href="{{path('app_admin_eleves')}}" >Gestion des élèves</a></span> ><span class="fil-3"> Détail </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+{% block body %}
+
+<div class="col-lg-12"> 
+            {% for contenu in app.session.getflashbag.get('eleve.modifier.password.success')%}
+                {% if loop.index == 0%}
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        {% endif%}
+            <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                        {% if loop.index == 0%} 
+        </div>
+    </div>
+                {% endif%}
+            {% endfor%}
+</div>
+
+
+<div class="row" style="margin:0px -17px; " >
+            {#<header class="panel-heading title-panel">
+                <i class="fa fa-table "></i> <span class="margin-right-20px "> Liste des Elèves {% if idProfil > 0 %} du profil {{profil.nom_}} {% endif %} </span>
+            </header> #}
+
+    <div class="col-md-2 " style="">
+                 
+        <div class="grid-inbox">
+             {# <div class="">
+                    <div class="col-md-3 ">
+                        <div class="">
+                            <img src="{{asset('upload/chargement/eleves/'~eleve.id~'/'~eleve.titreImage)}}" alt=""/>
+                        </div>
+                    </div>
+                </div> #}
+            <div class="">
+           <ul class="ca-menu">
+                    <li>
+                        <a href="{{path('app_admin_eleve_modifier', { 'idEleve' : eleve.id})}}"   >
+                            <span class="ca-icon">M</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Modifier</h2>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{path('admin_operation_get_operation_vente', { 'idEleve' : eleve.id})}}"  >
+                            <span class="ca-icon">P</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Paiement</h2>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{path('app_admin_eleve_carte', { 'idEleve' : eleve.id})}}"  data-toggle="modal" data-target="#myModal1">
+                            <span class="ca-icon">C</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Carte étudiant</h2>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="ca-icon">A</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Anciens Bulletins</h2>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="ca-icon">L</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Détails bulletin</h2>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <span class="ca-icon">L</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Parcours</h2>
+                                
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                 </div> 
+        </div>
+    </div>
+    <div class="col-md-10 " >
+
+<div class="panel panel-white">              
+    <div class="panel-body">
+        
+
+            <div  style="margin-bottom:20px;margin-top: -5px; ">
+                  
+                <div class="btn-toolbar col-lg-12">
+                    <ul class="list-unstyled text-left white-bg" style='background:#0e62c7;padding: 5px;color: #FFF;'>
+                        <li style="">
+                            <div style="margin-top: 5px; margin-bottom: 0px; height: 44px; ">
+                                <div class="  col-lg-12">
+                                    <h3> {{eleve.nom~' '~eleve.prenoms}},  née le {{eleve.dateNaissance|date('d/m/Y')}}  - {{eleve.lieuNaissance}}  </h3>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled text-left white-bg" style='padding: 10px;'>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                <div class="  col-lg-12">
+                                    <label class=" control-label"> Classe Actuelle . </label>
+                                   {% if classe[0] is defined %}  {{classe[0].getLibelleClasse()}}{% else %}-{% endif %}
+                                </div>
+                            </div>
+                        </li>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                <div class="  col-lg-12">
+                                    <label class=" control-label"> Présence . </label>
+                                    0/200
+                                </div>
+                            </div>
+                        </li>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                <div class="  col-lg-12">
+                                    <label class=" control-label"> Ecolage payée . </label>
+                                   {% if classe[0] is defined %} {{scolarite[0].solde|number_format(0, '.', ' ') }}{% else %}-{% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            
+            <div class="col-md-12 user-profile">
+                <div class="ibox float-e-margins panel-white entete-panel" >
+                    <h3 class="text-left title-panel" style='font-size: 18px;'>{#{{eleve.nom~' '~eleve.prenoms}},#} </h3>
+                    <ul class="list-unstyled text-left white-bg" style='padding: 10px;'>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Pays origine  </label>
+                            {{eleve.nationalite}}
+                                </div>
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Ancien Etabli.  </label>
+                            {{eleve.etablissementOrigine}}
+                                </div>
+                            </div>
+                        </li>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Sexe.  </label>
+                            {{convertTypeSexe(eleve.sexe)}}
+                                </div>
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Email.  </label>
+                            {{eleve.email}}
+
+                                </div>
+                            </div>
+                        </li>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Tel.  </label>
+                            {{eleve.tel1}}
+                                </div>
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Bp.  </label>
+                            {{eleve.bp}}
+                                </div>
+                            </div>
+                        </li>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Piece naissance  </label>
+                            {{eleve.numeroPieceNaissance}}
+                                </div>
+                                <div class="  col-lg-6">
+                                    <label class=" control-label"> Piece nationalite  </label>
+                            {{eleve.numeroPieceNationnalite}}
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="panel blank-panel">
+
+                    <div class="panel-heading">
+                {#<div class="panel-title m-b-md"><h4>Information parent d'élève</h4></div>#}
+                        <div class="panel-options">
+
+                            <ul class="nav nav-tabs">
+
+
+                                <li class="active"><a data-toggle="tab" href="#tab-1">Père</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2">Mère</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-3">Personne en cas d'accident</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+
+                        <div class="tab-content">
+                    {% set inc = 1%}
+                     
+                    {% set autreinc = 0%}
+                    {% for infoparent in eleve.getEstparents %}
+                            {% if infoparent.etatEstParent == inc %}
+                            <div id="{{'tab-'~infoparent.etatEstParent}}" class="tab-pane {% if inc == 1%}active{%endif%}">
+                                <div class="ibox float-e-margins panel-white entete-panel" >
+
+                                    <h3 class="text-left title-panel" style='font-size: 18px;'>{{infoparent.getUtilisateur.nom~' '~infoparent.getUtilisateur.prenoms}}</h3>
+                                    <ul class="list-unstyled text-left white-bg" style='padding: 10px;'>
+                                        <li style="display: block;">
+                                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                                <div class="  col-lg-6">
+                                                    <label class=" control-label"> Sexe.  </label>
+                                            {{convertTypeSexe(infoparent.getUtilisateur.sexe)}}
+                                                </div>
+                                                <div class="  col-lg-6">
+                                                    <label class=" control-label"> Email.  </label>
+                                            {{infoparent.getUtilisateur.email}}
+
+                                                </div>
+                                            </div>
+                                        </li>
+
+                                        <li style="display: block;">
+                                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                                                <div class="  col-lg-6">
+                                                    <label class=" control-label"> Tel.  </label>
+                                            {{infoparent.getUtilisateur.tel1}}
+                                                </div>
+                                                <div class="  col-lg-6">
+                                                    <label class=" control-label"> Bp.  </label>
+                                            {{infoparent.getUtilisateur.adresse}}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <div class="  col-lg-10">
+
+                                    </div>
+                                    <div class="  col-lg-2">
+                                        <a href="{{path('app_admin_user_modifier', { 'idUser' : infoparent.getUtilisateur.id})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                    </div>
+
+
+                                </div> 
+                            </div>
+                            {% else %}
+                            {% endif%}
+                    {% set inc = inc+1%}
+                    {% set autreinc = autreinc+1%}
+                            
+                            
+                    {% else %}
+                            <div id="tab-1" class="tab-pane active">
+                                <div class="ibox float-e-margins panel-white entete-panel" >
+                                    <div class="  col-lg-9">
+                                        <a href="{{path('app_admin_user_ajout', { 'idProfil' : 4,'idEleve':eleve.id,'type':1})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+
+
+                                </div> 
+                            </div>
+                            <div id="tab-2" class="tab-pane ">
+                                <div class="ibox float-e-margins panel-white entete-panel" >
+                                    <div class="  col-lg-9">
+                                        <a href="{{path('app_admin_user_ajout', { 'idProfil' : 4,'idEleve':eleve.id,'type':2})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+
+
+                                </div> 
+                            </div>
+                            <div id="tab-3" class="tab-pane ">
+                                <div class="ibox float-e-margins panel-white entete-panel" >
+                                    <div class="  col-lg-9">
+                                  {#      <a href="{{path('app_admin_user_ajout', { 'idProfil' : 4,'idEleve':eleve.id,'type':3})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                  #}  </div>
+
+
+                                </div> 
+                            </div>
+                            
+                    {% endfor %}
+                    {% if inc == 2 %}
+                            <div id="tab-2" class="tab-pane ">
+                                <div class="ibox float-e-margins panel-white entete-panel" >
+                                    <div class="  col-lg-9">
+                                        <a href="{{path('app_admin_user_ajout', { 'idProfil' : 4,'idEleve':eleve.id,'type':2})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+
+
+                                </div> 
+                            </div>
+                            <div id="tab-3" class="tab-pane ">
+                                <div class="ibox float-e-margins panel-white entete-panel" >
+                                    <div class="  col-lg-9">
+                                  {#      <a href="{{path('app_admin_user_ajout', { 'idProfil' : 4,'idEleve':eleve.id,'type':3})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                  #}  </div>
+
+
+                                </div> 
+                            </div>
+                            
+                    {% endif %}
+                    {% if autreinc == 2 %}
+                            <div id="tab-3" class="tab-pane ">
+                                <div class="ibox float-e-margins panel-white entete-panel" >
+                                    <div class="  col-lg-9">
+                                        <a href="{{path('app_admin_user_ajout', { 'idProfil' : 4,'idEleve':eleve.id,'type':3})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+
+
+                                </div> 
+                            </div>
+                    {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+{% endblock %}

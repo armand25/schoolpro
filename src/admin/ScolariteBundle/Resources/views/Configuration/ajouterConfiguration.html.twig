@@ -1,0 +1,620 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{parent()}} - Gestion d'une configuration {% endblock %}
+{% block file_arriane %}
+<div class="fond-fil-ariane-config" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Gestion des configurations </h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des configurations</span> ><span class="fil-3"> Modif </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-success  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.error')%}
+        {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+    <div class="text-center alert alert-danger  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.already.exist')%}
+        {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+
+
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="col-lg-12" >                
+
+            <div class="panel-heading">
+                <div class="panel-title m-b-md"><h4>{#Blank Panel with text tabs#}</h4></div>
+                <div class="panel-options">
+
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#tab-1">Init. Année</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-2">Réglage découpage</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-3">Matière par niveau</a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-4">Ecolage par niveau </a></li>
+                        <li class=""><a data-toggle="tab" href="#tab-5">Activation découpage </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane active">
+                        <div class="form-group clearfix ">
+                            <label class=" control-label text-center">  Année Scolaire </label>
+
+                            <div class="control">   
+                                <select class="control form-control" name="anneescolaire">
+                                                    {%  for uneAnneeScolaire in listeAnneeScolaire %}
+                                    <option value="{{uneAnneeScolaire.id}}"  {% if uneAnneeScolaire.etatAnneeScolaire == anneeScolaireActive.id %} selected="selected"{% endif %}>
+                                                            {{uneAnneeScolaire.libelleAnneeScolaire}}
+                                    </option>
+                                                    {%  endfor%}
+                                </select> 
+                            </div>  
+                            <br/>
+                            <br/>
+
+                            <input type="button" class="btn btn-primary form-control" value="Initialiser l'année scolaire" /> 
+                        </div> 
+                    </div>
+
+                    <div id="tab-2" class="tab-pane">
+                        <form action="{{path('app_admin_traite_config_enseignement')}}" method="POST"  >
+                            {% set car = ""%}
+                            {% set siValeur = 0 %}
+                                    {%  for unEns in listeEns %}
+                            <div class="form-group clearfix ">
+                                <label class=" control-label text-center">  
+                                                {{unEns.libelleEnseignement}} 
+                                </label>
+                                <div class="control " >
+                                    <select class="control form-control" name="{{'tabNiveauDecoup['~unEns.id~']'}}">
+                                                    {%  for uneTypeDecoupage in listeTypeDecoupage %}
+                                        <option value="{{uneTypeDecoupage.id}}"  {% if tabTypeDecoupConcerner[unEns.id] is defined %}{% if tabTypeDecoupConcerner[unEns.id] == uneTypeDecoupage.id%} selected="selected"{% endif %}{% endif %}>
+                                                            {{uneTypeDecoupage.libelleTypeDecoupage}}
+                                        </option>
+                                                    {%  endfor%}
+                                    </select>                                               
+                                </div>
+                            </div> 
+
+                                    {%  endfor%}
+                            <div class="form-group clearfix pull-right col-lg-6 zone-bouton-panel">
+{#                                        <a  class="btn" href="{{path('app_admin_classes')}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>#}
+                                <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                            </div> 
+                        </form> 
+
+
+                    </div>
+                    <div id="tab-3" class="tab-pane">
+                        <form action="{{path('app_admin_traite_config')}}" method="POST"  >
+                              {%  for unFiliere in listeFiliere %}
+                               
+                                  
+                            <fieldset class="form-group clearfix ">
+                                <legend class=" control-label text-center">  
+                                                {{unFiliere.libelleFiliere}}  
+                                                <button type="button" onclick="ajoutNiveau({{unFiliere.id}});" class="btn  {{'btAjoutNiveau'~unFiliere.id}}">Ajouter Niveau</button>
+                                </legend>
+                                <div class="{{'affichage-zone-niveau'~unFiliere.id}}">
+                                {%  if filiereTabNiveau[unFiliere.id] is defined%}
+                                 {%  for unNiv in filiereTabNiveau[unFiliere.id]%}
+                                    <h3>{{unNiv.libelleNiveau}}</h3>
+                                <table class="table table-striped table-hover">
+                                       <thead>
+                                           <tr class="">
+                                               <th>
+                                                   
+                                                   <input type="checkbox" class="checkAll checkbox tooltipGobi" name="checkAll" title="Tout cocher/Décocher"/>
+                                               </th>
+                                               <th>Matiere</th>
+                                               <th>Type matiere</th>
+                                               <th>coeficient</th>
+                                               <th>Actions</th>
+                                           </tr>
+                                       </thead>
+                                       <tbody>
+                                                   {% for u in tableauDonneFiliereByMat[unFiliere.id][unNiv.id] %}
+                                           <tr>
+                                               <td>{% set car = car~"|"~u.matiere.id%}<input type="checkbox" class="checkOne checkbox " sId=""/> </td>
+                                               <td> {{u.matiere.getLibelleMatiere}} </td>
+                                               <td>{{u.typematiere.getLibelleTypeMatiere}}</td>
+                                                           {#                                        <td>{{u.codeBase}}</td>#}
+                                                           {#                                        <td>{{convertTypeSexe(u.sexe)}}</td>#}                           
+                                               <td>
+                                                    {% set siValeur = 1 %}
+                                                    {{u.coefficient}}          
+                                               </td>
+                                               <td>
+                                                   <a href="{{path('app_admin_chapitres', {'estEns' : u.id})}}" class="btn btn-circle mini btn-info btnEdit tooltipGobi" title="Modifier  ">
+                                                        <i class="fa fa-list"></i>
+                                                    </a>
+                                               </td>
+                                           </tr>
+                                                   {% endfor %}
+
+                                       </tbody>
+                                   </table>
+                                  
+                                    <input type="hidden" class="{{"siValeur"~unFiliere.id}}" value="{{siValeur}}"/>
+                                   <input type="hidden" class="{{"tablFilChoisi"~unFiliere.id~unNiv.id}}" value="{{car}}"/>
+                                   {% set car = ""%}
+                                {%  endfor%}
+                                {%  endif  %}
+                             </div>
+                                
+                                <div class="control {{"general-niveau"~unFiliere.id}} ">    
+                                    <fieldset class="fieldsetregroupement" id="1">
+                                        <select rel="1" class="{{'zone-niveau'~unFiliere.id~"1"}} {{'val-zone-niveau'~unFiliere.id}} hide le-choix-niveau form-control {{'le-choix-niveau-multi'~unFiliere.id}}" id="{{unFiliere.id}}">
+                                        </select>
+                                        <div class="{{"zone-traite"~unFiliere.id~"1"}} ">
+
+                                        </div>
+                                        <input type="hidden" class="{{'tablChoisiMatiere'~unFiliere.id}}" value=""/>
+                                        <input type="hidden" class="{{'tablChoisiType'~unFiliere.id}}" value=""/>
+                                    </fieldset>
+                                </div>
+                                <input type="hidden" class="{{'donneeTraitement'~unFiliere.id}}" id="{{unFiliere.id}}" value=""/>
+                                <input type="hidden" class="{{'tablChoisi'~unFiliere.id}}" value=""/>
+                                <input type="button" onclick="configFiliere({{unFiliere.id}});"  class="{{'btTrait'~unFiliere.id}} btn" value="Traiter " style="display:none"/>
+                                <input type="hidden"  class="{{'tablChoisi'~unFiliere.id}}" value="Traiter " />
+                            </fieldset> 
+
+                                    {%  endfor%}
+                            <div class="form-group clearfix pull-right col-lg-6 zone-bouton-panel">
+{#                                        <a  class="btn" href="{{path('app_admin_classes')}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                                <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                           #} </div> 
+                        </form>                                                                            
+                    </div>
+                    
+                    
+                    
+                    <div id="tab-4" class="tab-pane ">
+                        <div class="form-group clearfix ">
+                            <form action="{{path('app_admin_traite_config_ecolage')}}" method="POST"  >
+
+                                         {%  for unNiveau in listeNiveau %}
+                                <div class="form-group clearfix ">
+                                    <label class=" control-label text-center">  
+                                                {{unNiveau.libelleNiveau}} 
+                                    </label>
+                                    <div class="control" >
+                                    <div class="col-lg-6" >
+                                        
+                                        <input type="text" class="control form-control formaMontant  col-lg-6" name="{{'tabMontantNiveau'~unNiveau.id~''}}" value="{% if tabTypeDecoupEcolage[unNiveau.id] is defined %}{{tabTypeDecoupEcolage[unNiveau.id]['montant']|number_format(0, '.', ' ') }}{% endif %}">
+                                  </div>
+                                   <div class="col-lg-6" >
+                                    
+                                        <input type="text" class="control form-control formaMontant  col-lg-6" name="{{'tabTrancheNiveau'~unNiveau.id~''}}" value="{% if tabTypeDecoupEcolage[unNiveau.id] is defined %}{{tabTypeDecoupEcolage[unNiveau.id]['tranche'] }}{% endif %}">
+
+                                    </div>
+                                    </div>
+                                </div> 
+
+                                    {%  endfor%}
+                                <br/>
+                                <br/>
+
+                                <input type="submit" class="btn btn-primary form-control" value="Valider" /> 
+                            </form> 
+                        </div> 
+                        </div> 
+                    <div id="tab-5" class="tab-pane ">
+                        <div class="form-group clearfix ">
+                            <form action="{{path('app_admin_traite_config_decoupage')}}" method="POST"  >
+
+                                        {%  for uneTypeDecoupage in listeTypeDecoupage %}
+                                <div class="form-group clearfix ">
+                                    <label class=" control-label text-center">  
+                                                {{uneTypeDecoupage.libelleTypeDecoupage}} 
+                                    </label>
+                                    <div class="control" >
+                                     <select class="control form-control" name="{{'tabTypeDecoup'~uneTypeDecoupage.id~''}}">
+                                                    {%  for uneDecoupage in decoupePar[uneTypeDecoupage.id] %}
+                                        <option value="{{uneDecoupage.id}}"  {% if tabTypeDecoupage[uneTypeDecoupage.id] is defined %}{% if tabTypeDecoupage[uneTypeDecoupage.id] == uneDecoupage.id%} selected="selected"{% endif %}{% endif %}>
+                                                            {{uneDecoupage.libelleDecoupage}}
+                                        </option>
+                                                    {%  endfor%}
+                                    </select> 
+                                   
+                                    </div>
+                                </div> 
+
+                                    {%  endfor%}
+                                <br/>
+                                <br/>
+
+                                <input type="submit" class="btn btn-primary form-control" value="Valider" /> 
+                            </form> 
+                        </div> 
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+
+<script type="text/javascript">
+
+
+    var $collectionHolder;
+
+// setup an "add a tag" link
+    var $addTagLink = $('<a href="#" class="add_tag_link">Ajouter une image</a>');
+    var $newLinkLi = $('<li></li>').append($addTagLink);
+
+    jQuery(document).ready(function() {
+        // Get the ul that holds the collection of tags
+        $collectionHolder = $('ul.produits');
+
+        // add the "add a tag" anchor and li to the tags ul
+        $collectionHolder.append($newLinkLi);
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        $addTagLink.on('click', function(e) {
+            // prevent the link from creating a "#" on the URL
+            e.preventDefault();
+
+            // add a new tag form (see next code block)
+            addTagForm($collectionHolder, $newLinkLi);
+            $('.add_tag_link').hide();
+        });
+        function addTagForm($collectionHolder, $newLinkLi) {
+            // Get the data-prototype explained earlier
+            var prototype = $collectionHolder.data('prototype');
+
+            // get the new index
+            var index = $collectionHolder.data('index');
+
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            var newForm = prototype.replace(/__name__/g, index);
+
+            // increase the index with one for the next item
+            $collectionHolder.data('index', index + 1);
+
+            // Display the form in the page in an li, before the "Add a tag" link li
+            var $newFormLi = $('<li></li>').append(newForm);
+            $newLinkLi.before($newFormLi);
+        }
+    });
+
+    $(document).ready(function() {
+        // $('.tel').numeric();
+        $('.tel').keyup(function() {
+            var saisie = $(this).val();
+            if (saisie.length > 0) {
+                var number = parseInt(saisie);
+                if ((typeof number != 'undefined') && (!isNaN(number))) {
+                    var newVal = (number == 0) ? '' : number;
+                    $(this).val(newVal);
+                }
+            }
+
+        });
+        $('#btn-rand-code').click(function() {
+            getNewCodeBase();
+        });
+    });
+    $('.libelle-class').change(function() {
+        $('#classe_libelleClasse').val("");
+        $('#classe_libelleClasse').val($('.info-niveau option:selected').text() + $('.info-filiere option:selected').text() + $('.info-indice option:selected').text());
+        //alert('tester le produit');
+
+    });
+
+
+    function ajoutNiveau(idfiliere) {
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_niveau_get') }}",
+            data: 'categorie=' + idfiliere,
+            beforeSend: function() {
+                //onLoadGobi();
+                $('.btAjoutNiveau'+idfiliere).hide();
+                $('.affichage-zone-niveau'+idfiliere).hide();
+
+                //    $('.ajoutMatiere').hide();
+            },
+            success: function(data) {
+                var idfielse = $('.fieldsetregroupement').attr("id");
+                var tabDesDomaine = $('.tablChoisi' + idfiliere).val().split('|');
+                // console.log(tabDesDomaine);
+               
+                if (data.donnee.length > 0) {
+                    // valeur= parseInt(valeur)+1;
+                    $('.zone-niveau' + idfiliere + idfielse).append("<option value=''>Choisissez le niveau</option> ");
+                    for (var pas = 0; pas < data.donnee.length; pas++) {
+                        if (jQuery.inArray(data.donnee[pas].id.toString(), tabDesDomaine) == -1) {
+                            $('.zone-niveau' + idfiliere + idfielse).append("<option value=" + data.donnee[pas].id + ">" + data.donnee[pas].libelleNiveau + "</option> ");
+                            // $('#selectproduit').val("");
+                        }
+                    }
+                    $('.zone-niveau' + idfiliere + idfielse).show();
+                    $('.zone-niveau' + idfiliere + idfielse).addClass("le-choix-niveau");
+                    //  $('.zone-niveau'+idfiliere).addClass('zone-niveau'+idfiliere+'1');
+                    $('.zone-niveau' + idfiliere + idfielse).removeClass("hide");
+                    // $('.zone-niveau'+idfiliere).removeClass('zone-niveau'+idfiliere);                    
+                    //  $('.zone-traite'+idfiliere+idfielse).append("<select class=\"zone-traite-matiere" + idfiliere + "  hide col-lg-6\" ></select><select class=\"zone-traite-type" + idfiliere + "   hide col-lg-6\" > </select>");
+                    // event.preventDefault();
+
+                    $('.fieldsetregroupement').addClass('fieldsetregroupement' + idfielse);
+                    $('.fieldsetregroupement').removeClass('fieldsetregroupement');
+                }
+                $('.recup-val-type').removeClass("recup-val-type");
+                $('.recup-val-coef').removeClass("recup-val-coef");
+                $('.recup-val-matiere').removeClass("recup-val-matiere");
+                var newidfielse = parseInt(idfielse) + 1;
+
+                $('.general-niveau' + idfiliere).append("<br/><fieldset class=\"fieldsetregroupement\" id=\"" + newidfielse + "\" ><select rel=\"" + newidfielse + "\" id=\"" + idfiliere + "\" class=\"zone-niveau" + idfiliere + "" + newidfielse + " le-choix-niveau-multi" + idfiliere + " form-control hide le-choix-niveau\"> <input type=\"hidden\" class=\"tablChoisiMatiere" + idfiliere + "\" /><input type=\"hidden\" class=\"tablChoisiType" + idfiliere + "\" /><div class=\"zone-traite" + idfiliere + "" + newidfielse + "\" ></div></fieldset>");
+            },
+            complete: function() {
+            }
+        });
+    }
+
+
+    function configFiliere(idfiliere) {
+        var donneeTraitement = $('.donneeTraitement' + idfiliere).val();
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_traite_config') }}",
+            data: 'idfiliere=' + idfiliere + '&donnee=' + donneeTraitement,
+            beforeSend: function() {
+
+            },
+            success: function(data) {                
+                window.location.reload();
+            },
+            complete: function() {
+            }
+        });
+    }
+
+    $(document).on('change', '.le-choix-niveau', function() {
+
+        var id = $(this).attr('id');
+        var rel = $(this).attr('rel');
+        var valId = $(this).val();
+        // alert(id);
+        var tablChoisi = $('.tablChoisi' + id).val() + '|' + $(".le-choix-niveau-multi" + id).val();
+        $('.tablChoisi' + id).val(tablChoisi);
+        $('.zone-matiere').addClass("zone-matiere" + valId);
+        $('.zone-matiere').removeClass("zone-matiere");
+
+        $('.zone-traite-matiere' + id).addClass("zone-traite-matiere" + id + valId);
+        $('.zone-traite-matiere' + id).removeClass("zone-traite-matiere" + id);
+
+        $('.zone-traite-type' + id).addClass("zone-traite-type" + id + valId);
+        $('.zone-traite-type' + id).removeClass("zone-traite-type" + id);
+        $('.zone-traite-coef' + id).addClass("zone-traite-coef" + id + valId);
+        $('.zone-traite-coef' + id).removeClass("zone-traite-coef" + id);
+
+        $('.zone-traite' + id + rel).addClass("zone-traite" + id + rel + valId);
+        $('.zone-traite' + id + rel).removeClass("zone-traite" + id + rel);
+
+        $('.tablChoisiMatiere' + id).addClass("tablChoisiMatiere" + id + valId);
+        $('.tablChoisiMatiere' + id).removeClass("tablChoisiMatiere" + id);
+
+       {# $('.tablChoisiMatiere'+id).addClass("tablChoisiMatiere"+id+ valId);
+        $('.tablChoisiMatiere'+id).removeClass("tablChoisiMatiere"+id);#}
+
+        $('.tablChoisiType' + id).addClass("tablChoisiType" + id + valId);
+        $('.tablChoisiType' + id).removeClass("tablChoisiType" + id);
+
+        $('.le-choix-niveau').removeClass("le-choix-niveau");
+
+        $('.le-choix-niveau-multi' + id).removeClass("le-choix-niveau-multi" + id);
+        //Mettre les données concernant la matiere et le type de matiere qui s'est
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_niveau_get_info_matiere_type') }}",
+            data: 'categorie=' + valId,
+            beforeSend: function() {
+                //onLoadGobi();
+            },
+            success: function(data) {
+                var tabDesMatiere = $('.tablChoisiMatiere' + id + valId).val().split('|');
+                var tabDesType = $('.tablChoisiType' + id + valId).val().split('|');
+                // console.log(tabDesDomaine);
+                if (data.donnee[0].length > 0) {
+                    // valeur= parseInt(valeur)+1;
+                    $('.zone-traite-matiere' + id + valId).append("<option value=''>Choisissez votre matière</option> ");
+                    for (var pas = 0; pas < data.donnee[0].length; pas++) {
+                        if (jQuery.inArray(data.donnee[0][pas].id.toString(), tabDesMatiere) == -1) {
+                            $('.zone-traite-matiere' + id + valId).append("<option value=" + data.donnee[0][pas].id + ">" + data.donnee[0][pas].libelleMatiere + "</option> ");
+                            // $('#selectproduit').val("");
+                        }
+                    }
+                    $('.zone-traite-matiere' + id + valId).show();
+                    $('.zone-traite-matiere' + id + valId).removeClass("hide");
+
+                    $('.zone-traite-type' + id + valId).append("<option value=''>Choisissez le type </option> ");
+                    for (var pas = 0; pas < data.donnee[1].length; pas++) {
+                        if (jQuery.inArray(data.donnee[1][pas].id.toString(), tabDesType) == -1) {
+                            $('.zone-traite-type' + id + valId).append("<option value=" + data.donnee[1][pas].id + ">" + data.donnee[1][pas].libelleTypeMatiere + "</option> ");
+                            // $('#selectproduit').val("");
+                        }
+                    }
+                    //   $('.zone-traite-type'+id+valId).
+                    $('.zone-traite-type' + id + valId).show();
+                    $('.zone-traite-type' + id + valId).removeClass("hide");
+                    $('.zone-traite-coef' + id + valId).show();
+                    $('.zone-traite-coef' + id + valId).removeClass("hide");
+                    $('.zone-traite-matiere' + id + valId).removeClass("zone-traite-matiere" + id + valId);
+                    $('.zone-traite-type' + id + valId).removeClass("zone-traite-type" + id + valId);
+                    $('.zone-traite-coef' + id + valId).removeClass("zone-traite-coef" + id + valId);
+                    $('.ajoutMatiereType').hide();
+                    // event.preventDefault();
+                }
+                $(".zone-traite" + id + rel + valId).append("<div class=\"col-lg-4\"> <select id=\"" + id + "\"  rel=\"" + valId + "\" class=\"form-control recup-val-matiere zone-traite-matiere" + +id + valId + "  hide col-lg-6\" ></select></div><div class=\"col-lg-4\"><input type=\"text\" id=\"" + id + "\" rel=\"" + valId + "\"  class=\"form-control recup-val-coef  zone-traite-coef" + +id + valId + "   hide col-lg-6\" /></div><div class=\"col-lg-4\"> <select id=\"" + id + "\" rel=\"" + valId + "\"  class=\"form-control recup-val-type  zone-traite-type" + +id + valId + "   hide col-lg-6\" > </select></div><button type=\"button\" id=\"" + id + "\" rel=\"" + rel + "\" class=\"ajoutMatiereType btn\">Ajouter </button>");
+            },
+            complete: function() {
+            }
+        });
+        $('.ajoutDomaine' + id).show();
+    });
+
+    $(document).on('click', '.ajoutMatiereType', function() {
+
+        var id = $(this).attr('id');
+
+        var rel = $(this).attr('rel');
+        
+        var val_rel = $('.val-zone-niveau'+id).val();
+        var valId = $(".zone-niveau" + id + rel).val(); // un peu aleatoire
+        $(".ajoutMatiereType").hide();
+        
+        var tablFilChoisi = '';
+        
+        
+        var siValeur = $('.siValeur'+ id ).val();
+        if(siValeur == 1){
+         tablFilChoisi = $('.tablFilChoisi'+ id + val_rel).val().split('|');
+        }
+       // alert('.tablFilChoisi'+ id + val_rel);
+         
+        var tablChoisi = $(".tablChoisiMatiere" + id + valId).val() + '|' + $(".recup-val-matiere").val();
+
+        $(".tablChoisiMatiere" + id + valId).val(tablChoisi);
+        //Mettre les données concernant la matiere et le type de matiere qui s'est
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_niveau_get_info_matiere_type') }}",
+            data: 'categorie=' + valId,
+            beforeSend: function() {
+                //onLoadGobi();
+            },
+            success: function(data) {
+                var tabDesMatiere = '';//$('.tablChoisiMatiere'+id+valId).val().split('|');
+                var tabDesType = '';//$('.tablChoisiType'+id+valId).val().split('|');
+                // console.log(tabDesDomaine);
+                if (data.donnee[0].length > 0) {
+                    // valeur= parseInt(valeur)+1;
+                  
+                    $('.zone-traite-matiere' + id + valId).append("<option value=''>Choisissez votre matière</option> ");
+                    for (var pas = 0; pas < data.donnee[0].length; pas++) {
+                        
+                        if (jQuery.inArray(data.donnee[0][pas].id.toString(), tablFilChoisi) == -1 ) {
+                            $('.zone-traite-matiere' + id + valId).append("<option value=" + data.donnee[0][pas].id + ">" + data.donnee[0][pas].libelleMatiere + "</option> ");
+                            // $('#selectproduit').val("");
+                            
+                        }
+                    }
+                    $('.zone-traite-matiere' + id + valId).show();
+                    $('.zone-traite-matiere' + id + valId).removeClass("hide");
+                    $('.zone-traite-coef' + id + valId).removeClass("hide");
+
+                    $('.zone-traite-type' + id + valId).append("<option value=''>Choisissez le type </option> ");
+                    for (var pas = 0; pas < data.donnee[1].length; pas++) {
+                        if (jQuery.inArray(data.donnee[1][pas].id.toString(), tabDesType) == -1) {
+                            $('.zone-traite-type' + id + valId).append("<option value=" + data.donnee[1][pas].id + ">" + data.donnee[1][pas].libelleTypeMatiere + "</option> ");
+                            // $('#selectproduit').val("");
+                        }
+                    }
+                    //   $('.zone-traite-type'+id+valId).
+                    $('.zone-traite-type' + id + valId).show();
+                    $('.zone-traite-type' + id + valId).removeClass("hide");
+                    $('.zone-traite-coef' + id + valId).show();
+                    //  $('.zone-traite-cof'+id+valId).removeClass("hide");
+                    $('.zone-traite-matiere' + id + valId).removeClass("zone-traite-matiere" + id + valId);
+                    $('.zone-traite-type' + id + valId).removeClass("zone-traite-type" + id + valId);
+                    $('.zone-traite-coef' + id + valId).removeClass("zone-traite-coef" + id + valId);
+                    $('.ajoutMatiereType').hide();
+                    // event.preventDefault();
+                }
+                $(".zone-traite" + id + rel + valId).append("<div class=\"col-lg-4\"> <select id=\"" + id + "\"  rel=\"" + valId + "\" class=\"form-control zone-traite-matiere" + +id + valId + "  hide col-lg-6\" ></select></div><div class=\"col-lg-4\"><input type=\"text\" id=\"" + id + "\" rel=\"" + valId + "\"  class=\"form-control  zone-traite-coef" + +id + valId + "   hide col-lg-6\"></div><div class=\"col-lg-4\"> <select id=\"" + id + "\"  rel=\"" + valId + "\"class=\"form-control zone-traite-type" + +id + valId + "   hide col-lg-6\" > </select></div><button type=\"button\" id=\"" + id + "\" rel=\"" + rel + "\" class=\"ajoutMatiereType btn\" >Ajouter </button>");
+            },
+            complete: function() {
+            }
+        });
+
+
+
+      {#  $('.general-niveau' + id).append("<br/><fieldset ><select  id=\"" + id + "\" class=\"zone-niveau" + id + " le-choix-niveau-multi" + id + " form-control hide le-choix-niveau\"> <input type=\"hidden\" class=\"tablChoisiMatiere" + id + "\" /><input type=\"hidden\" class=\"tablChoisiType" + id + "\" /><div class=\"zone-traite" + id + "\" ></div></fieldset>");
+
+                                                   
+                                              
+        $('.ajoutDomaine' + id).show();#}
+    });
+    $(document).on('change', '.recup-val-type', function() {
+        
+        var id = $(this).attr('id');
+        var rel = $(this).attr('rel');
+        //alert(id);
+        var donneeTraitement = $('.donneeTraitement' + id).val() + '|' + rel + '-' + $(this).val() + '-' + $('.recup-val-coef').val() + '-' + $('.recup-val-matiere').val();
+        $('.donneeTraitement' + id).val(donneeTraitement);
+        //Bo
+        $('.recup-val-type').removeClass("recup-val-type");
+        $('.recup-val-matiere').removeClass("recup-val-matiere");
+        $('.recup-val-coef').removeClass("recup-val-coef");
+        $('.zone-traite-matiere' + id + rel).addClass("recup-val-matiere");
+        $('.zone-traite-type' + id + rel).addClass("recup-val-type");
+        $('.zone-traite-coef' + id + rel).addClass("recup-val-coef");
+        $('.btTrait'+id).show();
+
+    });
+</script>
+{% endblock %}

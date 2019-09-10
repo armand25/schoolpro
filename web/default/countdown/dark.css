@@ -1,0 +1,36 @@
+.congres-countdown{}
+.congres-countdown{font-family: Tahoma;}
+.congres-countdown #countdown_dashboard {height: 55px;}
+.congres-countdown .dash {
+	width: 52px;
+	height: 35px;
+	background: transparent url('images/dash.png') 0 0 no-repeat;
+	float: left;
+	margin-left: 10px;
+	padding-left: 2px;
+	position: relative;
+	color: #333;
+}
+.congres-countdown .weeks_dash {background: transparent url('images/dark_days_dash0.png') 0 0 no-repeat; background-size:50px 33px;}
+.congres-countdown .days_dash {background: transparent url('images/dark_days_dash0.png') 0 0 no-repeat; background-size:50px 33px;}
+.congres-countdown .hours_dash {background: transparent url('images/dark_days_dash0.png') 0 0 no-repeat; background-size:50px 33px;}
+.congres-countdown .minutes_dash {background: transparent url('images/dark_days_dash0.png') 0 0 no-repeat; background-size:50px 33px;}
+.congres-countdown .seconds_dash {background: transparent url('images/dark_days_dash0.png') 0 0 no-repeat; background-size:50px 33px;}
+.congres-countdown .dash .digit {
+	font: bold 18pt impact;
+	font-weight: bold;
+	float: left;
+	width: 24px; padding-top:2px;
+	text-align: center;
+	position: relative;
+/* 	border:1Px solid red; */
+}
+.congres-countdown .dash_title {display: none;}
+.congres-countdown #loading {
+	text-align: center;
+	margin: 10px;
+	display: none;
+	position: absolute;
+	width: 100%;
+	top: 60px;
+}

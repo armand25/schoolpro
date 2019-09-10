@@ -1,0 +1,328 @@
+<?php
+
+/**
+ * 
+ * Définition de l'entité Pays
+ * Cette entité represente un pays
+ * 
+ * @author Edmond AMUAKU <edmond.amuaku@ace3i.com> 
+ * 
+ * 
+ */
+
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \admin\UserBundle\Types\TypeEtat;
+
+
+/**
+ * Sms
+ *
+ * @ORM\Table(name="sms")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\SmsRepository")
+ */
+class Sms {
+
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $numeroTel 
+     * 
+     * 
+     * @ORM\Column(name="numero_tel", type="string", length=20, nullable=false)
+     */
+    private $numeroTel;
+
+    /**
+     * @var \DateTime $dateSms
+     *
+     * @ORM\Column(name="date_sms", type="datetime", nullable=true)
+     */
+    private $dateSms;
+
+    /**
+     * @var string $contenue 
+     * 
+     * @ORM\Column(name="contenue", type="string", length=160)
+     */
+    private $contenue;
+
+    /**
+     * @var string $motCle 
+     * 
+     * @ORM\Column(name="mot_cle", type="string", length=160, nullable=true)
+     */
+    private $motCle;
+
+    /**
+     * @var boolean $isSmsRecu
+     *
+     * @ORM\Column(name="is_sms_recu", type="boolean")
+     */
+    private $isSmsRecu;
+    
+     /**
+     * @var integer $nombrePage
+     *
+     * @ORM\Column(name="nombre_page", type="integer")
+     */
+    private $nombrePage;
+    
+    /**
+     * @var string $api 
+     * 
+     * @ORM\Column(name="api", type="string", length=200, nullable=true)
+     */
+    private $api;
+    
+    
+
+    /**
+     * @var NumeroCourt $numeroCourt 
+     * 
+     * @ORM\ManyToOne(targetEntity="admin\SmsBundle\Entity\NumeroCourt", inversedBy="sms")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $numeroCourt;
+
+    /**
+     * @var OrdreVirement $ordreVirement 
+     * 
+     * @ORM\OneToOne(targetEntity="admin\VirementBundle\Entity\OrdreVirement")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $ordreVirement;
+
+    public function __construct() {
+        $this->dateSms = new \DateTime();
+        $this->nombrePage = 1;
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set numeroTel
+     *
+     * @param string $numeroTel
+     * @return Sms
+     */
+    public function setNumeroTel($numeroTel)
+    {
+        $this->numeroTel = $numeroTel;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroTel
+     *
+     * @return string 
+     */
+    public function getNumeroTel()
+    {
+        return $this->numeroTel;
+    }
+
+    /**
+     * Set dateSms
+     *
+     * @param \DateTime $dateSms
+     * @return Sms
+     */
+    public function setDateSms($dateSms)
+    {
+        $this->dateSms = $dateSms;
+
+        return $this;
+    }
+
+    /**
+     * Get dateSms
+     *
+     * @return \DateTime 
+     */
+    public function getDateSms()
+    {
+        return $this->dateSms;
+    }
+
+    /**
+     * Set contenue
+     *
+     * @param string $contenue
+     * @return Sms
+     */
+    public function setContenue($contenue)
+    {
+        $this->contenue = $contenue;
+
+        return $this;
+    }
+
+    /**
+     * Get contenue
+     *
+     * @return string 
+     */
+    public function getContenue()
+    {
+        return $this->contenue;
+    }
+
+    /**
+     * Set isSmsRecu
+     *
+     * @param boolean $isSmsRecu
+     * @return Sms
+     */
+    public function setIsSmsRecu($isSmsRecu)
+    {
+        $this->isSmsRecu = $isSmsRecu;
+
+        return $this;
+    }
+
+    /**
+     * Get isSmsRecu
+     *
+     * @return boolean 
+     */
+    public function getIsSmsRecu()
+    {
+        return $this->isSmsRecu;
+    }
+
+    /**
+     * Set nombrePage
+     *
+     * @param integer $nombrePage
+     * @return Sms
+     */
+    public function setNombrePage($nombrePage)
+    {
+        $this->nombrePage = $nombrePage;
+
+        return $this;
+    }
+
+    /**
+     * Get nombrePage
+     *
+     * @return integer 
+     */
+    public function getNombrePage()
+    {
+        return $this->nombrePage;
+    }
+
+    /**
+     * Set api
+     *
+     * @param string $api
+     * @return Sms
+     */
+    public function setApi($api)
+    {
+        $this->api = $api;
+
+        return $this;
+    }
+
+    /**
+     * Get api
+     *
+     * @return string 
+     */
+    public function getApi()
+    {
+        return $this->api;
+    }
+
+    /**
+     * Set numeroCourt
+     *
+     * @param \admin\SmsBundle\Entity\NumeroCourt $numeroCourt
+     * @return Sms
+     */
+    public function setNumeroCourt(\admin\SmsBundle\Entity\NumeroCourt $numeroCourt)
+    {
+        $this->numeroCourt = $numeroCourt;
+
+        return $this;
+    }
+
+    /**
+     * Get numeroCourt
+     *
+     * @return \admin\SmsBundle\Entity\NumeroCourt 
+     */
+    public function getNumeroCourt()
+    {
+        return $this->numeroCourt;
+    }
+
+    /**
+     * Set motCle
+     *
+     * @param string $motCle
+     * @return Sms
+     */
+    public function setMotCle($motCle)
+    {
+        $this->motCle = $motCle;
+
+        return $this;
+    }
+
+    /**
+     * Get motCle
+     *
+     * @return string 
+     */
+    public function getMotCle()
+    {
+        return $this->motCle;
+    }
+
+    /**
+     * Set ordreVirement
+     *
+     * @param \admin\VirementBundle\Entity\OrdreVirement $ordreVirement
+     * @return Sms
+     */
+    public function setOrdreVirement(\admin\VirementBundle\Entity\OrdreVirement $ordreVirement = null)
+    {
+        $this->ordreVirement = $ordreVirement;
+
+        return $this;
+    }
+
+    /**
+     * Get ordreVirement
+     *
+     * @return \admin\VirementBundle\Entity\OrdreVirement 
+     */
+    public function getOrdreVirement()
+    {
+        return $this->ordreVirement;
+    }
+}

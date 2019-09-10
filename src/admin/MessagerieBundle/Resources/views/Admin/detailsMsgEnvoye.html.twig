@@ -1,0 +1,330 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}Détails message envoyé{% endblock %}
+{% block file_arriane %}
+    {% if  isEleve(sessionData.codeProfil)  %}
+     <div class="fond-fil-ariane-eleve-accueil" >
+    {% elseif  isParentEleve(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-peleve-message" >  
+    {% elseif  isEnseignant(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-ens-accueil" >  
+    {% else  %}
+          <div class="fond-fil-ariane-admin-accueil" >         
+    {% endif  %}
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Messagerie </h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Messagerie</span> ><span class="fil-3"> Détail message </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+
+
+        {% for contenu in app.session.getflashbag.get('send.msg.succes')%}
+            {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+    </div>
+</div>
+            {% endif%}
+        {% endfor%}
+        {% for contenu in app.session.getflashbag.get('envoi.modifier.success')%}
+            {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+    </div>
+</div>
+            {% endif%}
+        {% endfor%}
+        {% for contenu in app.session.getflashbag.get('message.modifier.success')%}
+            {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+    </div>
+</div>
+            {% endif%}
+        {% endfor%}
+        {% for contenu in app.session.getflashbag.get('ticket.cloturer.success')%}
+            {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+    </div>
+</div>
+            {% endif%}
+        {% endfor%}
+
+<div class="row" style="margin:0px -17px; " >
+    <div class="col-md-2 " style="">
+
+        <div class="grid-inbox">   
+            <div class="">
+                <ul class="ca-menu">
+                    <li >
+                        <a href="{{path('app_messagerie_boite_reception')}}"    >
+                            <span class="ca-icon">B</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Boîte de récpetion</h2>
+
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{path('app_messagerie_msg_envoyes')}}"   class="active" >
+                            <span class="ca-icon">M</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Messages envoyés</h2>
+
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{path('app_messagerie_send_msg_to_utilisateur')}}"  >
+                            <span class="ca-icon">E</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Ecrire aux utilisateurs</h2>
+
+                            </div>
+                        </a>
+                    </li>
+
+                </ul>
+            </div> 
+        </div>
+    </div>
+    <div class="col-md-10 " >
+        <div class="panel panel-white">              
+            <div class="panel-body">
+                <div  style="margin-bottom:20px;margin-top: -5px; ">
+
+                    
+                          
+
+                                        {% for env in fils.fil %}
+                                            {% if env.message is not null %}
+                                                {% set unMessage = env.message  %}
+                                                {%  set expe = getEmetteurOfMessage(unMessage) %}
+                                                {% set destinataire = getDestinairesOfMessage(env.message) %}
+                                                {% set libelles = getLibelleAMessageEnvois(destinataire) %}
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title panel-heading-gobi" data-id="{{env.id}}" >
+                                                        <a class="accordion-toggle tooltipGobi"  title="{{libelles.libelle}}" style="" data-toggle="collapse"  data-parent="#accordion" href="#collapse{{env.id}}">
+                                                            <div class="pointer-cursor"  style="line-height: 20px" >
+                                                                    {% if (unMessage.utilisateur is not null ) and (unMessage.utilisateur.id == sessionData.id) %}
+                                                                Moi
+                                                                    {% else %}
+                                                                        {{expe.nom~' '~expe.prenoms}}
+                                                                    {% endif %}
+                                                                <small class="pull-right">{{unMessage.dateEnvoi|date('d/m/Y H:i:s')}}</small> 
+                                                            </div>
+                                                            <div class="pointer-cursor" style="line-height: 20px">
+                                                                    {{unMessage.objet}}
+                                                                    {#{% if isMsgNonLu(env.statut) %}
+                                                                        <span class="label label-success">Nouveau</span>
+                                                                    {% endif %}#}
+                                                            </div>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapse{{env.id}}" class="panel-collapse collapse {% if (fils.idFirstEnvoiNonLu == env.id) or (loop.last) %} in {% endif %}">
+                                                    <div class="panel-body">
+                                                        <div>
+                                                                {{unMessage.contenu|raw}}
+                                                        </div>
+                                                        <div class="pull-right">
+
+
+
+                                                           {# <a href="{{path('app_messagerie_send_msg_to_abonne', {"idMessageTransfere" : unMessage.id})}}">Transférer à abonné</a> |#}
+                                                            <a href="{{path('app_messagerie_send_msg_to_utilisateur', {"idMessageTransfere" : unMessage.id})}}">Transférer </a> 
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        </div>
+                                        <!--collapse end-->
+                                        <div>
+                                        {% set debutTicket = getMessageDebutTiket(message.codeFil) %}
+                                        {% if ( not message.cloturer) and (debutTicket is not null ) and canCloturer(debutTicket, sessionData) %}
+                                            <span class="btnCloturerOne tooltipGobi" title="Clôturer" data-id="{{message.id}}">
+                                                cloturer
+                                            </span> 
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                  
+            
+     
+
+
+        {#A ne pas affacer. Important#}
+<span class="filMessageTestDDDD hide">I</span>
+        {# FIN A ne pas affacer. Important#}
+
+
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.btnDelOne').click(function() {
+            var tab = [];
+            var id = parseInt($(this).attr('data-id'));
+            if (id > 0) {
+                tab[0] = id;
+            }
+            var nb = tab.length;
+            if (nb === 0) {
+                error_message('Attention', "Veillez séllectionner le message à supprimer");
+            } else {
+                afficherConfirmationSetEtat(tab);
+            }
+        });
+
+
+        $('.btnCloturerOne').click(function() {
+
+            var tab = [];
+            var id = parseInt($(this).attr('data-id'));
+            if (id > 0) {
+                tab[0] = id;
+            }
+            var nb = tab.length;
+            if (nb === 0) {
+                error_message('Attention', "Veillez séllectionner le message à clôturer");
+            } else {
+                afficherConfirmationCloturerMsg(tab);
+            }
+
+        });
+    });
+
+    function afficherConfirmationSetEtat(tab) {
+        $('<div id="msg" title="Confirmation"><p> Voulez-vous suprrimer le message selectionné ? </p></div>').dialog({
+            hide: {
+                // effect: "explode"isEmetteur,
+                duration: 500
+            },
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                " Annuler ": function() {
+                    $(this).dialog('close');
+                },
+                " Confirmer ": function() {
+                    setEtatMessage(tab);
+                    $(this).dialog('close');
+                }
+            }
+
+        }).dialog('open');
+    }
+
+    function afficherConfirmationCloturerMsg(tab) {
+        $('<div id="msg" title="Confirmation"><p> Voulez-vous clôturer le ticket selectionné ? </p></div>').dialog({
+            hide: {
+                // effect: "explode"isEmetteur,
+                duration: 500
+            },
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                " Annuler ": function() {
+                    $(this).dialog('close');
+                },
+                " Confirmer ": function() {
+                    cloturerMessage(tab);
+                    $(this).dialog('close');
+                }
+            }
+
+        }).dialog('open');
+    }
+
+    function cloturerMessage(tabIds) {
+
+        var ajaxId = prepareAjaxData(tabIds);
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_messagerie_end_ticket') }}",
+            data: 'sId=' + ajaxId + '&etat=2',
+            beforeSend: function() {
+                onLoadGobi();
+            },
+            success: function(rep) {
+                closeOnLoadGobi();
+                if (rep['etat']) {
+                    window.location.reload();
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+                closeOnLoadGobi();
+            }
+
+        });
+    }
+
+    function setEtatMessage(tabIds) {
+
+        var ajaxId = prepareAjaxData(tabIds);
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_messagerie_set_etat_msg_recu') }}",
+            data: 'sId=' + ajaxId + '&etat=2',
+            beforeSend: function() {
+                onLoadGobi();
+            },
+            success: function(rep) {
+                closeOnLoadGobi();
+                if (rep['etat']) {
+                    window.location.reload();
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+                closeOnLoadGobi();
+            }
+
+        });
+    }
+
+
+
+</script>
+{% endblock %}

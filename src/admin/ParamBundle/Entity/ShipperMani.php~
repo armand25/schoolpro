@@ -1,0 +1,737 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="shippermani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\ShipperManiRepository")
+ */
+class ShipperMani {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $ids
+     *
+     * @ORM\Column(name="ids", type="string", length=11)
+     */
+    private $ids;
+
+    /**
+     * @var string $code
+     *
+     * @ORM\Column(name="code", type="string", length=35)
+     */
+    private $code;
+
+    /**
+     * @var string $type
+     *
+     * @ORM\Column(name="type", type="string", length=3)
+     */
+    private $type;
+
+    /**
+     * @var string $codeTyplist
+     *
+     * @ORM\Column(name="code_typlist", type="string", length=17)
+     */
+    private $codeTyplist;
+
+    /**
+     * @var string $codeResplist
+     *
+     * @ORM\Column(name="code_resplist", type="string", length=3)
+     */
+    private $codeResplist;
+
+    /**
+     * @var string $nameForm
+     *
+     * @ORM\Column(name="name_form", type="string", length=3)
+     */
+    private $nameForm;
+
+    /**
+     * @var string $name1
+     *
+     * @ORM\Column(name="name1", type="string", length=35)
+     */
+    private $name1;
+
+
+    /**
+     * @var string $name2
+     *
+     * @ORM\Column(name="name2", type="string", length=35)
+     */
+    private $name2;
+
+    /**
+     * @var string $name3
+     *
+     * @ORM\Column(name="name3", type="string", length=35)
+     */
+    private $name3;
+
+    /**
+     * @var string $name4
+     *
+     * @ORM\Column(name="name4", type="string", length=35)
+     */
+    private $name4;
+
+    /**
+     * @var string $name5
+     *
+     * @ORM\Column(name="name5", type="string", length=35)
+     */
+    private $name5;
+
+    /**
+     * @var string $nameAddress1
+     *
+     * @ORM\Column(name="name_address1", type="string", length=35)
+     */
+    private $nameAddress1;
+
+    /**
+     * @var string $nameAddress2
+     *
+     * @ORM\Column(name="name_address2", type="string", length=35)
+     */
+    private $nameAddress2;
+
+    /**
+     * @var string $nameAddress3
+     *
+     * @ORM\Column(name="name_address3", type="string", length=35)
+     */
+    private $nameAddress3;
+
+    /**
+     * @var string $nameAddress4
+     *
+     * @ORM\Column(name="name_address4", type="string", length=35)
+     */
+    private $nameAddress4;
+
+    /**
+     * @var string $nameAddress5
+     *
+     * @ORM\Column(name="name_address5", type="string", length=35)
+     */
+    private $nameAddress5;
+
+    /**
+     * @var string $contName 
+     *
+     * @ORM\Column(name="contname ", type="string", length=256)
+     */
+    private $contName;
+
+    /**
+     * @var string $contIdentifier
+     *
+     * @ORM\Column(name="contIdentifier", type="string", length=17)
+     */
+    private $contIdentifier;
+
+    /**
+     *
+     * @var ArrayCollection $partyaddresses 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\PartyAddress", cascade={"persist", "remove"}, mappedBy="shippermani")
+     * 
+     */
+    private $partyaddresses;
+
+    /**
+     *
+     * @var ArrayCollection $partycoms 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\PartyCom", cascade={"persist", "remove"}, mappedBy="shippermani")
+     * 
+     */
+    private $partycoms;
+
+    /**
+     *
+     * @var ArrayCollection $tauxdefretmans 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\TauxDeFretMan", cascade={"persist", "remove"}, mappedBy="shippermani")
+     * 
+     */
+    private $tauxdefretmans;
+
+    public function __construct() {
+        $this->partyaddresses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->partycoms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tauxdefretmans = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set ids
+     *
+     * @param string $ids
+     * @return ShipperMani
+     */
+    public function setIds($ids)
+    {
+        $this->ids = $ids;
+    
+        return $this;
+    }
+
+    /**
+     * Get ids
+     *
+     * @return string 
+     */
+    public function getIds()
+    {
+        return $this->ids;
+    }
+
+    /**
+     * Set code
+     *
+     * @param string $code
+     * @return ShipperMani
+     */
+    public function setCode($code)
+    {
+        $this->code = $code;
+    
+        return $this;
+    }
+
+    /**
+     * Get code
+     *
+     * @return string 
+     */
+    public function getCode()
+    {
+        return $this->code;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return ShipperMani
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set codeTyplist
+     *
+     * @param string $codeTyplist
+     * @return ShipperMani
+     */
+    public function setCodeTyplist($codeTyplist)
+    {
+        $this->codeTyplist = $codeTyplist;
+    
+        return $this;
+    }
+
+    /**
+     * Get codeTyplist
+     *
+     * @return string 
+     */
+    public function getCodeTyplist()
+    {
+        return $this->codeTyplist;
+    }
+
+    /**
+     * Set codeResplist
+     *
+     * @param string $codeResplist
+     * @return ShipperMani
+     */
+    public function setCodeResplist($codeResplist)
+    {
+        $this->codeResplist = $codeResplist;
+    
+        return $this;
+    }
+
+    /**
+     * Get codeResplist
+     *
+     * @return string 
+     */
+    public function getCodeResplist()
+    {
+        return $this->codeResplist;
+    }
+
+    /**
+     * Set nameForm
+     *
+     * @param string $nameForm
+     * @return ShipperMani
+     */
+    public function setNameForm($nameForm)
+    {
+        $this->nameForm = $nameForm;
+    
+        return $this;
+    }
+
+    /**
+     * Get nameForm
+     *
+     * @return string 
+     */
+    public function getNameForm()
+    {
+        return $this->nameForm;
+    }
+
+    /**
+     * Set name1
+     *
+     * @param string $name1
+     * @return ShipperMani
+     */
+    public function setName1($name1)
+    {
+        $this->name1 = $name1;
+    
+        return $this;
+    }
+
+    /**
+     * Get name1
+     *
+     * @return string 
+     */
+    public function getName1()
+    {
+        return $this->name1;
+    }
+
+    /**
+     * Set name2
+     *
+     * @param string $name2
+     * @return ShipperMani
+     */
+    public function setName2($name2)
+    {
+        $this->name2 = $name2;
+    
+        return $this;
+    }
+
+    /**
+     * Get name2
+     *
+     * @return string 
+     */
+    public function getName2()
+    {
+        return $this->name2;
+    }
+
+    /**
+     * Set name3
+     *
+     * @param string $name3
+     * @return ShipperMani
+     */
+    public function setName3($name3)
+    {
+        $this->name3 = $name3;
+    
+        return $this;
+    }
+
+    /**
+     * Get name3
+     *
+     * @return string 
+     */
+    public function getName3()
+    {
+        return $this->name3;
+    }
+
+    /**
+     * Set name4
+     *
+     * @param string $name4
+     * @return ShipperMani
+     */
+    public function setName4($name4)
+    {
+        $this->name4 = $name4;
+    
+        return $this;
+    }
+
+    /**
+     * Get name4
+     *
+     * @return string 
+     */
+    public function getName4()
+    {
+        return $this->name4;
+    }
+
+    /**
+     * Set name5
+     *
+     * @param string $name5
+     * @return ShipperMani
+     */
+    public function setName5($name5)
+    {
+        $this->name5 = $name5;
+    
+        return $this;
+    }
+
+    /**
+     * Get name5
+     *
+     * @return string 
+     */
+    public function getName5()
+    {
+        return $this->name5;
+    }
+
+    /**
+     * Set nameAddress1
+     *
+     * @param string $nameAddress1
+     * @return ShipperMani
+     */
+    public function setNameAddress1($nameAddress1)
+    {
+        $this->nameAddress1 = $nameAddress1;
+    
+        return $this;
+    }
+
+    /**
+     * Get nameAddress1
+     *
+     * @return string 
+     */
+    public function getNameAddress1()
+    {
+        return $this->nameAddress1;
+    }
+
+    /**
+     * Set nameAddress2
+     *
+     * @param string $nameAddress2
+     * @return ShipperMani
+     */
+    public function setNameAddress2($nameAddress2)
+    {
+        $this->nameAddress2 = $nameAddress2;
+    
+        return $this;
+    }
+
+    /**
+     * Get nameAddress2
+     *
+     * @return string 
+     */
+    public function getNameAddress2()
+    {
+        return $this->nameAddress2;
+    }
+
+    /**
+     * Set nameAddress3
+     *
+     * @param string $nameAddress3
+     * @return ShipperMani
+     */
+    public function setNameAddress3($nameAddress3)
+    {
+        $this->nameAddress3 = $nameAddress3;
+    
+        return $this;
+    }
+
+    /**
+     * Get nameAddress3
+     *
+     * @return string 
+     */
+    public function getNameAddress3()
+    {
+        return $this->nameAddress3;
+    }
+
+    /**
+     * Set nameAddress4
+     *
+     * @param string $nameAddress4
+     * @return ShipperMani
+     */
+    public function setNameAddress4($nameAddress4)
+    {
+        $this->nameAddress4 = $nameAddress4;
+    
+        return $this;
+    }
+
+    /**
+     * Get nameAddress4
+     *
+     * @return string 
+     */
+    public function getNameAddress4()
+    {
+        return $this->nameAddress4;
+    }
+
+    /**
+     * Set nameAddress5
+     *
+     * @param string $nameAddress5
+     * @return ShipperMani
+     */
+    public function setNameAddress5($nameAddress5)
+    {
+        $this->nameAddress5 = $nameAddress5;
+    
+        return $this;
+    }
+
+    /**
+     * Get nameAddress5
+     *
+     * @return string 
+     */
+    public function getNameAddress5()
+    {
+        return $this->nameAddress5;
+    }
+
+    /**
+     * Set contName
+     *
+     * @param string $contName
+     * @return ShipperMani
+     */
+    public function setContName($contName)
+    {
+        $this->contName = $contName;
+    
+        return $this;
+    }
+
+    /**
+     * Get contName
+     *
+     * @return string 
+     */
+    public function getContName()
+    {
+        return $this->contName;
+    }
+
+    /**
+     * Set contIdentifier
+     *
+     * @param string $contIdentifier
+     * @return ShipperMani
+     */
+    public function setContIdentifier($contIdentifier)
+    {
+        $this->contIdentifier = $contIdentifier;
+    
+        return $this;
+    }
+
+    /**
+     * Get contIdentifier
+     *
+     * @return string 
+     */
+    public function getContIdentifier()
+    {
+        return $this->contIdentifier;
+    }
+
+    /**
+     * Add partyaddresses
+     *
+     * @param \admin\ParamBundle\Entity\PartyAddress $partyaddresses
+     * @return ShipperMani
+     */
+    public function addPartyaddress(\admin\ParamBundle\Entity\PartyAddress $partyaddresses)
+    {
+        $this->partyaddresses[] = $partyaddresses;
+    
+        return $this;
+    }
+
+    /**
+     * Remove partyaddresses
+     *
+     * @param \admin\ParamBundle\Entity\PartyAddress $partyaddresses
+     */
+    public function removePartyaddress(\admin\ParamBundle\Entity\PartyAddress $partyaddresses)
+    {
+        $this->partyaddresses->removeElement($partyaddresses);
+    }
+
+    /**
+     * Get partyaddresses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPartyaddresses()
+    {
+        return $this->partyaddresses;
+    }
+
+    /**
+     * Add partycoms
+     *
+     * @param \admin\ParamBundle\Entity\PartyCom $partycoms
+     * @return ShipperMani
+     */
+    public function addPartycom(\admin\ParamBundle\Entity\PartyCom $partycoms)
+    {
+        $this->partycoms[] = $partycoms;
+    
+        return $this;
+    }
+
+    /**
+     * Remove partycoms
+     *
+     * @param \admin\ParamBundle\Entity\PartyCom $partycoms
+     */
+    public function removePartycom(\admin\ParamBundle\Entity\PartyCom $partycoms)
+    {
+        $this->partycoms->removeElement($partycoms);
+    }
+
+    /**
+     * Get partycoms
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPartycoms()
+    {
+        return $this->partycoms;
+    }
+
+    /**
+     * Add tauxdefretmans
+     *
+     * @param \admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans
+     * @return ShipperMani
+     */
+    public function addTauxdefretmani(\admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans)
+    {
+        $this->tauxdefretmans[] = $tauxdefretmans;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tauxdefretmans
+     *
+     * @param \admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans
+     */
+    public function removeTauxdefretmani(\admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans)
+    {
+        $this->tauxdefretmans->removeElement($tauxdefretmans);
+    }
+
+    /**
+     * Get tauxdefretmans
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTauxdefretmanis()
+    {
+        return $this->tauxdefretmans;
+    }
+
+    /**
+     * Add tauxdefretmans
+     *
+     * @param \admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans
+     * @return ShipperMani
+     */
+    public function addTauxdefretman(\admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans)
+    {
+        $this->tauxdefretmans[] = $tauxdefretmans;
+    
+        return $this;
+    }
+
+    /**
+     * Remove tauxdefretmans
+     *
+     * @param \admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans
+     */
+    public function removeTauxdefretman(\admin\ParamBundle\Entity\TauxDeFretMan $tauxdefretmans)
+    {
+        $this->tauxdefretmans->removeElement($tauxdefretmans);
+    }
+
+    /**
+     * Get tauxdefretmans
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTauxdefretmans()
+    {
+        return $this->tauxdefretmans;
+    }
+}

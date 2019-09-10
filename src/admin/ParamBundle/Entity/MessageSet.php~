@@ -1,0 +1,241 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="messageset")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\MessageSetRepository")
+ */
+class MessageSet {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer $idMessageSet
+     *
+     * @ORM\Column(name="id_messageset", type="string", length=14)
+     */
+    private $idMessageSet;
+
+    /**
+     * @var string $icid
+     *
+     * @ORM\Column(name="icid", type="string", length=14)
+     */
+    private $icid;
+
+    /**
+     * @var date $dateMessageSet
+     *
+     * @ORM\Column(name="date_messageset", type="datetime")
+     */
+    private $dateMessageSet;
+
+    /**
+     * @var Interchange  $interchange
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\Interchange", inversedBy="messagesets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $interchange;
+
+    /**
+     *
+     * @var ArrayCollection $destinataires
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\Destinataire", cascade={"persist", "remove"}, mappedBy="messageset")
+     * 
+     */
+    private $destinataires;
+
+    /**
+     *
+     * @var ArrayCollection $emetteurs
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\Emetteur", cascade={"persist", "remove"}, mappedBy="messageset")
+     * 
+     */
+    private $emetteurs;
+
+    public function __construct() {
+        $this->emetteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->destinataires = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idMessageSet
+     *
+     * @param string $idMessageSet
+     * @return MessageSet
+     */
+    public function setIdMessageSet($idMessageSet)
+    {
+        $this->idMessageSet = $idMessageSet;
+    
+        return $this;
+    }
+
+    /**
+     * Get idMessageSet
+     *
+     * @return string 
+     */
+    public function getIdMessageSet()
+    {
+        return $this->idMessageSet;
+    }
+
+    /**
+     * Set icid
+     *
+     * @param string $icid
+     * @return MessageSet
+     */
+    public function setIcid($icid)
+    {
+        $this->icid = $icid;
+    
+        return $this;
+    }
+
+    /**
+     * Get icid
+     *
+     * @return string 
+     */
+    public function getIcid()
+    {
+        return $this->icid;
+    }
+
+    /**
+     * Set dateMessageSet
+     *
+     * @param \DateTime $dateMessageSet
+     * @return MessageSet
+     */
+    public function setDateMessageSet($dateMessageSet)
+    {
+        $this->dateMessageSet = $dateMessageSet;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateMessageSet
+     *
+     * @return \DateTime 
+     */
+    public function getDateMessageSet()
+    {
+        return $this->dateMessageSet;
+    }
+
+    /**
+     * Set interchange
+     *
+     * @param \admin\ParamBundle\Entity\Interchange $interchange
+     * @return MessageSet
+     */
+    public function setInterchange(\admin\ParamBundle\Entity\Interchange $interchange)
+    {
+        $this->interchange = $interchange;
+    
+        return $this;
+    }
+
+    /**
+     * Get interchange
+     *
+     * @return \admin\ParamBundle\Entity\Interchange 
+     */
+    public function getInterchange()
+    {
+        return $this->interchange;
+    }
+
+    /**
+     * Add destinataires
+     *
+     * @param \admin\ParamBundle\Entity\Destinataire $destinataires
+     * @return MessageSet
+     */
+    public function addDestinataire(\admin\ParamBundle\Entity\Destinataire $destinataires)
+    {
+        $this->destinataires[] = $destinataires;
+    
+        return $this;
+    }
+
+    /**
+     * Remove destinataires
+     *
+     * @param \admin\ParamBundle\Entity\Destinataire $destinataires
+     */
+    public function removeDestinataire(\admin\ParamBundle\Entity\Destinataire $destinataires)
+    {
+        $this->destinataires->removeElement($destinataires);
+    }
+
+    /**
+     * Get destinataires
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDestinataires()
+    {
+        return $this->destinataires;
+    }
+
+    /**
+     * Add emetteurs
+     *
+     * @param \admin\ParamBundle\Entity\Emetteur $emetteurs
+     * @return MessageSet
+     */
+    public function addEmetteur(\admin\ParamBundle\Entity\Emetteur $emetteurs)
+    {
+        $this->emetteurs[] = $emetteurs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove emetteurs
+     *
+     * @param \admin\ParamBundle\Entity\Emetteur $emetteurs
+     */
+    public function removeEmetteur(\admin\ParamBundle\Entity\Emetteur $emetteurs)
+    {
+        $this->emetteurs->removeElement($emetteurs);
+    }
+
+    /**
+     * Get emetteurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEmetteurs()
+    {
+        return $this->emetteurs;
+    }
+}

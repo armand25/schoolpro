@@ -1,0 +1,28 @@
+admin_logistic:
+    resource: "@adminLogisticBundle/Resources/config/routing.yml"
+    prefix:   /
+
+admin_economat:
+    resource: "@adminEconomatBundle/Resources/config/routing.yml"
+    prefix:   /economat
+
+admin_scolarite:
+    resource: "@adminScolariteBundle/Resources/config/routing.yml"
+    prefix:   /scolarite
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+
+admin_param:
+    resource: "@adminParamBundle/Resources/config/routing.yml"
+    prefix:   /param
+
+admin_user:
+    resource: "@adminUserBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+#admin_standard:
+#    resource: "@adminMessagerieBundle/Resources/config/routingAbonne.yml"
+#    prefix:   /test

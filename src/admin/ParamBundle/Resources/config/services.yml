@@ -1,0 +1,19 @@
+services:
+# Gestion des parametre
+    parametre_manager:
+        class: admin\ParamBundle\Services\ParametreManager
+        arguments: ['@doctrine.orm.entity_manager']
+           
+    parametre_manager_twig:
+        class: admin\ParamBundle\Services\Twig\ParametreManagerTwig
+        arguments: ['@parametre_manager']
+        tags:
+           - { name: twig.extension } 
+
+# Service de gestion des opérations relatives aux dates
+    date_manager:
+        class: admin\ParamBundle\Services\DateManager
+    
+    randcode_manager:
+        class: admin\ParamBundle\Services\RandCodeManager
+    

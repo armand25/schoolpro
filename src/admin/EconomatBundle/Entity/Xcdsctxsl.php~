@@ -1,0 +1,72 @@
+<?php
+
+namespace admin\StockBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Xcdsctxsl.
+ *
+ * @ORM\Table(name="xcdsctxsl")
+ * @ORM\Entity(repositoryClass="admin\StockBundle\Entity\XcdsctxslRepository")
+ */
+class Xcdsctxsl
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_xcdsctxsl", type="string", length=50)
+     */
+    private $nomXcdsctxsl;
+
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="si_active", type="integer")
+     */
+    private $siActive;    
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nomXcdsctxsl
+     *
+     * @param string $nomXcdsctxsl
+     * @return Xcdsctxsl
+     */
+    public function setNomXcdsctxsl($nomXcdsctxsl)
+    {
+        $this->nomXcdsctxsl = $nomXcdsctxsl;
+    
+        return $this;
+    }
+
+    /**
+     * Get nomXcdsctxsl
+     *
+     * @return string 
+     */
+    public function getNomXcdsctxsl()
+    {
+        return $this->nomXcdsctxsl;
+    }
+}

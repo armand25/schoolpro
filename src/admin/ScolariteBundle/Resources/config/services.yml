@@ -1,0 +1,8 @@
+services:
+#    admin_scolarite.example:
+#        class: admin\ScolariteBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+    note_manager:
+        class: admin\ScolariteBundle\Services\NoteManager
+        arguments: ['@doctrine.orm.entity_manager']
+ 

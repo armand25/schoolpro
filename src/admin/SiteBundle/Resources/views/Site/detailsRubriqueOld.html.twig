@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <!-- Page Title -->
+    {% if rubrique is defined %}
+        <div class="page-title">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        <i class="icon-tasks page-title-icon"></i>
+                        <h2>{{rubrique.designationRubrique}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Services Full Width Text -->
+        {% for unArticle in rubrique.getArticles %}
+            <div class="services-full-width container">
+                <div class="row">
+                    <div class="services-full-width-text span12">
+                        <h4>{{unArticle.titre}}</h4>
+                        <p>{{unArticle.contenuArticle}}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+        <!-- Call To Action -->
+        <div class="call-to-action container">
+            <div class="row">
+                <div class="call-to-action-text span12">
+                    <div class="ca-text">
+                        <p>Lorem ipsum <span class="violet">dolor sit amet</span>, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et ut wisi enim.</p>
+                    </div>
+                    <div class="ca-button">
+                        <a href="">Try It Now!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

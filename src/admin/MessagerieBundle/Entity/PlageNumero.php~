@@ -1,0 +1,181 @@
+<?php
+/**
+ * 
+ * Définition de l'entité PlageNumero
+ * Cette entité represente une plage de numéro acquis auprès d'un Opérateur
+ * @see admin\SmsBundle\Entity\Operateur
+ *
+ * @author Edmond AMUAKU <edmond.amuaku@ace3i.com> 
+ * 
+ * 
+ */
+
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \admin\SmsBundle\Entity\Operateur;
+use \admin\UserBundle\Types\TypeEtat;
+
+
+ 
+/**
+ * PlageNumero
+ * 
+ * 
+ * @ORM\Table(name="plage_numero")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\PlageNumeroRepository")
+ */
+class PlageNumero{
+    /**
+     * @var integer $id 
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $debut 
+     * 
+     * @ORM\Column(name="debut", type="string", length=10)
+     * @Assert\Length(max=10)
+     * @Assert\NotBlank(message="Numero debut requise")
+     */
+    private $debut;
+    
+    /**
+     * @var string $fin 
+     * 
+     * @ORM\Column(name="fin", type="string", length=10, nullable=true)
+     * @Assert\Length(max=10)
+     */
+    private $fin;
+
+   /**
+     * @var integer $etat 
+     * @ORM\Column(name="etat", type="integer")
+     */
+    private $etat;
+
+    /**
+     * @var Operateur $operateur 
+     * 
+     * @ORM\ManyToOne(targetEntity="admin\SmsBundle\Entity\Operateur", inversedBy="plageNumeros")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $operateur;
+    
+    /**
+     * Le constructeur de l'objet PlageNumero
+     */
+    public function __construct(){
+        $this->etat = TypeEtat::ACTIF;
+        $this->fin = '';
+    }
+
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set debut
+     *
+     * @param string $debut
+     * @return PlageNumero
+     */
+    public function setDebut($debut)
+    {
+        $this->debut = $debut;
+
+        return $this;
+    }
+
+    /**
+     * Get debut
+     *
+     * @return string 
+     */
+    public function getDebut()
+    {
+        return $this->debut;
+    }
+
+    /**
+     * Set fin
+     *
+     * @param string $fin
+     * @return PlageNumero
+     */
+    public function setFin($fin)
+    {
+        $this->fin = $fin;
+
+        return $this;
+    }
+
+    /**
+     * Get fin
+     *
+     * @return string 
+     */
+    public function getFin()
+    {
+        return $this->fin;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return PlageNumero
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set operateur
+     *
+     * @param \admin\SmsBundle\Entity\Operateur $operateur
+     * @return PlageNumero
+     */
+    public function setOperateur(\admin\SmsBundle\Entity\Operateur $operateur)
+    {
+        $this->operateur = $operateur;
+
+        return $this;
+    }
+
+    /**
+     * Get operateur
+     *
+     * @return \admin\SmsBundle\Entity\Operateur 
+     */
+    public function getOperateur()
+    {
+        return $this->operateur;
+    }
+}

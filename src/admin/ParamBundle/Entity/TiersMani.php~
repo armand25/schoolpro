@@ -1,0 +1,98 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="tiersmani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\TiersManiRepository")
+ */
+class TiersMani
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var string $afret
+     *
+     * @ORM\Column(name="afret", type="string", length=9,nullable=true)
+     */
+    private $afret;
+       
+    /**
+     * @var Apd  $apd
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\Apd", inversedBy="tiersmanis")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_apd", referencedColumnName="id_apd")
+     * })
+     */    
+    private $apd; 
+
+
+   
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set afret
+     *
+     * @param string $afret
+     * @return TiersMani
+     */
+    public function setAfret($afret)
+    {
+        $this->afret = $afret;
+    
+        return $this;
+    }
+
+    /**
+     * Get afret
+     *
+     * @return string 
+     */
+    public function getAfret()
+    {
+        return $this->afret;
+    }
+
+    /**
+     * Set apd
+     *
+     * @param \admin\ParamBundle\Entity\Apd $apd
+     * @return TiersMani
+     */
+    public function setApd(\admin\ParamBundle\Entity\Apd $apd)
+    {
+        $this->apd = $apd;
+    
+        return $this;
+    }
+
+    /**
+     * Get apd
+     *
+     * @return \admin\ParamBundle\Entity\Apd 
+     */
+    public function getApd()
+    {
+        return $this->apd;
+    }
+}

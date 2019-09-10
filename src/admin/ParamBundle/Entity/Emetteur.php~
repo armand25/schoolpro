@@ -1,0 +1,97 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="emetteur")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\EmetteurRepository")
+ */
+class Emetteur
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+/**
+     * @var string $user
+     *
+     * @ORM\Column(name="user_emet", type="string", length=9)
+     */
+    private $user;
+    
+    /**
+     * @var string $tierProf
+     *
+     * @ORM\Column(name="teir_prof", type="string", length=9)
+     */
+    private $tierProf;
+
+
+
+   
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set user
+     *
+     * @param string $user
+     * @return Emetteur
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return string 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set tierProf
+     *
+     * @param string $tierProf
+     * @return Emetteur
+     */
+    public function setTierProf($tierProf)
+    {
+        $this->tierProf = $tierProf;
+    
+        return $this;
+    }
+
+    /**
+     * Get tierProf
+     *
+     * @return string 
+     */
+    public function getTierProf()
+    {
+        return $this->tierProf;
+    }
+}

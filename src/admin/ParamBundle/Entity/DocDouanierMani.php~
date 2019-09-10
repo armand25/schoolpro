@@ -1,0 +1,322 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use admin\ParamBundle\Entity\PrincipalMani;
+use admin\ParamBundle\Entity\LmarchandiseMani ;
+
+/**
+ * DocDouanierMani
+ *
+ * @ORM\Table(name="doc_douanier_mani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\DocDouanierManiRepository")
+ */
+class DocDouanierMani {
+
+    /**
+     * @var integer $idDocDouanierMani
+     *
+     * @ORM\Column(name="iddoc_douanier_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $idDocDouanierMani;
+
+    /**
+     * @var string $indLibreCirc
+     *
+     * @ORM\Column(name="ind_libre_circ", type="string", length=1, nullable=true)
+     */
+    private $indLibreCirc;
+
+    /**
+     * @var string $indMarchCom
+     *
+     * @ORM\Column(name="ind_march_comm", type="string", length=1, nullable=true)
+     */
+    private $indMarchCom;
+
+    /**
+     * @var string $typeDoc
+     *
+     * @ORM\Column(name="type_doc", type="string", length=6, nullable=true)
+     */
+    private $typeDoc;
+
+    /**
+     * @var string $num
+     *
+     * @ORM\Column(name="num", type="string", length=21, nullable=true)
+     */
+    private $num;
+
+    /**
+     * @var string $horoEmission
+     *
+     * @ORM\Column(name="horo_emission", type="string", length=16, nullable=true)
+     */
+    private $horoEmission;
+
+    /**
+     * @var string $bddEmission
+     *
+     * @ORM\Column(name="bdd_emission", type="string", length=8, nullable=true)
+     */
+    private $bddEmission;
+
+    /**
+     * @var string $expediteur
+     *
+     * @ORM\Column(name="expediteur", type="string", length=35, nullable=true)
+     */
+    private $expediteur;
+
+    /**
+     * @var string $destinataire
+     *
+     * @ORM\Column(name="destinataire", type="string", length=35, nullable=true)
+     */
+    private $destinataire;
+
+    /**
+     * @var ArrayCollection LmarchandiseMani $lmarchandiseMani
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\LmarchandiseMani", mappedBy="docDouanierMani")
+     * 
+     */
+    private $lmarchandiseMani;
+
+    public function __construct() {
+        
+    }
+
+  
+
+    /**
+     * Get idDocDouanierMani
+     *
+     * @return integer 
+     */
+    public function getIdDocDouanierMani()
+    {
+        return $this->idDocDouanierMani;
+    }
+
+    /**
+     * Set indLibreCirc
+     *
+     * @param string $indLibreCirc
+     * @return DocDouanierMani
+     */
+    public function setIndLibreCirc($indLibreCirc)
+    {
+        $this->indLibreCirc = $indLibreCirc;
+
+        return $this;
+    }
+
+    /**
+     * Get indLibreCirc
+     *
+     * @return string 
+     */
+    public function getIndLibreCirc()
+    {
+        return $this->indLibreCirc;
+    }
+
+    /**
+     * Set indMarchCom
+     *
+     * @param string $indMarchCom
+     * @return DocDouanierMani
+     */
+    public function setIndMarchCom($indMarchCom)
+    {
+        $this->indMarchCom = $indMarchCom;
+
+        return $this;
+    }
+
+    /**
+     * Get indMarchCom
+     *
+     * @return string 
+     */
+    public function getIndMarchCom()
+    {
+        return $this->indMarchCom;
+    }
+
+    /**
+     * Set typeDoc
+     *
+     * @param string $typeDoc
+     * @return DocDouanierMani
+     */
+    public function setTypeDoc($typeDoc)
+    {
+        $this->typeDoc = $typeDoc;
+
+        return $this;
+    }
+
+    /**
+     * Get typeDoc
+     *
+     * @return string 
+     */
+    public function getTypeDoc()
+    {
+        return $this->typeDoc;
+    }
+
+    /**
+     * Set num
+     *
+     * @param string $num
+     * @return DocDouanierMani
+     */
+    public function setNum($num)
+    {
+        $this->num = $num;
+
+        return $this;
+    }
+
+    /**
+     * Get num
+     *
+     * @return string 
+     */
+    public function getNum()
+    {
+        return $this->num;
+    }
+
+    /**
+     * Set horoEmission
+     *
+     * @param string $horoEmission
+     * @return DocDouanierMani
+     */
+    public function setHoroEmission($horoEmission)
+    {
+        $this->horoEmission = $horoEmission;
+
+        return $this;
+    }
+
+    /**
+     * Get horoEmission
+     *
+     * @return string 
+     */
+    public function getHoroEmission()
+    {
+        return $this->horoEmission;
+    }
+
+    /**
+     * Set bddEmission
+     *
+     * @param string $bddEmission
+     * @return DocDouanierMani
+     */
+    public function setBddEmission($bddEmission)
+    {
+        $this->bddEmission = $bddEmission;
+
+        return $this;
+    }
+
+    /**
+     * Get bddEmission
+     *
+     * @return string 
+     */
+    public function getBddEmission()
+    {
+        return $this->bddEmission;
+    }
+
+    /**
+     * Set expediteur
+     *
+     * @param string $expediteur
+     * @return DocDouanierMani
+     */
+    public function setExpediteur($expediteur)
+    {
+        $this->expediteur = $expediteur;
+
+        return $this;
+    }
+
+    /**
+     * Get expediteur
+     *
+     * @return string 
+     */
+    public function getExpediteur()
+    {
+        return $this->expediteur;
+    }
+
+    /**
+     * Set destinataire
+     *
+     * @param string $destinataire
+     * @return DocDouanierMani
+     */
+    public function setDestinataire($destinataire)
+    {
+        $this->destinataire = $destinataire;
+
+        return $this;
+    }
+
+    /**
+     * Get destinataire
+     *
+     * @return string 
+     */
+    public function getDestinataire()
+    {
+        return $this->destinataire;
+    }
+
+    /**
+     * Add lmarchandiseMani
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani
+     * @return DocDouanierMani
+     */
+    public function addLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani)
+    {
+        $this->lmarchandiseMani[] = $lmarchandiseMani;
+
+        return $this;
+    }
+
+    /**
+     * Remove lmarchandiseMani
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani
+     */
+    public function removeLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani)
+    {
+        $this->lmarchandiseMani->removeElement($lmarchandiseMani);
+    }
+
+    /**
+     * Get lmarchandiseMani
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLmarchandiseMani()
+    {
+        return $this->lmarchandiseMani;
+    }
+}

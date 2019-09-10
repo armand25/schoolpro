@@ -1,0 +1,408 @@
+{% set type = app.request.attributes.get('type') %}
+
+{% set sessionData = app.session.get(getNomSession()) %}
+
+<div class="subnavbar">
+    <div class="subnavbar-inner">
+        <div class="container">
+            {% if  isEleve(sessionData.codeProfil)  %}
+
+                <ul class="nav" id="side-menu">
+                    <li  >
+                        <a class=" {% if CurrentPath == 'app_admin_user_index' %} active {% endif %}" href="{{path("app_admin_user_index")}}" >
+                            <i class="fa fa-home"></i><span>Dashboard</span></a>
+                    </li>
+
+                    <li  class="groupMenu" >
+
+                        <a class="{% if  CurrentPath == 'app_admin_eleve_infos' %}active{% endif %}" href="#">
+                            <i class="glyphicon glyphicon-equalizer"></i><span>Administration</span> </a>								
+                        <ul class="nav nav-second-level collapse">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_eleve_infos' %} active {% endif %}">
+                                    <a href='{{path("app_admin_eleve_infos")}}' > Mon profil </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>
+                    <li  class="groupMenu" >
+
+                        <a class="{% if  CurrentPath == 'app_admin_classe_ajout_info_note_eleve' or CurrentPath == 'app_admin_eleve_bulletin' or CurrentPath == 'app_admin_epreuves'%}active{% endif %}" href="#">
+                            <i class="glyphicon glyphicon-equalizer"></i>Mes résultats  <span class="fa arrow"></span></a>								
+                        <ul class="nav nav-second-level collapse">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_classe_ajout_info_note_eleve' %} active {% endif %}">
+                                    <a href='{{path("app_admin_classe_ajout_info_note_eleve")}}' > Notes </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_eleve_bulletin' %} active {% endif %}">
+                                    <a href='{{path("app_admin_eleve_bulletin")}}' > Bulletins </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_epreuves' %} active {% endif %}">
+                                    <a href='{{path("app_admin_epreuves")}}' > Exercices </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>
+                    <li  class="groupMenu" >
+
+                        <a class="{% if  CurrentPath == 'app_admin_articles_list' %}active{% endif %}" href="#">
+<i class="glyphicon glyphicon-equalizer"></i>Scolarité  <span class="fa arrow"></span></a>								
+                        <ul class="nav nav-second-level collapse">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_eleve_infos' %} active {% endif %}">
+                                    <a href='{{path("app_admin_eleve_infos")}}' > Présences </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_articles_list' %} active {% endif %}">
+                                    <a href='{{path("app_admin_articles_list")}}' > Actualités </a>
+                                </li>
+                            {% endif %}
+                            {# {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                 <li class=" {% if CurrentPath == 'app_admin_eleve_infos' %} active {% endif %}">
+                                     <a href='{{path("app_admin_eleve_infos")}}' > Situation Financiere </a>
+                                 </li>
+                             {% endif %}
+                             {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                 <li class=" {% if CurrentPath == 'app_admin_eleve_infos' %} active {% endif %}">
+                                     <a href='{{path("app_admin_eleve_infos")}}' > Actualités </a>
+                                 </li>
+                             {% endif %}#}
+
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>
+                </ul>
+
+            {% elseif  isParentEleve(sessionData.codeProfil)  %}
+                <ul class="nav" id="side-menu">
+                    <li  >
+                        <a class=" {% if CurrentPath == 'app_admin_user_index' %} active {% endif %}" href="{{path("app_admin_user_index")}}" ><i class="fa fa-home nav_icon"></i>Dashboard</a>
+                    </li>
+
+                    <li  class="groupMenu" >
+
+                        <a class="{% if  CurrentPath == 'app_admin_user_mon_profil' %}active{% endif %}" href="#">
+                            <i class="glyphicon glyphicon-equalizer"></i>Administration <span class="fa arrow"></span></a>								
+                        <ul class="nav nav-second-level collapse">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'monProfilAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_user_mon_profil' %} active {% endif %}">
+                                    <a href='{{path("app_admin_user_mon_profil")}}' > Mon profil </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>
+                    <li  class="groupMenu" >
+
+                        <a class="{% if  CurrentPath == 'app_messagerie_boite_reception' or CurrentPath == 'app_messagerie_set_etat_msg_recu' 
+                                or CurrentPath == 'app_messagerie_send_msg_to_utilisateur' or  CurrentPath == 'app_messagerie_msg_envoyes'
+                                or CurrentPath == 'app_messagerie_details_msg_recu' or CurrentPath == 'app_messagerie_details_msg_envoie' %}active{% endif %}" href="#">
+                            <i class="glyphicon glyphicon-equalizer"></i>Message <span class="fa arrow"></span></a>								
+                        <ul class="nav nav-second-level collapse">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'boiteReceptionAction') %}
+                                <li class=" {% if CurrentPath == 'app_messagerie_boite_reception' %} active {% endif %}">
+                                    <a href='{{path("app_messagerie_boite_reception")}}' > Boite de reception </a>
+                                </li>
+                            {% endif %} 
+                        </ul>
+                    </li>
+                    <li  class="groupMenu" >
+
+                        <a class="{% if  CurrentPath == 'app_admin_articles_list' %}active{% endif %}" href="#">
+                            <i class="glyphicon glyphicon-equalizer"></i>Actu. scolarité  <span class="fa arrow"></span></a>								
+                        <ul class="nav nav-second-level collapse">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'listArticleAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_articles_list' %} active {% endif %}">
+                                    <a href='{{path("app_admin_articles_list")}}' > Actualités </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>   
+                    <li  >
+                        <a class=" {% if CurrentPath == 'app_admin_eleve_parent' %} active {% endif %}" href="{{path("app_admin_eleve_parent")}}" ><i class="fa fa-home nav_icon"></i>Mes enfants</a>
+                    </li>
+                </ul>
+            {% elseif  isEnseignant(sessionData.codeProfil)  %}
+                <ul class="nav" id="side-menu">
+                    <li  >
+                        <a class=" {% if CurrentPath == 'app_admin_user_index' %} active {% endif %}" href="{{path("app_admin_user_index")}}" ><i class="fa fa-home nav_icon"></i>Dashboard</a>
+                    </li>
+                    <li  class="groupMenu" >
+
+                        <a class="{% if  CurrentPath == 'app_admin_user_mon_profil' %}active{% endif %}" href="#">
+                           <i class="glyphicon glyphicon-equalizer"></i>Administration <span class="fa arrow"></span></a>								
+                        <ul class="nav nav-second-level collapse">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'monProfilAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_user_mon_profil' %} active {% endif %}">
+                                    <a href='{{path("app_admin_user_mon_profil")}}' > Mon profil </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>    
+                    <li  >
+                        <a class=" {% if CurrentPath == "app_admin_classes" %} active {% endif %}" href="{{path("app_admin_classes")}}" >
+                            <i class="fa fa-home nav_icon"></i>
+                            Classe
+                        </a>
+                    </li>
+                    <li  >
+                        <a class=" {% if CurrentPath == 'app_admin_articles_list' %} active {% endif %}" href="{{path("app_admin_articles_list")}}" >
+                            <i class="fa fa-home nav_icon"></i>Cms</a>
+                    </li>
+
+                </ul>
+
+            {% else  %}
+                <ul class="mainnav">
+                    <li  >
+                        <a class=" {% if CurrentPath == 'app_admin_user_index' %} active {% endif %}" href="{{path("app_admin_user_index")}}" ><i class="fa fa-home"></i><span>Dashboard</span></a>
+                    </li>
+                    
+                    {% if verifActionMenu(sessionData['tabIdActions'],'listeEleveByProfilAction') %}
+
+                    <li  class='dropdown {% if  CurrentPath == 'app_admin_eleves'  %}active{% endif %}' >
+
+                       <a href='{{path("app_admin_eleves")}}' >
+                            <i class="fa fa-user"></i><span>Elève </span></a>								
+                       
+                        <!-- /nav-second-level -->
+                    </li>
+                     {% endif %}
+                    {% if verifActionMenu(sessionData['tabIdActions'],'listeUserByProfilAction') %}                             
+                    <li  class='dropdown {% if  CurrentPath == 'app_admin_users'  %}active{% endif %}' >
+                         <a href='{{path("app_admin_users")}}' > 
+                            <i class="fa fa-archive"></i><span>Personnel </span></a>								
+                        <!-- /nav-second-level -->
+                    </li>
+                     {% endif %}
+                    <li class='dropdown {% if   
+                                 CurrentPath == "app_admin_decoupages" 
+                                
+                             or CurrentPath == 'app_admin_niveaus' 
+                             or CurrentPath == 'app_admin_indices' 
+                             or CurrentPath == 'app_admin_filieres' 
+                             or CurrentPath == 'app_admin_enseignements' 
+                                  or CurrentPath == 'app_admin_classes'  %}active{% endif %}' >
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                           
+                            <i class="fa fa-bar-chart"></i><span>Info Classe </span></a>
+                        <ul class="dropdown-menu">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'listeClasseAction') %}
+                                <li>
+                                    <a href="{{path('app_admin_classes')}}" class=" {% if CurrentPath == 'app_admin_classes'%} active {% endif %}">Classe</a>
+                                </li>
+                            {% endif %}
+                            {% if sessionData.siAdminGeneral %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeDecoupageAction') %}
+                                    <li>
+                                        <a href="{{path('app_admin_decoupages')}}" class=" {% if CurrentPath == 'app_admin_decoupages'%} active {% endif %}">Découpages</a>
+                                    </li>
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeIndiceAction') %}
+                                    <li>
+                                        <a href="{{path('app_admin_indices')}}" class=" {% if CurrentPath == 'app_admin_indices'%} active {% endif %}">Indices</a>
+                                    </li>
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeNiveauAction') %}
+                                    <li>
+                                        <a href="{{path('app_admin_niveaus')}}" class=" {% if CurrentPath == 'app_admin_niveaus'%} active {% endif %}">Niveau</a>
+                                    </li>
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeFiliereAction') %}
+                                    <li>
+                                        <a href="{{path('app_admin_filieres')}}" class=" {% if CurrentPath == 'app_admin_filieres'%} active {% endif %}">Filière</a>
+                                    </li> 
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeEnseignementAction') %}
+                                    <li>
+                                        <a href="{{path('app_admin_enseignements')}}" class=" {% if CurrentPath == 'app_admin_enseignements'%} active {% endif %}">Enseignement</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                            {#  {% if verifActionMenu(sessionData['tabIdActions'],'listeMatiereAction') %}
+                              <li class=" {% if CurrentPath == 'app_admin_matieres' %} active {% endif %}">
+                                  <a href='{{path("app_admin_matieres")}}' > Matières</a>
+                              </li> 
+                               {% endif %}#}
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>
+                    <li  class='dropdown {% if   CurrentPath == 'app_admin_user_histo_connexion' or CurrentPath == 'app_admin_user_mon_profil'
+                                or CurrentPath == 'app_admin_profils_user' 
+                                or CurrentPath == 'app_admin_configuration_ajout' or CurrentPath == 'app_param_liste'  or CurrentPath == 'app_admin_profil_droits' %}active{% endif %}' >
+
+                        <a class="dropdown-toggle" data-toggle="dropdown"  href="javascript:;">
+                            <i class="fa fa-archive"></i><span>Administration </span></a>								
+                        <ul class="dropdown-menu">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'monProfilAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_user_mon_profil' %} active {% endif %}">
+                                    <a href='{{path("app_admin_user_mon_profil")}}' > Modifier mon profil </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'infosEleveAction') and isEleve(sessionData.codeProfil)%}
+                                <li class=" {% if CurrentPath == 'app_admin_eleve_infos' %} active {% endif %}">
+                                    <a href='{{path("app_admin_eleve_infos")}}' > Mon profil </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'historiqueConnexionAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_user_histo_connexion' %} active {% endif %}">
+                                    <a href="{{path('app_admin_user_histo_connexion', {'idUser' : sessionData.id, 'isUser': 1})}}" >Historique Connexions</a>
+                                </li>
+                            {% endif %}
+                            {% if sessionData.siAdminGeneral %}     
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeProfilAction') %}    
+                                    <li class=" {% if CurrentPath == 'app_admin_profils_user' %} active {% endif %}">
+                                        <a href="{{path("app_admin_profils_user")}}" > Profils </a>
+                                    </li>  
+                                {% endif %}
+                            {% endif %}
+
+                            {% if sessionData.siAdminGeneral %}    
+                                {% if verifActionMenu(sessionData['tabIdActions'],'ajoutConfigurationAction') %}    
+                                    <li class=" {% if CurrentPath == 'app_admin_configuration_ajout' %} active {% endif %}">
+                                        <a href='{{path("app_admin_configuration_ajout")}}' > Configurations</a>
+                                    </li> 
+                                {% endif %}
+                            {% endif %}
+                            {% if sessionData.siAdminGeneral %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'updateDroitProfilAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_profil_droits' %} active {% endif %}">
+                                        <a href="{{path('app_admin_profil_droits', {'idProfil': sessionData.idProfil})}}" > Droits </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                        <!-- /nav-second-level -->
+                    </li>
+                    {#    <li>#}
+                    <li  class='dropdown {% if  CurrentPath == 'app_messagerie_boite_reception' or CurrentPath == 'app_messagerie_set_etat_msg_recu' 
+                                or CurrentPath == 'app_messagerie_send_msg_to_utilisateur' or  CurrentPath == 'app_messagerie_msg_envoyes'
+                                or CurrentPath == 'app_messagerie_details_msg_recu' or CurrentPath == 'app_messagerie_details_msg_envoie' %}active{% endif %}' >
+
+                        <a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope"></i><span>Message </span>
+                            								
+                        <ul class="dropdown-menu">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'boiteReceptionAction') %}
+                                <li class=" {% if CurrentPath == 'app_messagerie_boite_reception' %} active {% endif %}">
+                                    <a href='{{path("app_messagerie_boite_reception")}}' > Boite de reception </a>
+                                </li>
+                            {% endif %} 
+                        </ul>
+                    </li>
+
+                    {#    <li>
+                    <li  class='dropdown {% if  CurrentPath == 'app_admin_rubriques_list' or CurrentPath == 'app_admin_articles_list' 
+                                or CurrentPath == 'app_admin_templates'  %}active{% endif %}'>
+
+                        <a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                            
+                            <i class="glyphicon glyphicon-equalizer"></i><span>Cms </span></a>
+                        <ul class="dropdown-menu">
+                            {% if verifActionMenu(sessionData['tabIdActions'],'listRubriqueAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_rubriques_list' %} active {% endif %}">
+                                    <a href='{{path("app_admin_rubriques_list")}}' > Rubrique </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'listArticleAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_articles_list' %} active {% endif %}">
+                                    <a href='{{path("app_admin_articles_list")}}' > Article </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'listeTemplateAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_templates' %} active {% endif %}">
+                                    <a href='{{path("app_admin_templates")}}' > Template </a>
+                                </li>
+                            {% endif %}
+                            {% if verifActionMenu(sessionData['tabIdActions'],'listeMenuAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_menu_list' %} active {% endif %}">
+                                    <a href='{{path("app_admin_menu_list")}}' > Menu </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                        <li>#}
+                    <li  class='dropdown {% if  CurrentPath == 'app_admin_classe_ajout_info_note_eleve' or CurrentPath == 'app_admin_typematieres' or CurrentPath == 'app_admin_matieres' or CurrentPath == 'app_admin_classe_ajout_note_eleve_by_epreuve' 
+                                or CurrentPath == 'app_admin_epreuves' or CurrentPath == 'app_admin_presences' or CurrentPath == 'app_admin_classe_emploi_temps'  %}active{% endif %}' >
+
+                        <a  href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                            
+                            <i class="fa fa-book"></i><span>Scolarité </span></a>
+                        <ul class="dropdown-menu">
+                            {% if sessionData.siAdminGeneral %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeMatiereAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_matieres' %} active {% endif %}">
+                                        <a href='{{path("app_admin_matieres")}}' > Matière </a>
+                                    </li>
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeTypeMatiereAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_typematieres' %} active {% endif %}">
+                                        <a href='{{path("app_admin_typematieres")}}' > Type Matière </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if verifActionMenu(sessionData['tabIdActions'],'listArticleAction') %}
+                                <li class=" {% if CurrentPath == 'app_admin_presences' %} active {% endif %}">
+                                    <a href='{{path("app_admin_presences")}}' > Présence </a>
+                                </li>
+                            {% endif %}
+
+
+                        </ul>
+                    </li>
+                    {% if sessionData.siAdminGeneral %}
+                        <li  class='dropdown {% if  CurrentPath == 'app_admin_etablissements' or CurrentPath == 'app_admin_enseignements' or CurrentPath == 'app_admin_degres' or CurrentPath == 'app_admin_decoupages' or CurrentPath == 'app_admin_typedecoupages'%}active{% endif %}' >
+
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                                
+                                <i class="fa fa-arrow-up"></i><span>Système </span></a>
+                            <ul class="dropdown-menu">
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeEtablissementAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_etablissements' %} active {% endif %}">
+                                        <a href='{{path("app_admin_etablissements")}}' > Etablissement </a>
+                                    </li>
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeEnseignementAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_enseignements' %} active {% endif %}">
+                                        <a href='{{path("app_admin_enseignements")}}' > Enseignement </a>
+                                    </li>
+                                {% endif %}
+
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeDegreAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_degres' %} active {% endif %}">
+                                        <a href='{{path("app_admin_degres")}}' > Dégré </a>
+                                    </li>
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeDecoupageAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_decoupages' %} active {% endif %}">
+                                        <a href='{{path("app_admin_decoupages")}}' > Découpage </a>
+                                    </li>
+                                {% endif %}
+                                {% if verifActionMenu(sessionData['tabIdActions'],'listeTypeDecoupageAction') %}
+                                    <li class=" {% if CurrentPath == 'app_admin_typedecoupages' %} active {% endif %}">
+                                        <a href='{{path("app_admin_typedecoupages")}}' > Type découpage </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endif  %}
+        </div>
+    </div>
+</div>
+

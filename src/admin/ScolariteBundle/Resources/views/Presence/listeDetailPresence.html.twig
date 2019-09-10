@@ -1,0 +1,355 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}{{parent()}} - Gestion des élèves{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+
+
+
+
+{% block file_arriane %}
+     <div class="fond-fil-ariane" >
+                    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+                        <div class="row" style="background:rgba(0,0,0,0.3)">
+                            <div class="col-xs-7" >
+                               <h1> Liste des appels </h1>
+                            </div>
+                            <div class="col-xs-5" style="margin-top: 15px; ">
+                               <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des élèves</span> ><span class="fil-3"> Appel </span>
+                            </div>
+                        </div>
+                    </div>
+		</div>           
+{% endblock  %}
+
+{% block body %}
+ {% if datedeb_ == 0 %}         
+        {% if  app.request.get('datedeb_')|trim == null   %}   
+            {% set datedeb_ = 0 %}
+        {% endif %}
+    {% else %}   
+        {% set datedeb_ = app.request.get('datedeb_')|replace('/','-') %}  
+    {% endif %}
+    {% if datefin_ == 0 %}   
+        {% if  app.request.get('datefin_')|trim == null   %}   
+            {% set datefin_ = 0 %} 
+        {% endif %} 
+    {% else %}   
+        {% set datefin_ = app.request.get('datefin_')|replace('/','-') %} 
+    {% endif %}
+    {% if idens_ == 0 %}         
+        {% if  app.request.get('idens_')|trim == null   %}   
+            {% set idens_ = 0 %}
+        {% endif %}
+    {% else %}                  
+        {% set idens_= app.request.get('idens_')|trim %}
+    {% endif %}
+    
+    {% if ideleve_ == 0 %}         
+        {% if  app.request.get('ideleve_')|trim == null   %}   
+            {% set ideleve_ = 0 %}
+        {% endif %}
+    {% else %}                  
+        {% set ideleve_= app.request.get('ideleve_')|trim %}
+    {% endif %}
+    
+    
+    {% if iddecoupage_ == 0 %}         
+        {% if  app.request.get('iddecoupage_')|trim == null   %}   
+            {% set iddecoupage_ = 0 %}
+        {% endif %}
+    {% else %}                  
+        {% set iddecoupage_= app.request.get('iddecoupage_')|trim %}
+    {% endif %}
+    
+    {% if classe_ == 0 %}         
+        {% if  app.request.get('classe_')|trim == null   %}   
+            {% set classe_ = 0 %}
+        {% endif %}
+    {% else %}   
+        {% set classe_ = app.request.get('classe_') %}  
+    {% endif %}
+    
+    {% if typepresence_ == 0 %}         
+        {% if  app.request.get('typepresence_')|trim == null   %}   
+            {% set typepresence_ = 0 %}
+        {% endif %}
+    {% else %}   
+        {% set typepresence_ = app.request.get('typepresence_') %}  
+    {% endif %}
+
+    {#<div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-users"></i>GESTION DES utilisateurs  </h3>
+            
+        </div>
+    </div>#}
+
+    {% for contenu in app.session.getflashbag.get('presence.ajout.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-success  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+    {% for contenu in app.session.getflashbag.get('presence.modifier.success')%}
+        {% if loop.index == 0%}
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+        <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+    </div>
+</div>
+        {% endif%}
+    {% endfor%}
+
+
+
+
+
+
+        {% if  isMaintenance(sessionData.codeProfil)  %} 
+<div class="row" style="margin-bottom:10px;margin-top: -5px; ">
+    <div class="col-lg-9">
+    </div>    
+    <div class="btn-toolbar col-lg-3">
+        <div aria-label="First group" role="group" class="btn-group">
+              {#  <a class=" " href="{{path('app_admin_presences')}}" id="" title="Afficher tous les clients">
+                    <button class="circle-social" type="button">
+                        <i class="fa fa-list"></i>
+                    </button>
+                </a>#}
+
+               {# <button class=" bt-recherche circle-social btn  btn-default" type="button">
+                 <a class="bt-recherche" href="#" id="" title="Rechercher">   <i class="fa fa-search"></i> </a>
+                </button>#}
+
+           {# <button id="btnActive" class="circle-social btnAction btn btn-default" btnActionVal="1" type="button" title="Activer">
+                <i class="fa fa-check"></i>
+            </button>
+            <button id="btnActive" class="circle-social btnAction btn  btn-default" btnActionVal="0" type="button" title="Désactiver">
+                <i class="fa fa-minus"></i>
+            </button>#}
+            <button id="btnSupprimer" class="circle-social btnAction btn  btn-default" btnActionVal="2" type="button" title="Supprimer">
+                <a  href="{{path('app_admin_presences')}}" > 
+                << Retour
+                </a> 
+            </button>
+
+        </div>
+    </div>
+</div>
+
+        {% endif %}
+<div class="clear"></div>
+
+    
+<div class="row" style="margin:0px -17px; " >
+            {#<header class="panel-heading title-panel">
+                <i class="fa fa-table "></i> <span class="margin-right-20px "> Liste des Elèves {% if idProfil > 0 %} du profil {{profil.nom_}} {% endif %} </span>
+            </header> #}
+    <div class="col-md-12 " >
+        <div class="panel panel-white">
+            <div class="panel-body">
+                <div class="group-parent panel-white entete-panel zone-recherche" style='display: none;'>
+     <form class="form marginTop10p" action="{{ path("app_admin_presences") }} " method="post"  id="ajoutImage">
+       
+    <fieldset >
+
+        
+        <div class="col-lg-4 ">
+            <label class="control-label"> Classe </label>
+            <div class="control">
+               <select name="classe_"  class='form-control'> 
+                    <option value=""  > 
+                        Choisir la classe
+                    </option>
+                    {% for uneClasse in classes%}
+                        <option value="{{uneClasse.id}}" > 
+                            {{uneClasse.libelleClasse}}
+                        </option>
+                     {% endfor%}
+                    
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4 ">
+            <label class="control-label"> Enseignant </label>
+            <div class="control">
+            <select name="idens_"  class='form-control'> 
+                    <option value=""  > 
+                        Choisir l'enseignant
+                    </option>
+                    {% for unEns in enseignants%}
+                        <option value="{{unEns.id}}" > 
+                            {{unEns.nom~' '~unEns.prenoms}}
+                        </option>
+                     {% endfor%}
+                    
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4 ">
+            <label class="control-label"> Type presence </label>
+            <div class="control">
+            <select name="typepresence_"  class='form-control'> 
+                    <option value=""  > 
+                        Choisir l'enseignant
+                    </option>
+                  
+                        <option value="1" > 
+                            Absence en classe
+                        </option>
+                        <option value="2" > 
+                            Retard
+                        </option>
+                    
+                    
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4 ">
+            <label class="control-label"> Découpage </label>
+            <div class="control">
+            <select name="iddecoupage_"  class='form-control'> 
+                    <option value=""  > 
+                        Choisir le découpage
+                    </option>
+                    {% for unDecoupage in decoupages%}
+                        <option value="{{unDecoupage.id}}" > 
+                            {{unDecoupage.libelleDecoupage}}
+                        </option>
+                     {% endfor%}
+                    
+                </select>
+            </div>
+        </div>
+
+        <div class="col-lg-4 " style="margin-top: 20px;">
+            <button type="submit" class="btn btn-success col-lg-12" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+        </div>
+    
+        </fieldset> 
+         </form> 
+</div>
+                <table class="table table-striped table-hover ">
+                    <thead >
+                        <tr class=" ">
+                            <th>
+                                <input type="checkbox" class="checkAll checkbox tooltipGobi" name="checkAll" title="Tout cocher/Décocher"/>
+                            </th>
+                            <th>Date</th>
+                            <th>Elève</th>
+{#                            <th>Eleve</th>#}
+                            <th>Enseignant</th>
+                            <th>Découpage</th>
+                            
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                               
+
+                       {% for u in presences %}
+                        <tr>
+                            <td><input type="checkbox" class="checkOne checkbox " sId="{{u.id}}"/> </td>
+                            <td>{{u.datePresence|date('d-M-Y')}} </td>
+                             <td> {{u.nom_el~' '~u.prenom_el}} </td>
+                            <td> {{u.nom_ens~' '~u.prenom_ens}} </td>
+                            <td> {{u.libelleDecoupage}} </td>
+{#                             <td> {{u.nom_el~' '~u.prenom_el}} </td>#}
+{#                            <td> {{u.nom_eleve~' '~u.prenom_eleve}} </td>#}
+                          
+                            <td>
+                                {% if u.siPresent ==1 %}
+                               <b> Présent</b>
+                                {% else %}
+                                Absent
+                                {% endif %}
+                                
+                                {#<a href="#" class="btn btn-circle mini btn-warning btnEdit tooltipGobi" title="infos ">
+                                    <i class="fa fa-info"></i>
+                                </a>#}
+                            </td>
+                        </tr>
+                                {% endfor %}
+                        {#<tr class="panel-footer">
+                            <td colspan="10" >
+                                <div class="datagrid-footer-left col-lg-1 col-md-2 col-sm-4 col-xs-4 text-center-sm m-l-n" > 
+                                    <div class="grid-controls m-t-small"> 
+                                        <div class="select grid-pagesize dropup">
+                                            <form  class="floatL">
+                                                <select id="selnbpage" class="floatL form-control">
+                                                    <option value="20" {% if nbParPage == 20 %} selected="true" {% endif %} >20</option>
+                                                    <option value="30" {% if nbParPage == 30 %} selected="true" {% endif %} >30</option>
+                                                    <option value="100" {% if nbParPage == 100 %} selected="true" {% endif %} >100</option>
+                                                </select>
+                                                <div class="clear"></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="" class="col-lg-11 col-md-10 col-sm-8 col-xs-8">
+                                    <div id="" class="dataTables_paginate paging_full_numbers  pull-right">
+                                        <ul class="pagination">
+                                            <li>
+                                                <a href="{{ path('app_admin_presences', {'idProfil' : idProfil, 'pageActuelle': 1,'nbParPage': nbParPage}) }}"  id=""  class="first paginate_button">1</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('app_admin_presences', {'idProfil' : idProfil, 'pageActuelle': previousPage,'nbParPage': nbParPage}) }}"  id=""  class="previous paginate_button">«</a>
+                                            </li>
+
+                                                    {% for page in debutPagination..finPagination %}
+                                            <li>
+                                                <span>
+                                                                {% if page == pageActuelle %}
+                                                    <a href="#"  tabindex="0" class="paginate_active">{{ page }} </a>
+                                                                {% else %}  
+                                                    <a href="{{ path('app_admin_presences', {'idProfil' : idProfil,  'pageActuelle': page,'nbParPage': nbParPage}) }}" tabindex="0" class="paginate_button">{{ page }} </a>
+                                                                {% endif %}
+                                                </span>
+                                            </li>
+                                                    {% endfor %}
+
+                                            <li>
+                                                <a href="{{ path('app_admin_presences', {'idProfil' : idProfil, 'pageActuelle': nextPage,'nbParPage': nbParPage}) }}"  id="" tabindex="0" class="next paginate_button">»</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('app_admin_presences', {'idProfil' : idProfil, 'pageActuelle': previousPage,'nbParPage': nbParPage}) }}" id="" tabindex="0" class="last paginate_button">{{lastPage}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                   #} </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    {#</div>#}
+
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+<script type="text/javascript">
+    $('.bt-recherche').click(function() {
+            $('.zone-recherche').show();
+        });
+</script>
+{% endblock %}

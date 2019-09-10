@@ -1,0 +1,22 @@
+{% macro traiteZoneSiteInternet(tabTraiteZone,inc)  %}
+    {% for unInfo in tabTraiteZone[inc]['information'] %}
+        {% if tabTraiteZone[inc]['typeInfo'] == 2 %}
+          {% for unInfoArticle in tabTraiteZone[inc]['article'] %}
+              {% if unInfoArticle.titre is defined %}
+                      {% if unInfoArticle.getMedias[0] is defined %}
+
+                         <img src="{{asset(unInfoArticle.getMedias[0].pathMedia)}}" data-thumb="{{asset(unInfoArticle.getMedias[0].pathMedia)}}" alt="" title=""/>
+                      {% endif %}
+                {% else %}
+
+                {% endif %}
+          {% elseif tabTraiteZone[inc]['typeInfo'] == 1 %}
+              {% for unInfo in tabTraiteZone[inc]['information'] %}                                                   
+                    {{unInfo.contenuArticle|raw}}
+            {% endfor %}           
+          {% endfor %}
+      {% endif %}
+   {% endfor %}
+{% endmacro %}
+
+

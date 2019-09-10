@@ -1,0 +1,343 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use admin\ParamBundle\Entity\PrincipalMani;
+use admin\ParamBundle\Entity\LmarchandiseMani ;
+use admin\ParamBundle\Entity\EquipementMani ;
+
+
+/**
+ * InstructionMani
+ *
+ * @ORM\Table(name="instruction_mani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\InstructionManiRepository")
+ */
+class InstructionMani {
+
+    /**
+     * @var integer $idInstructionMani
+     *
+     * @ORM\Column(name="id_instruction_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $idInstructionMani;
+
+    
+    /**
+     * @var string $num
+     *
+     * @ORM\Column(name="num", type="string", length=1, nullable=true)
+     */
+    private $fum ;
+    
+    /**
+     * @var string $commentaireFum
+     *
+     * @ORM\Column(name="commentaire_fum", type="string", length=100, nullable=true)
+     */
+    private $commentaireFum ;
+    
+    /**
+     * @var string $num
+     *
+     * @ORM\Column(name="tiers_fum", type="string", length=1, nullable=true)
+     */
+    private $tiersFum ;
+            
+    /**
+     * @var string $elCommentairesFum
+     *
+     * @ORM\Column(name="elcommentaire_fum", type="string", length=100, nullable=true)
+     */
+    private $elCommentairesFum ;
+    
+    /**
+     * @var string $frigo
+     *
+     * @ORM\Column(name="frigo", type="string", length=1, nullable=true)
+     */
+    private $frigo ;
+            
+            
+    
+    /**
+     * @var string $tiersFrigo
+     *
+     * @ORM\Column(name="tiers_frigo", type="string", length=9, nullable=true)
+     */
+    private $tiersFrigo ;
+            
+    
+    /**
+     * @var string $commentaireFrigo
+     *
+     * @ORM\Column(name="commentaire_frigo", type="string", length=100, nullable=true)
+     */
+    private $commentaireFrigo ;
+            
+            
+    /**
+     * @var ArrayCollection LmarchandiseMani $lmarchandiseMani
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\LmarchandiseMani", mappedBy="instruction_mani")
+     * 
+     */
+    private $lmarchandiseMani;
+    
+    /**
+     * @var ArrayCollection EquipementMani $equipementMani
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\EquipementMani", mappedBy="instruction_mani")
+     * 
+     */
+    private $equipementMani;
+
+  
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
+
+
+    /**
+     * Get idInstructionMani
+     *
+     * @return integer 
+     */
+    public function getIdInstructionMani()
+    {
+        return $this->idInstructionMani;
+    }
+
+    /**
+     * Set fum
+     *
+     * @param string $fum
+     * @return InstructionMani
+     */
+    public function setFum($fum)
+    {
+        $this->fum = $fum;
+
+        return $this;
+    }
+
+    /**
+     * Get fum
+     *
+     * @return string 
+     */
+    public function getFum()
+    {
+        return $this->fum;
+    }
+
+    /**
+     * Set commentaireFum
+     *
+     * @param string $commentaireFum
+     * @return InstructionMani
+     */
+    public function setCommentaireFum($commentaireFum)
+    {
+        $this->commentaireFum = $commentaireFum;
+
+        return $this;
+    }
+
+    /**
+     * Get commentaireFum
+     *
+     * @return string 
+     */
+    public function getCommentaireFum()
+    {
+        return $this->commentaireFum;
+    }
+
+    /**
+     * Set tiersFum
+     *
+     * @param string $tiersFum
+     * @return InstructionMani
+     */
+    public function setTiersFum($tiersFum)
+    {
+        $this->tiersFum = $tiersFum;
+
+        return $this;
+    }
+
+    /**
+     * Get tiersFum
+     *
+     * @return string 
+     */
+    public function getTiersFum()
+    {
+        return $this->tiersFum;
+    }
+
+    /**
+     * Set elCommentairesFum
+     *
+     * @param string $elCommentairesFum
+     * @return InstructionMani
+     */
+    public function setElCommentairesFum($elCommentairesFum)
+    {
+        $this->elCommentairesFum = $elCommentairesFum;
+
+        return $this;
+    }
+
+    /**
+     * Get elCommentairesFum
+     *
+     * @return string 
+     */
+    public function getElCommentairesFum()
+    {
+        return $this->elCommentairesFum;
+    }
+
+    /**
+     * Set frigo
+     *
+     * @param string $frigo
+     * @return InstructionMani
+     */
+    public function setFrigo($frigo)
+    {
+        $this->frigo = $frigo;
+
+        return $this;
+    }
+
+    /**
+     * Get frigo
+     *
+     * @return string 
+     */
+    public function getFrigo()
+    {
+        return $this->frigo;
+    }
+
+    /**
+     * Set tiersFrigo
+     *
+     * @param string $tiersFrigo
+     * @return InstructionMani
+     */
+    public function setTiersFrigo($tiersFrigo)
+    {
+        $this->tiersFrigo = $tiersFrigo;
+
+        return $this;
+    }
+
+    /**
+     * Get tiersFrigo
+     *
+     * @return string 
+     */
+    public function getTiersFrigo()
+    {
+        return $this->tiersFrigo;
+    }
+
+    /**
+     * Set commentaireFrigo
+     *
+     * @param string $commentaireFrigo
+     * @return InstructionMani
+     */
+    public function setCommentaireFrigo($commentaireFrigo)
+    {
+        $this->commentaireFrigo = $commentaireFrigo;
+
+        return $this;
+    }
+
+    /**
+     * Get commentaireFrigo
+     *
+     * @return string 
+     */
+    public function getCommentaireFrigo()
+    {
+        return $this->commentaireFrigo;
+    }
+
+    /**
+     * Add lmarchandiseMani
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani
+     * @return InstructionMani
+     */
+    public function addLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani)
+    {
+        $this->lmarchandiseMani[] = $lmarchandiseMani;
+
+        return $this;
+    }
+
+    /**
+     * Remove lmarchandiseMani
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani
+     */
+    public function removeLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani)
+    {
+        $this->lmarchandiseMani->removeElement($lmarchandiseMani);
+    }
+
+    /**
+     * Get lmarchandiseMani
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getLmarchandiseMani()
+    {
+        return $this->lmarchandiseMani;
+    }
+
+    /**
+     * Add equipementMani
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementMani
+     * @return InstructionMani
+     */
+    public function addEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementMani)
+    {
+        $this->equipementMani[] = $equipementMani;
+
+        return $this;
+    }
+
+    /**
+     * Remove equipementMani
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementMani
+     */
+    public function removeEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementMani)
+    {
+        $this->equipementMani->removeElement($equipementMani);
+    }
+
+    /**
+     * Get equipementMani
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEquipementMani()
+    {
+        return $this->equipementMani;
+    }
+}

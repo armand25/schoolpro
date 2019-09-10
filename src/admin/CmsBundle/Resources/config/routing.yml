@@ -1,0 +1,192 @@
+# affiche la liste des articles
+app_admin_articles_list:
+    path: /article/list
+    defaults: { _controller: adminCmsBundle:Article:listArticle}
+        
+# formulaire d'ajout  de article
+app_admin_article_ajout:
+    path: /article/ajout
+    defaults: { _controller: adminCmsBundle:Article:ajoutArticle}
+        
+# formulaire de modification d'un article
+app_admin_article_modifier:
+    path: /article/modifier/{id}
+    defaults: { _controller: adminCmsBundle:Article:modifierArticle, id: 0}
+    requirements:
+        id: \d+
+        
+# activaton; desactivation, suppression de article
+app_admin_article_set_etat:
+    path: /article/set/etat
+    defaults: { _controller: adminCmsBundle:Article:changerEtatArticle}
+    
+    
+# affiche la liste des medias
+app_admin_medias_list:
+    path: /media/list
+    defaults: { _controller: adminCmsBundle:Media:listMedia}
+        
+# formulaire d'ajout  de media
+app_admin_media_ajout:
+    path: /media/ajout
+    defaults: { _controller: adminCmsBundle:Media:ajoutMedia}
+        
+# formulaire de modification d'un media
+app_admin_media_modifier:
+    path: /media/modifier/{idMedia}
+    defaults: { _controller: adminCmsBundle:Media:modifierMedia, idMedia: 0}
+    requirements:
+        idMedia: \d+
+        
+# activaton; desactivation, suppression de media
+app_admin_media_set_etat:
+    path: media/set/etat/
+    defaults: { _controller: adminCmsBundle:Media:changerEtatMedia}
+ 
+ # affiche la liste des rubriques
+app_admin_rubriques_list:
+    path: /rubrique/list
+    defaults: { _controller: adminCmsBundle:Rubrique:listRubrique}
+        
+# formulaire d'ajout  de rubrique
+app_admin_rubrique_ajout:
+    path: /rubrique/ajout
+    defaults: { _controller: adminCmsBundle:Rubrique:ajoutRubrique}
+        
+# formulaire de modification d'un rubrique
+app_admin_rubrique_modifier:
+    path: /rubrique/modifier/{id}
+    defaults: { _controller: adminCmsBundle:Rubrique:modifierRubrique, id: 0}
+    requirements:
+        id: \d+
+        
+# activaton; desactivation, suppression de rubrique
+app_admin_rubrique_set_etat:
+    path: /rubrique/set/etat
+    defaults: { _controller: adminCmsBundle:Rubrique:changerEtatRubrique}
+
+ # Affiche les informations détaillées d'un eleve 
+app_admin_rubrique_infos:
+    path: afficher/infos/rubrique/{id}
+    defaults: { _controller: adminCmsBundle:Rubrique:infosRubrique, id: 0}
+    requirements:
+        id: \d+
+ 
+ # affiche la liste des typeMedias
+app_admin_typeMedias_list:
+    path: /typeMedia/list
+    defaults: { _controller: adminCmsBundle:TypeMedia:listTypeMedia}
+        
+# formulaire d'ajout  de typeMedia
+app_admin_typeMedia_ajout:
+    path: /typeMedia/ajout
+    defaults: { _controller: adminCmsBundle:TypeMedia:ajoutTypeMedia}
+        
+# formulaire de modification d'un typeMedia
+app_admin_typeMedia_modifier:
+    path: /typeMedia/modifier/{id}
+    defaults: { _controller: adminCmsBundle:TypeMedia:modifierTypeMedia, id: 0}
+    requirements:
+        id: \d+
+        
+# activaton; desactivation, suppression de typeMedia
+app_admin_typeMedia_set_etat:
+    path: /typeMedia/set/etat
+    defaults: { _controller: adminCmsBundle:TypeMedia:changerEtatTypeMedia}
+
+# formulaire d'ajout  de rubrique
+app_admin_menu_ajout:
+    path: /menu/ajout
+    defaults: { _controller: adminCmsBundle:Menu:ajoutMenu}
+# formulaire d'ajout  de rubrique
+app_admin_menu_list:
+    path: /liste/menu/{idEtablissement}
+    defaults: { _controller: adminCmsBundle:Menu:listeMenu, idEtablissement: 0}
+
+# formulaire de modification d'un rubrique
+app_admin_menu_modifier:
+    path: /menu/modifier/{id}
+    defaults: { _controller: adminCmsBundle:Menu:modifierMenu, id: 0}
+    requirements:
+        id: \d+
+        
+# activaton; desactivation, suppression de rubrique
+app_admin_menu_set_etat:
+    path: /menu/set/etat
+    defaults: { _controller: adminCmsBundle:Menu:changerEtatMenu}
+
+# affiche la liste des templates
+app_admin_templates:
+    path: /liste/templates
+    defaults: { _controller: adminCmsBundle:Template:listeTemplate}
+        
+# formulaire d'ajout  de template
+app_admin_template_ajout:
+    path: /ajout/template
+    defaults: { _controller: adminCmsBundle:Template:ajoutTemplate}
+        
+# formulaire de modification d'un template
+app_admin_template_modifier:
+    path: /modifier/template/{idTemplate}
+    defaults: { _controller: adminCmsBundle:Template:modifierTemplate, idTemplate: 0}
+    requirements:
+        idTemplate: \d+
+        
+# activaton; desactivation, suppression de template
+app_admin_template_set_etat:
+    path: set/etat/template
+    defaults: { _controller: adminCmsBundle:Template:changerEtatTemplate}
+    
+# definir template par defaut
+app_admin_template_set_default:
+    path: set/default/template
+    defaults: { _controller: adminCmsBundle:Template:changerDefaultTemplate}
+
+# affiche la liste des pages
+app_admin_pages:
+    path: /liste/pages/{idTemplate}
+    defaults: { _controller: adminCmsBundle:Page:listePage, idTemplate: 0}
+        
+# formulaire d'ajout  de page
+app_admin_page_ajout:
+    path: /ajout/page/{idTemplate}
+    defaults: { _controller: adminCmsBundle:Page:ajoutPage, idTemplate: 0}
+        
+# formulaire de modification d'un page
+app_admin_page_modifier:
+    path: /modifier/page/{idPage}
+    defaults: { _controller: adminCmsBundle:Page:modifierPage, idPage: 0}
+    requirements:
+        idPage: \d+
+        
+# activaton; desactivation, suppression de page
+app_admin_page_set_etat:
+    path: set/etat/page
+    defaults: { _controller: adminCmsBundle:Page:changerEtatPage}
+
+# affiche la liste des zones
+app_admin_zones:
+    path: /liste/zones/{idPage}
+    defaults: { _controller: adminCmsBundle:Zone:listeZone, idPage: 0}
+        
+# formulaire d'ajout  de zone
+app_admin_zone_ajout:
+    path: /ajout/zone/{idPage}
+    defaults: { _controller: adminCmsBundle:Zone:ajoutZone, idPage: 0}
+        
+# formulaire de modification d'un zone
+app_admin_zone_modifier:
+    path: /modifier/zone/{idZone}
+    defaults: { _controller: adminCmsBundle:Zone:modifierZone, idZone: 0}
+    requirements:
+        idZone: \d+
+        
+# activaton; desactivation, suppression de zone
+app_admin_zone_set_etat:
+    path: set/etat/zone
+    defaults: { _controller: adminCmsBundle:Zone:changerEtatZone}
+    
+# activaton; desactivation, suppression de zone
+app_admin_zone_pointer_element:
+    path: point/element/zone
+    defaults: { _controller: adminCmsBundle:Zone:pointElementZone}

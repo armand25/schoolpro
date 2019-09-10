@@ -1,0 +1,262 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}}  - Liste des Types de media{% endblock %}
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block grandTitre %} Liste des Types de media {% endblock %}
+{% block Breadcrumb %}
+    <ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+        <li>
+            <a href="{{path('app_admin_user_home')}}" >
+                <i class="fa fa-home margin-right-5 text-large text-dark"></i> Accueil
+            </a>
+        </li>
+        <li>
+            <i class="fa fa-list margin-right-5 text-large text-dark"></i> Types de média
+        </li>
+        <li class="ng-binding ng-scope" ><i class="fa fa-list margin-right-5 text-large text-dark"></i> Liste des Type de Media</li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid container-fullw padding-bottom-10 ng-scope"> 
+
+        {% for contenu in app.session.getflashbag.get('typeMedia.ajout.success')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {% endif%}
+                    <div class="text-center alert alert-success fade in ">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+        {% for contenu in app.session.getflashbag.get('typeMedia.modifier.success')%}
+            {% if loop.index == 0%}
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {% endif%}
+                    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+                    </div>
+                </div>
+            {% endif%}
+        {% endfor%}
+
+        {#<div style="margin-bottom: 10px" class="row ">
+            {% if  isMaintenance(sessionData.codeCategorie)  %}
+                <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3">
+                    <a class=" " href="{{path('app_admin_typeMedia_ajout')}} " id="">
+                        <img src="{{asset('img/ico/ajouter.png')}}" id="btnNew" class="tooltipGobi v_pointer_cursor "  title="Ajouter"/>
+                    </a>
+                </div>
+            {% endif %}
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3 ">
+                <img src="{{asset('img/ico/valider.png')}}" id="btnActive"  class="tooltipGobi v_pointer_cursor btnAction" btnActionVal="1" title="Activer"/>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3  ">
+                <img src="{{asset('img/ico/icon-48-deny.png')}}" id="btnDesactiver"  class="tooltipGobi v_pointer_cursor btnAction" btnActionVal="0" title="Désactiver"/>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-3 col-xs-3  ">
+                <img src="{{asset('img/ico/supprimer.png')}}" id="btnSupprimer"  class="tooltipGobi v_pointer_cursor btnAction" btnActionVal="2" title="Supprimer"/>
+            </div>
+        </div>#}
+
+        <div class="space12">
+            <div class="btn-toolbar">
+                <div aria-label="First group" role="group" class="btn-group">
+{#                    {% if  isMaintenance(sessionData.codeCategorie)  %}#}
+                        <a class=" " href="{{path('app_admin_typeMedia_ajout')}} " id="" title="Ajouter">
+                            <button class="circle-social btnAjout" type="button">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </a>
+{#                    {% endif %}#}
+
+                    <button id="btnActive" class="circle-social btnAction btnActive1" btnActionVal="1" type="button" title="Activer">
+                        <i class="fa fa-check"></i>
+                    </button>
+                    <button id="btnActive" class="circle-social btnAction btnActive2" btnActionVal="0" type="button" title="Désactiver">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button id="btnSupprimer" class="circle-social btnAction" btnActionVal="2" type="button" title="Supprimer">
+                        <i class="fa fa-remove"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-white">
+                    <header class="panel-heading">
+                        <i class="fa fa-list"></i> Liste des typeMedias
+                    </header>
+                    <div class="panel-body">
+                        <table class="table table-striped table-advance table-hover">
+                            <tbody>
+                                <tr class="label-info ">
+                                    <th>
+                                        <input type="checkbox" class="checkAll checkbox tooltipGobi" name="checkAll" title="Tout cocher/Décocher"/>
+                                    </th>
+                                    <th>Nom</th>
+                                    <th>Description</th>
+                                    
+                                    <th><i class="fa fa-cog"></i> Action</th>
+                                </tr>
+
+                                {% for t in typemedia %}
+                                    <tr>
+                                        <td>
+                                           
+                                                <input type="checkbox" class="checkOne checkbox " sId="{{t.id}}"/>
+                                            
+                                        </td>
+                                        {#<td>{{getLibelleTypeCategorie(t.typeCategorie)}}</td>#}
+                                        <td>{{t.libelleTypeMedia}}</td>
+                                        <td>{{t.descriptionTypeMedia}}
+                                        </td>
+                                        <td>
+                                            {#{% if isTypeEtatActif(t.etat)%}
+                                                <img src="{{asset('img/ico/valider.png')}}"  style="width: 20px" title="Actif"/>
+                                            {% else%}
+                                                <img src="{{asset('img/ico/icon-48-deny.png')}}" style="width: 20px" title="Inactif"/>
+                                            {% endif%}#}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                              {#  {% if not isMaintenance(t.code)  %}#}
+                                                    <a href="{{path('app_admin_typeMedia_modifier', {'id' : t.id})}}" class="btn btn-mini btn-info btnEdit tooltipGobi" title="Modifier  {{t.libelleTypeMedia}}">
+                                                        <i class="fa fa-edit"></i>
+                                                    </a>
+                                                    {#<a target="_blank" href="{{path('app_admin_typeMedia_droits', {'id' : t.id})}}" class="btn   btn-mini btn-success tooltipGobi" title="Attribution de droits ( {{t.libelleTypeMedia}} )">
+                                                        <i class="fa fa-cog"></i>
+                                                    </a> #}
+                                                {#{% endif %}#}
+                                                {#{% if not isMaintenance(sessionData.codeCategorie)  %}
+                                                    {% if isTypeCategorieUtilisateur(t.typeCategorie) %}
+                                                        <a target="_blank" href="{{path('app_admin_users', {'id' : t.id})}}" class="btn  btn-mini   btn-default tooltipGobi" title="Voir utilisateurs du typeMedia ( {{t.libelleTypeMedia}} )">
+                                                            <i class="fa fa-user"></i>
+                                                        </a>
+                                                    {% else %}
+                                                        <a target="_blank" href="{{path('app_admin_abonnes', {'id' : t.id})}}" class="btn  btn-mini   btn-default tooltipGobi" title="Voir utilisateurs du typeMedia ( {{t.libelleTypeMedia}} )">
+                                                            <i class="fa fa-user"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                {% endif %}#}
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toutDecocher('checkOne');
+            $('#btnNew').click(function () {
+                $('#formNew').toggle(500);
+            });
+            $('#resetNew').click(function () {
+                $('#formNew').toggle(500);
+            });
+            $('.btnEdit').click(function () {
+                $(this).parent('td').parent('tr').children('td').eq(2).children('.formEdit').toggle(500);
+            });
+            $('.checkAll').change(function () {
+                if ($(this).is(':checked')) {
+                    toutCocher('checkOne');
+                } else {
+                    toutDecocher('checkOne');
+                }
+            });
+            $('.btnAction').click(function () {
+                var type = parseInt($(this).attr('btnActionVal'));
+                var tab = getCheckedId('checkOne', 'sId', true);
+                var nb = tab.length;
+                if (nb === 0) {
+                    var msg = "Veuillez sélectionner les typeMedias à activer";
+                    if (type === 0) {
+                        msg = "Veuillez sélectionner les typeMedias à désactiver";
+                    }
+                    if (type === 2) {
+                        msg = "Veuillez sélectionner les typeMedia à supprimer";
+                    }
+                    error_message('Attention', msg);
+                } else {
+                    msg = "Confirmez l'activation des typeMedias sélectionnés";
+                    if (type === 0) {
+                        msg = "Confirmez la désactivation  des typeMedias sélectionnés";
+                    }
+                    if (type === 2) {
+                        msg = "Confirmez la suppression des typeMedias sélectionnés";
+                    }
+                    afficherConfirmationSetEtat(msg, tab, type);
+                }
+            });
+
+
+        });
+
+        function afficherConfirmationSetEtat(msg, tab, type) {
+            $('<div id="msg" title="Confirmation"><p> ' + msg + '</p></div>').dialog({
+                hide: {
+                    // effect: "explode"isEmetteur,
+                    duration: 500
+                },
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    " Confirmez ": function () {
+                        setEtatTypeuser(tab, type);
+                        $(this).dialog('');
+                    },
+                    " Annuler ": function () {
+                        $(this).dialog('');
+                    }
+
+                }
+
+            }).dialog('open');
+        }
+
+        function setEtatTypeuser(tabIds, etat) {
+
+            var ajaxId = prepareAjaxData(tabIds);
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: "{{ path('app_admin_typeMedia_set_etat') }}",
+                data: 'sId=' + ajaxId + '&etat=' + etat,
+                beforeSend: function () {
+                    
+                },
+                success: function (rep) {
+                    
+                    if (rep['etat']) {
+                        window.location.reload();
+                    } else {
+                        error_message('Erreur', rep['msg']);
+                    }
+                },
+                complete: function () {
+                    
+                }
+
+            });
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,315 @@
+<?php
+
+/**
+ * 
+ * Définition de l'entité Operateur
+ * Représente un opérateur télephonique
+ * 
+ * @author Edmond AMUAKU <edmond.amuaku@ace3i.com> 
+ * 
+ * 
+ */
+
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \Doctrine\Common\Collections\ArrayCollection;
+use \admin\SmsBundle\Entity\Pays;
+use \admin\UserBundle\Types\TypeEtat;
+
+/**
+ * 
+ * operateur
+ *
+ * @ORM\Table(name="operateur")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\OperateurRepository")
+ */
+class Operateur {
+
+    /**
+     * 
+     * @var integer $id 
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $nomOperateur 
+     *
+     * @ORM\Column(name="nom_operateur", type="string", length=50)
+     * @Assert\Length(max=50)
+     * @Assert\NotBlank(message="Nom operateur requis !")
+     */
+    private $nomOperateur;
+
+    /**
+     * @var string $codeOperateur 
+     *
+     * @ORM\Column(name="code_operateur", type="string", length=10)
+     * @Assert\Length(max=10)
+     * @Assert\NotBlank(message="Nom operateur requis !")
+     */
+    private $codeOperateur;
+
+    /**
+     * @var integer $etat 
+     * @ORM\Column(name="etat", type="integer")
+     */
+    private $etat;
+
+    /**
+     * @var Pays $pays 
+     * 
+     * @ORM\ManyToOne(targetEntity="admin\SmsBundle\Entity\Pays", inversedBy="operateurs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $pays;
+    
+    /**
+     * @var ArrayCollection $plageNumeros
+     * 
+     * @ORM\OneToMany(targetEntity="admin\SmsBundle\Entity\PlageNumero", mappedBy="operateur")
+     */
+    private $plageNumeros;
+    
+    
+   
+    
+    
+     /**
+     * @var ArrayCollection $numerosCourts
+     * 
+     * @ORM\OneToMany(targetEntity="admin\SmsBundle\Entity\NumeroCourt", mappedBy="operateur")
+     */
+    private $numerosCourts;
+    
+     /**
+     * @var ArrayCollection $smsCenters
+     * 
+     * @ORM\OneToMany(targetEntity="admin\SmsBundle\Entity\SmsCenter", mappedBy="operateur")
+     */
+    private $smsCenters;
+    
+
+
+    public function __construct() {
+        $this->etat = TypeEtat::ACTIF;
+        $this->plageNumeros = new ArrayCollection();
+        $this->numeroCourts = new ArrayCollection();
+        $this->smsCenters = new ArrayCollection();
+    }
+
+    
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nomOperateur
+     *
+     * @param string $nomOperateur
+     * @return Operateur
+     */
+    public function setNomOperateur($nomOperateur)
+    {
+        $this->nomOperateur = $nomOperateur;
+
+        return $this;
+    }
+
+    /**
+     * Get nomOperateur
+     *
+     * @return string 
+     */
+    public function getNomOperateur()
+    {
+        return $this->nomOperateur;
+    }
+
+    /**
+     * Set codeOperateur
+     *
+     * @param string $codeOperateur
+     * @return Operateur
+     */
+    public function setCodeOperateur($codeOperateur)
+    {
+        $this->codeOperateur = $codeOperateur;
+
+        return $this;
+    }
+
+    /**
+     * Get codeOperateur
+     *
+     * @return string 
+     */
+    public function getCodeOperateur()
+    {
+        return $this->codeOperateur;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return Operateur
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set pays
+     *
+     * @param \admin\SmsBundle\Entity\Pays $pays
+     * @return Operateur
+     */
+    public function setPays(\admin\SmsBundle\Entity\Pays $pays)
+    {
+        $this->pays = $pays;
+
+        return $this;
+    }
+
+    /**
+     * Get pays
+     *
+     * @return \admin\SmsBundle\Entity\Pays 
+     */
+    public function getPays()
+    {
+        return $this->pays;
+    }
+
+    /**
+     * Add plageNumeros
+     *
+     * @param \admin\SmsBundle\Entity\PlageNumero $plageNumeros
+     * @return Operateur
+     */
+    public function addPlageNumero(\admin\SmsBundle\Entity\PlageNumero $plageNumeros)
+    {
+        $this->plageNumeros[] = $plageNumeros;
+
+        return $this;
+    }
+
+    /**
+     * Remove plageNumeros
+     *
+     * @param \admin\SmsBundle\Entity\PlageNumero $plageNumeros
+     */
+    public function removePlageNumero(\admin\SmsBundle\Entity\PlageNumero $plageNumeros)
+    {
+        $this->plageNumeros->removeElement($plageNumeros);
+    }
+
+    /**
+     * Get plageNumeros
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPlageNumeros()
+    {
+        return $this->plageNumeros;
+    }
+
+    /**
+     * Add numerosCourts
+     *
+     * @param \admin\SmsBundle\Entity\NumeroCourt $numerosCourts
+     * @return Operateur
+     */
+    public function addNumerosCourt(\admin\SmsBundle\Entity\NumeroCourt $numerosCourts)
+    {
+        $this->numerosCourts[] = $numerosCourts;
+
+        return $this;
+    }
+
+    /**
+     * Remove numerosCourts
+     *
+     * @param \admin\SmsBundle\Entity\NumeroCourt $numerosCourts
+     */
+    public function removeNumerosCourt(\admin\SmsBundle\Entity\NumeroCourt $numerosCourts)
+    {
+        $this->numerosCourts->removeElement($numerosCourts);
+    }
+
+    /**
+     * Get numerosCourts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getNumerosCourts()
+    {
+        return $this->numerosCourts;
+    }
+
+    /**
+     * Add smsCenters
+     *
+     * @param \admin\SmsBundle\Entity\SmsCenter $smsCenters
+     * @return Operateur
+     */
+    public function addSmsCenter(\admin\SmsBundle\Entity\SmsCenter $smsCenters)
+    {
+        $this->smsCenters[] = $smsCenters;
+
+        return $this;
+    }
+
+    /**
+     * Remove smsCenters
+     *
+     * @param \admin\SmsBundle\Entity\SmsCenter $smsCenters
+     */
+    public function removeSmsCenter(\admin\SmsBundle\Entity\SmsCenter $smsCenters)
+    {
+        $this->smsCenters->removeElement($smsCenters);
+    }
+
+    /**
+     * Get smsCenters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSmsCenters()
+    {
+        return $this->smsCenters;
+    }
+    
+    public function __toString() {
+     return $this->nomOperateur ;   
+    }
+
+}

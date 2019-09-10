@@ -1,0 +1,192 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{parent()}} - Ajout une note{% endblock %}
+{% block file_arriane %}
+    {% if  isEleve(sessionData.codeProfil)  %}
+     <div class="fond-fil-ariane-eleve-info" >
+    {% elseif  isParentEleve(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-peleve-info" >  
+    {% elseif  isEnseignant(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-ens-classe" >  
+    {% else  %}
+          <div class="fond-fil-ariane-classe" >    
+     
+    {% endif  %}
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Ajouter une note</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des notes </span> ><span class="fil-3"> Ajout </span>
+                </div>
+            </div>
+        </div>
+    </div>           
+{% endblock  %}
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.success')%}
+        {% if loop.index == 0%}
+
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+        <div class="text-center alert alert-success  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.error')%}
+        {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+    <div class="text-center alert alert-danger  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.already.exist')%}
+        {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+
+{# chargement basique de fichier #}
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <form action="{{path('app_admin_classe_ajout_note_eleve_by_epreuve', {'idEpreuve' : idEpreuve})}}" method="POST"  {#{{form_enctype(formuView)}}#}>
+
+        <div class="col-lg-12" >
+            
+                <table class="table table-striped table-hover zone-note" >
+                    <thead >
+                        <tr class=" ">
+                            <th>Noms et Prenoms </th>
+                            <th style="text-align: center;">
+                                Note
+                            </th>
+                            {% for exercice in listeExercice %}
+                                <th>
+                                   {{exercice.libelleExercice}}
+                                </th>  
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                                {% for u in listeEleveClasse %}
+                        <tr>
+
+                            <td> {{u.nom}} {{' '~u.prenoms}}</td>                                     
+                            <td>
+                                <input type='text' name='{{'note'~u.id}}' class='formaMontant'  value="{% if infoNote[0][u.id] is defined %} {{infoNote[0][u.id]}} {% endif %}">
+
+                            </td>
+                            {% for exercice in listeExercice %}
+                                <td>
+                                    {% if infoNote[1][u.id][exercice.id] is defined %} {{infoNote[1][u.id][exercice.id]}} {% endif %}
+                                    <select name="{{'appreciation'~u.id~''~exercice.id}}">
+                                        <option value="1">Non touche</option>
+                                        <option value="2">Assez bien fait</option>
+                                        <option value="3">Bien fait</option>
+                                        <option value="4">Excellent</option>
+                                    </select>
+                                </td>
+                            {% endfor %} 
+
+                        </tr>
+                                {% endfor %}
+
+                    </tbody>
+                    <tfoot>
+
+
+                        <tr>
+
+                            <td colspan="2"> 
+                                <div class="form-group clearfix pull-right col-lg-3 zone-bouton-panel">
+                                    <a  class="btn" href="{{path('app_admin_classes')}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                                    <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                                </div> 
+                            </td>                                     
+
+
+
+                        </tr>
+
+
+                    </tfoot>
+                </table>
+
+        </div>
+            </form>
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+
+<script type="text/javascript">
+
+
+
+    $('.id-matiere').change(function() {
+        $('.id-typeexamen').show();
+        // $(this).attr()
+    });
+    $('.id-typeexamen').change(function() {
+        $('.zone-note').show();
+        // $(this).attr()
+    });
+    $('.id-enseignant').change(function() {
+        var id = $(this).val();
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_get_matiere_enseignant') }}",
+            data: 'idens=' + id,
+            beforeSend: function() {
+            },
+            success: function(data) {
+                $('.id-matiere').show();
+                $('.id-matiere').html("");
+                if (data.donnee.length > 0) {
+                    // valeur= parseInt(valeur)+1;
+                    $('.id-matiere').append("<option value=''> Choisissez votre matière </option> ");
+                    for (var pas = 0; pas < data.donnee.length; pas++) {
+                        $('.id-matiere').append("<option value=" + data.donnee[pas].id + ">" + data.donnee[pas].libelleMatiere + "</option> ");
+                    }
+                }
+                $('.btValider').show();
+            },
+            complete: function() {
+            }
+        });
+
+    })
+
+
+
+</script>
+{% endblock %}

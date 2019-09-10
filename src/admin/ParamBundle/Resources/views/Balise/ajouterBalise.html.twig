@@ -1,0 +1,111 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}{{parent()}} - Ajout balise{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block Breadcrumb %}
+    <section class="wrapper ">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3 class="page-header"><i class="fa fa-plus"></i> Ajout Balise </h3>
+                <ol class="breadcrumb">
+                    <li><i class="fa fa-home"></i><a href="{{sessionData.homeUrl}}">Home</a></li>
+                    <li><i class="fa fa-list"></i><a href="{{path('app_admin_balises_user')}}">Profils utilisateur</a></li>
+                    <li><i class="fa fa-user"></i>Ajout balise</li>						  	
+                </ol>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                {% for contenu in app.session.getflashbag.get('balise.ajout.success')%}
+                    {% if loop.index == 0%}
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                            {% endif%}
+                            <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                            {% if loop.index == 0%} 
+                            </div>
+                        </div>
+                    {% endif%}
+                {% endfor%}
+
+                {% for contenu in app.session.getflashbag.get('balise.ajout.error')%}
+                    {% if loop.index == 0%}
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                            {% endif%}
+                            <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                            {% if loop.index == 0%} 
+                            </div>
+                        </div>
+                    {% endif%}
+                {% endfor%}
+
+                {% for contenu in app.session.getflashbag.get('balise.ajout.already.exist')%}
+                    {% if loop.index == 0%}
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {% endif%}
+                            <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                            {% if loop.index == 0%} 
+                            </div>
+                        </div>
+                    {% endif%}
+                {% endfor%}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <section class="panel">
+                    <div class="panel-body">
+                        <form class="form-horizontal" role="form" action="{{path('app_admin_balise_ajout')}}" method="POST"  {{form_enctype(formuView)}}>
+                            <div class="form-group clearfix">
+                                <label class="col-lg-2 control-label">{{ form_label(formuView.nomBalise) }}</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(formuView.nomBalise) }}
+                                    {#<p class="help-block">Example block-level help text here.</p>#}
+                                </div>
+                            </div>
+                           {# <div class="form-group clearfix">
+                                <label class="col-lg-2 control-label">{{ form_label(formuView.typeProfil) }}</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(formuView.typeProfil) }}
+                                   
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-lg-2 control-label">Description</label>
+                                <div class="col-lg-10">
+                                    {{ form_widget(formuView.description) }}
+                                </div>
+                            </div>#}
+                            <div class="form-group">
+                                {{form_rest(formuView) }} 
+                                <div class="col-lg-2 ">
+                                    <a  class="btn btn btn-default" href="{{path('app_admin_balises_user')}}"> 
+                                        <i class="icon icon-white icon-arrow-left"></i> Annuler
+                                    </a>
+                                </div>
+                                <div class="col-lg-offset-2 col-lg-2">
+                                    <button type="submit" class="btn btn-success" id="submit" > 
+                                        <i class="icon icon-white icon-ok"></i> Ajouter 
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+        </div>     
+    </section>
+
+{% endblock %}
+{% block javascriptsPerso %}
+
+{% endblock %}

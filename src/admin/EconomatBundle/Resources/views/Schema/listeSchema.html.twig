@@ -1,0 +1,240 @@
+{# src/utb/ClientBundle/Resources/views/layoutSite.html.twig #}
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  {{ parent() }} - Liste Schéma 
+{% endblock %}	
+{% block file_arriane %}
+     <div class="fond-fil-ariane-classe" >
+                    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+                        <div class="row" style="background:rgba(0,0,0,0.3)">
+                            <div class="col-xs-7" >
+                               <h1> Liste un schéma </h1>
+                            </div>
+                            <div class="col-xs-5" style="margin-top: 15px; ">
+                               <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des schémas</span> ><span class="fil-3"> Liste </span>
+                            </div>
+                        </div>
+                    </div>
+		</div>           
+{% endblock  %}
+{% block body %}  
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+      {% for contenu in app.session.flashbag.get('notice') %}
+    {% if contenu == "success" %}
+    <div class="text-center alert alert-success  fade in">                       
+        Schema ajouté avec succès! 
+    </div>    
+    {% endif %}
+    {% if contenu == "modifsuccess" %}
+    <div class="text-center alert alert-success  fade in">                       
+        Schema modifié avec succès!  
+    </div>    
+    {% endif %}
+    {% if contenu == "failure" %}
+    <div class="text-center alert alert-error  fade in">                      
+        Erreur lors de l'ajout du schema! 
+    </div>    
+    {% endif %} 
+    {% if contenu == "existedeja" %}
+    <div class="text-center alert alert-error  fade in">                       
+        Schema déjà ajouté! 
+    </div>    
+    {% endif %}
+{% endfor %}
+ </div> 
+  
+  
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="col-lg-12" >                                      
+
+        <table class="table table-striped table-hover" border="0"  >
+           {# <tr>
+                <th colspan="4" class="colspan">
+
+					<div class="btSuppr floatR ">ACTIVER SUPPRESSION <span><img class="" src="{{ asset('img/client-img/formulaire/supprimer.png')}}"  /></span></div>       
+					<div class="btModif floatR marginRight20p">ACTIVER MODIFICATION <span><img class="" src="{{ asset('img/client-img/formulaire/modifier.png')}}"  /></span></div>
+
+					<div class="clear"></div>
+			</th>
+        </tr>#}
+           <tr>
+                    <th colspan="4" class="colspan">
+            <div class="btSuppr floatR ">ACTIVER SUPPRESSION <span><img class="" src="{{ asset('img/client-img/formulaire/supprimer.png')}}"  /></span></div>       
+            <div class="btModif floatR marginRight20p">ACTIVER MODIFICATION <span><img class="" src="{{ asset('img/client-img/formulaire/modifier.png')}}"  /></span></div>
+            <div class="clear"></div>
+            </th>
+            </tr>
+            <tr>
+{#    <th style="padding-left:10px;"><input type="checkbox" class="checkall" name="checkall"/></th>#}
+                <th>Compte</th>
+                <th>Libelle compte</th>
+                <th>Sens</th>
+                <th>Action</th>
+            </tr>
+
+                        {% if listeschema is defined and listeschema|length >0 %}
+                            {% for key,schema in listeschema %} 
+                                {% set tablo = key|split('&')%}
+                                {% if schema is defined and schema|length >0 %}
+                                    {% for ligneschema in schema %}
+                                    {% if ligneschema|length >0 %}   
+            <tr class="w300">
+                <td  colspan="3" class="center">
+                    {{ tablo[1] }}  &nbsp;&nbsp;&nbsp; {{ligneschema|length}} ligne(s)
+                </td>
+                <td class="reinit center">
+                    
+                    {% if tablo[0] >1 %}
+                       {# <a href="{{ path('admin_modifschema', {'id': tablo[0] }) }}" class="btToutModif">
+                            <img src="{{ asset('img/client-img/formulaire/modifier.png')}}" alt="{{'client.desactiver'|trans({},'messages') }}" title="{{'client.modifier'|trans({},'messages') }}" />
+                        </a>#}
+                    <a href="{{ path('admin_modifschema', {'id': tablo[0] }) }}" class="btn btn-circle mini btn-info btnEdit tooltipGobi" >
+                                    <i class="fa fa-pencil"></i>
+                    </a>
+                        {#<a href="{{ path('admin_supprschema',{'id':tablo[0] ,'locale':locale})}}" onClick="return(confirm('{{ 'Voulez vous vraiment Supprimer ce compte '|trans({}, 'plan') }}'));" class="btToutSuppr">
+                            <img src="{{ asset('img/client-img/formulaire/supprimer.png')}}" alt="{{'client.supprimer'|trans({},'messages') }}" title="{{'client.supprimer'|trans({},'messages') }}"/>
+                        </a>#}
+                        <a href="{#{{ path('admin_supprschema',{'id':tablo[0] ,'locale':locale})}}#}#" onClick="$('#compte{{tablo[0]}}').modal();{#return(confirm('{{ 'Voulez vous vraiment Supprimer ce compte '|trans({}, 'plan') }}'));#}" id="ajout_type_link" class="btToutSuppr">
+                            <img src="{{ asset('img/client-img/formulaire/supprimer.png')}}" alt="Supprimer" title="Supprimer" />
+                        </a>
+
+                    {% endif %}
+					{#<a href="{{ path('admin_listetypeOperation',{'locale':locale})}}#ajouttype" onClick="Ajouttype();
+                            return false;" id="ajout_type_link" class="marginLeft10p">
+                        <img src="{{ asset('img/client-img/formulaire/add.png')}}" alt="Ajouter" title="Ajouter schemas" />
+                    </a>#}
+                </td> 
+
+            </tr>
+                                    {%endif%}
+                                     {% if ligneschema|length >0 %}    
+                                        {% for ligne in ligneschema %} 
+            <tr>
+{#                  <td style="width:30px;"><input type="checkbox" name="user[]" value="1" rel="user_c"/></td>#}
+                <td>{{ligne.compte }}</td>  
+                <td>{{ligne.libelle }}</td>
+                <td class="reinit center">{{ligne.sens }}</td>
+                <td></td>
+            </tr>
+                                        {% endfor %} 
+                                    {% endif %}  
+
+                                    {% endfor %}  
+                                {% endif%}                 
+                        {% else %}
+            <tr>
+                <td colspan="4">{{ 'schemas.none'|trans({}, 'schemas') }} </td>       
+            </tr>  
+
+                        {% endfor %}
+                        {%endif%}
+        </table>
+        
+    </div>
+</div>
+</div>
+<!--Fin du box compte-->
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+
+<script language="javascript">
+
+    function AjoutSchema() {
+        $("#modifSchema_container").hide();
+        $("#ajoutSchema_container").show();
+
+        /* var html = '<a class="updateLink" href="#" onClick="AnnulerFicheUser( ); return false;">Annuler Modification</a>';
+         $(".updateImgInArt").html(html);*/
+    }
+
+    function AnnulerAjoutSchema() {
+
+        $("#ajoutSchema_container").hide();
+        /*var html = '<a class="updateLink" href="#" onClick="modifierFicheUser( ); return false;">{{ 'admin.modifimgul'|trans({}, 'messages') }}</a>';
+         $(".updateImgInArt").html(html);*/
+    }
+
+    function ModifSchema(idschema) {
+
+        $("#modifSchema_container" + idschema).show();
+        $("#ajoutSchema_container").hide();
+        var html = '';
+        $(".modif" + idschema).html(html);
+        /* var html = '<a class="updateLink" href="#" onClick="AnnulerFicheUser( ); return false;">Annuler Modification</a>';
+         $(".updateImgInArt").html(html);*/
+
+    }
+
+    function AnnulerModifSchema(idschema) {
+
+        $("#modifSchema_container" + idschema).hide();
+        var html = '<a href="#" onClick="ModifSchema(' + idschema + '); return false;"><img src="{{ asset('img/client-img/icon-16-pen.png')}}" alt="Modifier" title="Modifier"/></a>';
+        $(".modif" + idschema).html(html);
+    }
+
+
+    $(".checkall").click(function() {
+        $(this).closest("table").find("input[type=checkbox]").prop("checked", this.checked);
+    });
+
+
+    $(".checkall").click(function() {
+        $(this).closest("table").find("input[type=checkbox]").prop("checked", this.checked);
+    });
+
+    function getUsersID() {
+
+        var id = "";
+
+        $(":input[rel=user_c]:checked").each(function() {
+            id = id.concat("|" + $(this).val());
+//actions_id = "1|2|3";
+        });
+
+        return id;
+    }
+
+    var html = "<div class='txtAlignC'><img src='{{ asset('img/wait.gif') }}' /></div>";
+    var htmldefault = "Voulez vous vraiment Supprimer ces schemas ?";
+
+
+
+
+    var htmldefault3 = "Modifier le statut de cette schema ?";
+
+
+</script>
+
+{#% if ajoutprof == 1 %}
+     <script>
+         $("#btn_ajout_schema").click();
+     </script>
+{% endif %#} 
+
+<div id="process_tpl" class="displayNone"></div> 
+<div id="sivide" class="displayNone"> {{ 'schema.confirmation.sivide'|trans({}, 'schemas') }} </div> 
+
+<div id="activationimpossible" class="displayNone"> {{ 'schema.confirmation.activationimpossible'|trans({}, 'schemas') }}</div> 
+<div id="activationreussie" class="displayNone"> {{ 'schema.confirmation.activationreussie'|trans({}, 'schemas') }} </div>
+<div id="titreactivation" class="displayNone">{{ 'schema.confirmation.titreactivation'|trans({}, 'schemas') }} </div> 
+<div id="msgconfirmactivation" class="displayNone">   {{ 'schema.confirmation.activation'|trans({}, 'schemas') }}</div> 
+
+<div id="desactivationimpossible" class="displayNone"> {{ 'schema.confirmation.desactivationimpossible'|trans({}, 'schemas') }}</div> 
+<div id="desactivationreussie" class="displayNone"> {{ 'schema.confirmation.desactivationreussie'|trans({}, 'schemas') }} </div>                     
+<div id="titredesactivation" class="displayNone">{{ 'schema.confirmation.titredesactivation'|trans({}, 'schemas') }}</div> 
+<div id="msgconfirmdesactivation" class="displayNone"> {{ 'schema.confirmation.desactivation'|trans({}, 'schemas') }}</div>      
+
+<div id="suppressionimpossible" class="displayNone"> {{ 'schema.confirmation.supimpossible'|trans({}, 'schemas') }}</div> 
+<div id="suppressionreussie" class="displayNone"> {{ 'schema.confirmation.supreussie'|trans({}, 'schemas') }} </div>
+<div id="titresuppression" class="displayNone">{{ 'schema.confirmation.titresup'|trans({}, 'schemas') }}</div> 
+<div id="msgconfirmsuppression" class="displayNone"> {{ 'schema.confirmation.suppression'|trans({}, 'schemas') }}</div>      
+
+<div id="operationexiste" style="display:none;"> {{ 'schema.confirmation.operationexiste'|trans({}, 'schemas') }} </div> 
+
+{#{{ information.decochetoutbox() }} 
+#}
+{% endblock %}

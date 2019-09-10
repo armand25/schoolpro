@@ -1,0 +1,124 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}} - Modification de Type de media{% endblock %}
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block grandTitre %}Modification de Type de media{% endblock %}
+{% block Breadcrumb %}
+    <ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+        <li>
+            <a href="#/app/dashboard" >
+                <i class="fa fa-home margin-right-5 text-large text-dark"></i>Accueil
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <i class="fa fa-file margin-right-5 text-large text-dark"></i>Administrateur
+            </a>
+        </li>
+
+        <li class="ng-binding ng-scope" ><i class="fa fa-upload margin-right-5 text-large text-dark"></i>Ajout</li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    {#<div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-plus"></i>AJOUT ADMINISTRATEUR  </h3>
+        </div>
+    </div>#}
+    {% for contenu in app.session.getflashbag.get('produit.ajout.success')%}
+        {% if loop.index == 0%}
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+                <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+            </div>
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('produit.ajout.error')%}
+        {% if loop.index == 0%}
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+                <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+            </div>
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('produit.ajout.already.exist')%}
+        {% if loop.index == 0%}
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+                <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+            </div>
+        {% endif%}
+    {% endfor%}
+
+ 
+                      
+
+    <div class="container-fluid container-fullw ng-scope">
+
+        <div class="row">
+            <div class="col-lg-12" >
+                <div class="panel panel-white">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="panel-body">
+{#                                    <form action="{{path('app_admin_produit_ajout', {'idProfil' : idProfil})}}" method="POST"  {{form_enctype(form)}}>#}
+                                 {{ form_start(form) }}     
+{#                                    <div class="col-lg-6">#}
+                                            <section class="panel">
+                                                <div class="panel-body">
+                                    
+                                                    <div class="form-group clearfix">
+                                                        {{form_rest(form) }}
+                                                        <a  class="btn" href="{{path('app_admin_typeMedias_list')}}"> 
+                                                            <i class="icon icon-white icon-arrow-left"></i> Annuler
+                                                        </a>
+                                                        <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                                                    </div> 
+                                                </div>
+                                            </section>
+{#                                    </div>#}
+{#                                    </form>#}
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.numeric').numeric();
+            $('.numeric').keyup(function () {
+                var saisie = $(this).val();
+                if (saisie.length > 0) {
+                    var number = parseInt(saisie);
+                    if ((typeof number != 'undefined') && (!isNaN(number))) {
+                        var newVal = (number == 0) ? '' : number;
+                        $(this).val(newVal);
+                    }
+                }
+
+            });
+        });
+    </script>
+{% endblock %}

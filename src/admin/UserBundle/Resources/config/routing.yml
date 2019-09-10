@@ -1,0 +1,213 @@
+# Page index de l'espace d'administration
+app_admin_user_index:
+    path:     /
+    defaults: { _controller: adminUserBundle:Login:index }
+    
+# page de connexion de l'espace d'administration
+app_admin_user_login:
+    path:  /login
+    defaults: { _controller: adminUserBundle:Login:login }
+
+# deconnexion
+app_admin_user_logout:
+    path:  /logout
+    defaults: { _controller: adminUserBundle:Login:logout }
+# deconnexion
+app_admin_user_logout_choix_date:
+    path:  /choix/date/logout
+    defaults: { _controller: adminUserBundle:Login:logoutChoixDate }
+
+# Page d'accueil de l'espace d'administration
+app_admin_user_home:
+    path:  /accueil
+    defaults: { _controller: adminUserBundle:Home:home}
+
+        
+# affiche la page d'attribution de droit à un profil
+app_admin_profil_droits:
+    path: /profil/droits/{idProfil}
+    defaults: { _controller: adminUserBundle:Droit:profilAccess, idProfil: 0 }
+    requirements:
+        idProfil: \d+
+# affiche la page d'attribution de droit à un profil
+app_admin_enseignant_get:
+    path: /user/get
+    defaults: { _controller: adminUserBundle:User:getUser}
+    
+    
+# affiche la page d'attribution de droit à un profil
+app_admin_get_matiere_enseignant:
+    path: /get/user/matiere
+    defaults: { _controller: adminUserBundle:User:getMatiereUser}    
+    
+
+#Mèt à  jour des droits d'un profil par ajax
+app_admin_profil_droits_allow:
+    path: /profil/droit/allow
+    defaults: { _controller: adminUserBundle:Droit:updateDroitProfil}
+    
+#Mèt à  jour des droits d'un profil par ajax
+app_admin_profil_get_user:
+    path: /profil/get/user
+    defaults: { _controller: adminUserBundle:Profil:getProfilUser}
+    
+
+        
+#Page afficher lors du refus de l'acces à une page à un user
+app_admin_user_access_refuse:
+    path: /user/access/denied
+    defaults: { _controller: adminUserBundle:Droit:accessDenied}
+#Page afficher lors du refus de l'acces à une page à un user
+app_admin_user_licence_refuse:
+    path: /user/access/licence
+    defaults: { _controller: adminUserBundle:Droit:accessLicence}
+        
+# affiche la liste des profils
+app_admin_profils_user:
+    path: /profils/user
+    defaults: { _controller: adminUserBundle:Profil:listeProfil}
+        
+# formulaire d'ajout  de profil
+app_admin_profil_ajout:
+    path: /ajout/profil
+    defaults: { _controller: adminUserBundle:Profil:ajoutProfil}
+        
+# formulaire de modification d'un profil
+app_admin_profil_modifier:
+    path: /modifier/profil/{idProfil}
+    defaults: { _controller: adminUserBundle:Profil:modifierProfil, idProfil: 0}
+    requirements:
+        idProfil: \d+
+        
+# activaton; desactivation, suppression de profil
+app_admin_profil_set_etat:
+    path: set/etat/profil
+    defaults: { _controller: adminUserBundle:Profil:changerEtatProfil}
+    
+
+# Affiche la liste des utilisateur par profil. si idProfil = 0 alors on affiche les utilisateurs de ts les profils
+app_admin_users:
+    path: utilisateurs/{idProfil}
+    defaults: { _controller: adminUserBundle:User:listeUserByProfil, idProfil: 1}
+    requirements:
+        idProfil: \d+
+        
+# activaton; desactivation, suppression d'utilisateur
+app_admin_user_set_etat:
+    path: set/etat/user
+    defaults: { _controller: adminUserBundle:User:changerEtatUser}
+
+# ajout d'un utilisateur
+app_admin_user_ajout:
+    path: nouveau/utilisateur/{idProfil}/{idEleve}/{idEtablissement}/{type}
+    defaults: { _controller: adminUserBundle:User:ajoutUtilisateur, idProfil: 0, idEleve : 0, type : 0,idEtablissement: 0}
+    requirements:
+        idProfil: \d+
+        idEleve: \d+
+        type: \d+
+        
+# déconnxion d'un utilisateur par l'administrateur
+app_admin_user_admin_logout:
+    path: admin/user/logout
+    defaults: { _controller: adminUserBundle:User:adminLogoutUser}
+        
+# affiche l'historique de connexion d'un user. isUser = 0 => abonne, isUser = 1 => Utilisateur
+app_admin_user_histo_connexion:
+    path: /historique/connexion/{idUser}/{isUser}/{nbParPage}/{pageActuelle}
+    defaults: { _controller: adminUserBundle:User:historiqueConnexion, idUser: 0,  isUser: 0, nbParPage: 20, pageActuelle: 1}
+    requirements:
+        idUser: \d+
+        isUser: \d+
+        nbParPage: \d+
+        pageActuelle: \d+
+        
+# affiche les détails d'une connexion d'un user. isUser = 0 => abonne, isUser = 1 => Utilisateur
+app_admin_user_details_connexion:
+    path: /details/connexion/{idConnexion}/{isUser}
+    defaults: { _controller: adminUserBundle:User:detailsConnexion,  idConnexion: 0, isUser: 1}
+    requirements:
+        idConnexion: \d+
+        isUser: \d+
+        
+# Modification d'un utilisateur 
+app_admin_user_modifier:
+    path: modifier/utilisateur/{idUser}/{type}
+    defaults: { _controller: adminUserBundle:User:modifierUtilisateur, idUser: 0, type: 0}
+    requirements:
+        idUser: \d+
+        
+    
+# affiche les infos du connecte
+app_admin_user_mon_profil:
+    path: /user/monprofil/{id}/{afficherForm}
+    defaults: { _controller: adminUserBundle:User:monProfil,id: 0, afficherForm: 0}
+    requirements:
+        afficherForm: 0|1
+
+# Modification du mot de passe par l'utilisateur connecté 
+app_admin_user_modifier_my_password:
+    path: utilisateur/modifier/mypassword
+    defaults: { _controller: adminUserBundle:User:modifierMyPasswordUtilisateur}
+        
+# Gestion des abonnes
+# Affiche la liste des abonnes par parfil. si idProfil = 0 alors on affiche les abonnes de ts les profils
+app_admin_abonnes:
+    path: abonnes/{idProfil}/{nbParPage}/{pageActuelle}
+    defaults: { _controller: adminUserBundle:Abonne:listeAbonneByProfil, idProfil: 0, nbParPage: 20, pageActuelle: 1}
+    requirements:
+        idProfil: \d+
+        nbParPage: \d+
+        pageActuelle: \d+
+
+        
+# ajout d'un abonne 
+app_admin_abonne_ajout:
+    path: nouveau/abonne/{idProfil}
+    defaults: { _controller: adminUserBundle:Abonne:ajoutAbonne, idProfil: 0}
+    requirements:
+        idProfil: \d+
+        
+# Modification d'un abonné  
+app_admin_abonne_modifier:
+    path: modifier/abonne/{idAbonne}/{idProfil}
+    defaults: { _controller: adminUserBundle:Abonne:modifierAbonne,  idAbonne: 0, idProfil: 0}
+    requirements:
+        idAbonne: \d+
+        idProfil: \d+
+        
+# déconnexion d'un abonne par l'administrateur
+app_admin_abonne_admin_logout:
+    path: admin/abonne/logout
+    defaults: { _controller: adminUserBundle:Abonne:adminLogoutAbonne}
+
+ # Affiche les informations détaillées d'un abonne 
+app_admin_abonne_infos:
+    path: afficher/infos/abonne/{idAbonne}/{idProfil}
+    defaults: { _controller: adminUserBundle:Abonne:infosAbonne, idAbonne: 0, idProfil: 0}
+    requirements:
+        idAbonne: \d+
+        idProfil: \d+
+        
+# activaton; desactivation, suppression d'un abonne
+app_admin_abonne_set_etat:
+    path: set/etat/abonne
+    defaults: { _controller: adminUserBundle:Abonne:changerEtatAbonne}
+
+
+# Modification du mot de passe d'un abonne par l'administrateur
+app_admin_abonne_admin_set_password:
+    path: admin/abonne/set/password/{idAbonne}/{idProfil}
+    defaults: { _controller: adminUserBundle:Abonne:modifierPasswordAbonneByAdmin, idAbonne: 0, idProfil: 0}
+    requirements:
+        idProfil: \d+
+        idAbonne: \d+
+        
+#génération dun nouvel code de base par ajax
+app_admin_code_base_new:
+    path: code/base/rand
+    defaults: { _controller: adminUserBundle:Abonne:getNewCodeBaseAbonne}   
+    
+    
+#core_config:
+#    resource: "@CoreConfigBundle/Resources/config/routing.yml"
+#    prefix:   /config

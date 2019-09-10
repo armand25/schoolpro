@@ -1,0 +1,227 @@
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  {{ parent() }} - Schéma comptable
+{% endblock %}	
+{% block file_arriane %}
+<div class="fond-fil-ariane" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Ajout schéma</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des schémas</span> ><span class="fil-3"> Ajout </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+{% block body %}  
+
+
+{# notification #}  
+ {% for contenu in app.session.flashbag.get('notice') %}
+        {% if contenu == "success" %}
+<div class="span-25">
+    <div class="success successMsg center">                        
+        Lignes comptables ajoutées avec succès! 
+    </div>    
+</div> 
+        {% endif %}
+        {% if contenu == "modifsuccess" %}
+<div class="span-25">
+    <div class="success successMsg center">                        
+        Lignes comptables modifiées avec succès!  
+    </div>    
+</div> 
+        {% endif %}
+        {% if contenu == "failure" %}
+<div class="span-25">
+    <div class="error center">                        
+        Erreur lors de l'ajout des Lignes comptables! 
+    </div>    
+</div> 
+        {% endif %} 
+        {% if contenu == "memesens" %}
+<div class="span-25">
+    <div class="error center">                        
+        Lignes comptables ne peuvent avoir un même sens
+    </div>    
+</div>
+        {% endif %}
+ {% endfor%} 
+{#  Menu #}
+
+  {% set i = 1 %}
+
+
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="col-lg-12" > 
+            <form action=" {{ path( "admin_ajoutschema", {'locale':'fr','idType':id,'nbreLigne':nbreLg} ) }} " method="post"  id="ajoutLangueSchema" class="form ajout" >
+                <h4 class="champs">(*) Champs obligatoires</h4>
+                <fieldset>
+                                    {#<legend>Ajout d'un schema Comptable</legend>#}
+              {#<div id="divligne">
+                  <input type="hidden" id="ligne" >
+              </div>#}
+
+                    <div class="form-group clearfix ">
+                        <label class="control-label">Type Operation* :</label>
+                        <select  class="ncompte form-control" id="typeop"  disabled="true"> 
+                        {% if listeTypeOp is defined %}    
+                            <option value="0">-- Sélectionnez le type d'opération --</option>
+                            {% for type in listeTypeOp %}
+                            <option {% if type.id == id %} selected {% endif %} value={{type.id}}>{{type.libTypeOperation}} - {{type.nbreLigne}}</option>
+                            {% endfor %}
+                        {% endif %}  
+                        </select><div class="clear"></div>                 
+                    </div>
+                    <input type="hidden" value="{{nbreLg}}" name="nbreLg" id="nbreLg" />
+
+              {% for i in 1..nbreLg %}
+                    <fieldset>
+                      <legend>  Ligne N° {{i}}</legend>
+                        <div class="form-group clearfix ">
+                            <label class="control-label">Type Compte * :</label>
+                            <select name="{{"typecpte"~i}}" class="typecpte form-control" id="{{"tcpte"~i}}" > 
+                                <option value="" selected>-- Type de Compte --</option>
+                                <option value="1"> COMPTE CAISSE</option>      
+                                <option value="2"> COMPTE ELEVE</option>
+                                <option value="2"> COMPTE BENEFICE</option>
+
+                                <option value="0" > AUTRE COMPTE COMPTABLE </option>
+                            </select>                        
+                        </div>
+                        <div class="clear"></div>
+                  {#{ dump( "plancompte"~i ) }#}
+                        <input type="hidden" name="{{"plancompte"~i}}" id="{{"plancompte"~i}}" value="">
+
+                        <div class="form-group clearfix ">
+                            <label class="control-label">Compte comptable* :</label>
+                            <select   name="{{"plancompte"~i}}" class="ncompte form-control" id="{{"cpte"~i}}" > 
+                        {% if listeCompte is defined %}    
+                                <option value="0" selected>-- Compte comptable --</option>
+                            {% for liste in listeCompte %}
+                                <option value={{liste.compte}}>{{liste.compte}} - {{liste.libelle}}</option>
+                            {% endfor %}
+                        {% endif %}  
+                            </select> 
+
+                            <select id="{{"autre"~i}}" name="{{"autre"~i}}"  style="padding-left: 10px;display: none"> 
+                                <option value="">Choisir le compte</option>
+
+{% for liste in listeCompte %} 
+                                <option value={{liste.compte}}>{{liste.compte}} - {{liste.libelle}}</option>
+
+                            {% endfor %}</select>
+                            <div class="clear"></div>
+
+                        </div>
+
+                        <div class="form-group clearfix ">
+                            <label class="control-label">Sens* :</label>
+                            <select name="{{"sens"~i}}" class="ncompte form-control" id="{{"sens"~i}}" > 
+                                <option value="0" selected> -- Sens -- *</option>                        
+                                <option value="D">Débit</option>
+                                <option value="C">Crédit</option> 
+                            </select>
+
+                            <div class="clear"></div>
+                        </div>
+                    </fieldset>
+                {% endfor  %}
+                    
+{#                    <span class="btnimage "><img src="{{asset('img/client-img/formulaire/valid.png')}}" alt="Créer" /><input type="submit" value="Créer  schema Comptable" class="boutonSubmit" name="op" id="j_bouton" /></span>#}
+{#                    <span class="btnimage "><img src="{{asset('img/client-img/formulaire/retour.png')}}" alt="Annuler" /><a href="{{ path("admin_listeschema")}}"><input class="annulerBut " type="button" value="Annuler la création" /></a></span>#}
+                </fieldset>
+                <div class="form-group clearfix pull-right col-lg-3 zone-bouton-panel">
+                                        <a  class="btn" href="{{ path("admin_listeschema")}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                                        <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                                    </div> 
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+<script type="text/javascript">
+
+    jQuery(document).ready(function() {
+
+    });
+
+{#
+
+
+
+    $("#tcpte1").change(function() {
+        var nom = 'typecpte1';
+        var cas = $(tcpte1).val();
+        var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+        if (cas == 0)
+            $('#autre1').show();
+        else
+            $('#autre1').hide()
+        $('#cpte1').empty();
+
+        doProcess(DATA);
+
+    });#}
+
+{#    $(".typecpte").change(function() {
+        var nom = 'typecpte2';
+        var cas = $(this).val();
+        if (cas == 0)
+            $('#autre2').show();
+        else
+            $('#autre2').hide()
+        var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+        if ((nom != '')) {
+
+            //$('#cpte2').empty();
+            //doProcess(DATA);
+        }
+    });#}
+
+   
+    function doProcess(DATA) {
+        $.ajax({
+            type: "POST",
+            dataType: 'json',
+            url: "{{ path('admin_procschema')}}",
+            data: DATA,
+            success: function(msg)
+            {
+                $.each(msg, function(index, tcpte)
+                {
+
+                    if (tcpte.length > 0) {
+
+                        var numro = '';
+
+
+                        for (var i = 0; i < tcpte.length; i++) {
+                            numro = tcpte[i].num;
+                            // alert(numro ) ;
+                            // $('#cpte'+numro).empty();
+                            $("#cpte" + numro).append('<option value="' + tcpte[i].compte + '" > ' + tcpte[i].libelle + ' </option>');
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+
+
+</script> 
+
+
+  {%endblock%}

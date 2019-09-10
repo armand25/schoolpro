@@ -1,0 +1,168 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{parent()}} - Ajout une épreuve{% endblock %}
+{% block file_arriane %}
+<div class="fond-fil-ariane" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Ajouter d'une épreuve </h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des épreuves</span> ><span class="fil-3"> Ajout </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block body %}
+
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.success')%}
+        {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+    <div class="text-center alert alert-success  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.error')%}
+        {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  ">
+                {% endif%}
+    <div class="text-center alert alert-danger  fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('eleve.ajout.already.exist')%}
+        {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+</div>
+
+        {% endif%}
+    {% endfor%}
+
+
+        {# chargement basique de fichier#}
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="col-lg-12" >
+                                {{ form_start(formuView) }} 
+             <div class="col-lg-12" >
+
+                 <fieldset >
+            <div class="col-lg-3" >
+                <select  name="id-enseignant"  class="form-control id-enseignant " required="true" >
+                {% if  isMaintenance(sessionData.codeProfil)  %}
+                    <option value="">Choisir l'enseignant </option> 
+                  {% for enseigne in enseignants  %}
+                    <option  value="{{enseigne.id}}" >{{enseigne.nom~" "~enseigne.prenoms}}  </option>  
+                                   {% endfor%}
+                {% else%}
+                    <option  value="{{enseignants.id}}" >{{enseignants.nom~" "~enseignants.prenoms}}  </option>
+                {% endif%}
+
+                </select>
+            </div>
+
+            <div class="col-lg-3" >
+                <select  name="id-matiere" required="true" class="form-control id-matiere" {% if  isMaintenance(sessionData.codeProfil)  %} style='display: none'{% endif %} >
+                    <option value="">Choisir votre matiere  </option>  
+                {% for uneMatiere in listeMatiere  %}
+                    <option  value="{{uneMatiere.id}}" >{{uneMatiere.libelleMatiere}}  </option>  
+                {% endfor%}
+
+
+                </select>
+            </div>
+            <div class="col-lg-3" >
+                
+            </div>
+            <div class="col-lg-3" >
+
+            </div>
+                     </fieldset >
+            </div>
+          
+
+            <div class="form-group clearfix ">
+                <label class=" control-label">     {{ form_label(formuView.typeexamen) }} </label>
+                <div class="control">      {{ form_widget(formuView.typeexamen) }}</div>
+            </div>  
+
+            <div class="form-group clearfix ">
+                <label class=" control-label">  Destin&eacute; </label>
+                <div class="control">     
+                    <select name="siToutNiveau" class="form-control">     
+                        <option value="0">Classe encours seulement</option>    
+                        <option value="1">Tous les niveaux</option>    
+                    </select>
+                </div>
+            </div>  
+
+            <div class="form-group">
+                <label class=" control-label"> {{ form_label(formuView.libelleEpreuve) }} </label>
+                <div class=" control">    {{ form_widget(formuView.libelleEpreuve) }}</div>
+            </div>
+
+            <div class="form-group clearfix ">
+                <label class=" control-label">     {{ form_label(formuView.descriptionEpreuve) }} </label>
+                <div class="control">      {{ form_widget(formuView.descriptionEpreuve) }}</div>
+            </div>                                                                                                        
+
+
+                                        {{form_rest(formuView) }}
+            <ul class="record_actions">
+                <li>
+                    <a href="#" class="exercice_add">
+                        Ajouter un exercice
+                    </a>
+                </li>
+            </ul>
+            <div class="form-group clearfix pull-right col-lg-6 zone-bouton-panel">
+                <a  class="btn" href="{{path('app_admin_epreuves',{'idClasse':idClasse})}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+            </div> 
+                                {#</form>#}
+                                {{ form_end(formuView) }}
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+
+<script type="text/javascript">
+
+    $('a.exercice_add').on('click', function(event) {
+        alert('Ok');
+        event.preventDefault();
+
+        var collectionHolder = $('#epreuve_exercices');
+        var prototype = collectionHolder.attr('data-prototype');
+        form = prototype.replace(/\$\$name\$\$/g, collectionHolder.children().length);
+        collectionHolder.append(form);
+    });
+
+</script>
+{% endblock %}

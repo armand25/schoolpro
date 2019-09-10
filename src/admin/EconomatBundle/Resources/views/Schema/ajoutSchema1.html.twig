@@ -1,0 +1,213 @@
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+  {{ parent() }} - Accueil
+{% endblock %}	
+			
+{% block body %}  
+  
+  
+{# notification #}  
+ {% for contenu in app.session.flashbag.get('notice') %}
+        {% if contenu == "success" %}
+            <div class="span-25">
+                <div class="success successMsg center">                        
+                    Lignes comptables ajoutées avec succès! 
+                </div>    
+            </div> 
+        {% endif %}
+        {% if contenu == "modifsuccess" %}
+            <div class="span-25">
+                <div class="success successMsg center">                        
+                    Lignes comptables modifiées avec succès!  
+                </div>    
+            </div> 
+        {% endif %}
+        {% if contenu == "failure" %}
+            <div class="span-25">
+                <div class="error center">                        
+                    Erreur lors de l'ajout des Lignes comptables! 
+                </div>    
+            </div> 
+        {% endif %} 
+        {% if contenu == "memesens" %}
+            <div class="span-25">
+                <div class="error center">                        
+                    Lignes comptables ne peuvent avoir un même sens
+                </div>    
+            </div>
+        {% endif %}
+ {% endfor%} 
+{#  Menu #}
+  
+  <div class="padding10p20p">
+      <form action=" {{ path( "admin_ajoutschema", {'locale':locale} ) }} " method="post" {{ form_enctype(form) }} id="ajoutLangueSchema" class="form ajout" >
+          <h4 class="fwNormal styleItalic txtAlignR colorCACAD8">(*) Champs obligatoires</h4>
+          <fieldset>
+
+              <legend>Ajout d'un schema Comptable</legend>
+
+              <div class="FrmAbonne champsGrp">
+                  <label>Type Operation* :</label>
+                  {{ form_errors(form.typeoperation) }}
+                  {{ form_widget(form.typeoperation) }}       
+              </div>
+              
+              <fieldset>
+              <div class="FrmAbonne champsGrp">
+                  <label>Type Compte * :</label>
+                  
+                  <select name="typecpte2" class="ncompte w323" id="tcpte1"> 
+                      <option value="2" selected>-- Type de Compte --</option>
+                      <option value="0"> Compte Caisse</option>                        
+                      <option value="1">Autre compte comptable</option> 
+                  </select> <div class="clear"></div>
+              </div>
+                  
+              <input type="hidden" name="plancompte1" id="cpte1h" >
+              
+              <input type="hidden" name="plancompte2" id="cpte2h" >
+              
+                  <div class="FrmAbonne champsGrp">
+                      <label>Compte comptable* :</label>
+                      <select  class="ncompte w323" id="cpte1"> 
+                        {% if listeCompte is defined %}    
+                          <option value="0" selected>-- Compte comptable --</option>
+                            {% for liste in listeCompte %}
+                                <option value={{liste.compte}}>{{liste.compte}} - {{liste.libelle}}</option>
+                            {% endfor %}
+                        {% endif %}  
+                      </select><div class="clear"></div>
+                  </div>
+                  
+                  <div class="FrmAbonne champsGrp">
+                      <label>Sens* :</label>
+                      <select name="sens1" class="ncompte w323" id="sens1"> 
+                          <option value="0" selected> -- Sens -- *</option>                        
+                          <option value="D">Débit</option>
+                          <option value="C">Crédit</option> 
+                      </select>
+
+                      <div class="clear"></div>
+                  </div>
+                  </fieldset>
+              
+                  <fieldset>
+                  <div class="FrmAbonne champsGrp">
+                      <label>Type Compte * :</label>
+                      <select name="typecpte2" class="ncompte w323" id="tcpte2"> 
+                          <option value="2" selected>-- Type de Compte --</option>
+                          <option value="0" > Compte Caisse</option>                        
+                          <option value="1">Autre compte comptable</option> 
+                      </select><div class="clear"></div>
+                  </div>
+                  
+                      <div class="FrmAbonne champsGrp">
+                          <label>Compte comptable* :</label>
+                          <select  class="ncompte w323" id="cpte2"> 
+                    {% if listeCompte is defined %}    
+                              <option value="0" selected>-- Compte comptable --</option>
+                        {% for liste in listeCompte %}
+                              <option value={{liste.compte}}>{{liste.compte}} - {{liste.libelle}}</option>
+                        {% endfor %}
+                    {% endif %}  
+                          </select> <div class="clear"></div>
+                      </div>
+                      
+                      <div class="FrmAbonne champsGrp">
+                          <label>Sens* :</label>
+                          <select name="sens2" class="ncompte w100" id="sens2">                 
+                              <option value="0" selected> -- Sens -- *</option>                        
+                              <option value="D">Débit</option>
+                              <option value="C">Crédit</option>
+                          </select>
+
+                          <div class="clear"></div>
+                      </div>
+                      </fieldset>
+       {#        
+        
+          <div class="FrmAbonne champsGrp">
+			{{ form_widget(form2.coef) }}			
+
+            <div class="clr"></div>
+        </div>
+        
+        
+        
+         <div class="FrmAbonne champsGrp">
+			{{ form_widget(form1.coef) }}			
+
+            <div class="clr"></div>
+        </div> #}
+
+
+              <span class="btnimage "><img src="{{asset('img/client-img/formulaire/valid.png')}}" alt="Créer" /><input type="submit" value="Créer  schema Comptable" class="boutonSubmit" name="op" id="j_bouton" /></span>
+              <span class="btnimage "><img src="{{asset('img/client-img/formulaire/retour.png')}}" alt="Annuler" /><a href="#" onClick="AnnulerAjoutProfil();return false;"><input class="annulerBut " type="button" value="Annuler la création" /></a></span>
+          </fieldset>
+      </form>
+  </div>
+  
+  <script type="text/javascript">
+
+        jQuery(document).ready(function() {  
+           $('#cpte1').val('0');
+           $('#cpte2').val('0');
+           $('#cpte1h').val('');
+           $('#cpte2h').val('');
+        });
+
+
+        $("#tcpte1").change(function() {
+            
+             var tcpte = $("#tcpte1 option:selected").val();    
+               
+             var recup =$('#cpte1').val();             
+
+             if ( tcpte === '0'){  
+                  //$('.op1').remove();
+                  //$('#cpte1').append('<option class="op1" selected="selected" value="'+recup+'" >' +recup+'</option>');
+                  $('#cpte1').val('CPTE_CAISSE');
+                  $('#cpte1h').val('CPTE_CAISSE');
+                  $('#cpte1').prop('disabled', true);
+             } else {
+                  $('#cpte1h').val('');
+                  $('#cpte1').val('0');
+                  $('#cpte1').prop('disabled', false);
+             }
+        })
+        
+        $("#cpte1").change(function() {
+             var recup =$('#cpte1').val();   
+             $('#cpte1h').val(recup);
+
+        })
+        
+        $("#cpte2").change(function() {
+             var recup =$('#cpte2').val();   
+             $('#cpte2h').val(recup);
+
+        })
+        
+        $("#tcpte2").change(function() {
+            
+             var tcpte = $("#tcpte2 option:selected").val();    
+               
+             var recup ="CPTE_CAISSE"; var recup ="CPTECAISSE";
+             if ( tcpte === '0'){  
+                  $('#cpte1').prop('disabled', true);
+                  $('#cpte2').val('CPTE_CAISSE');
+                  $('#cpte2h').val('CPTE_CAISSE');
+                  $('#cpte2').prop('disabled', true);
+             } else {
+                  $('#cpte2h').val('');
+                  $('#cpte2').val('0');
+                  $('#cpte2').prop('disabled', false);
+             }          
+        })
+        
+</script> 
+  
+  
+  {%endblock%}

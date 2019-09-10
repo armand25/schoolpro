@@ -1,0 +1,67 @@
+<?php
+
+namespace admin\CmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use admin\CmsBundle\Entity\Rubrique;
+
+/**
+ * Promotion
+ *
+ * @ORM\Table(name="promotion")
+ * @ORM\Entity(repositoryClass="admin\CmsBundle\Repository\PromotionRepository")
+ */
+class Promotion extends Rubrique
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var Partenaire $partenaireConcerne
+     *
+     * @ORM\Column(name="partenaireConcerne", type="Partenaire", length=45)
+     */
+    private $partenaireConcerne;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set partenaireConcerne
+     *
+     * @param string $partenaireConcerne
+     *
+     * @return Promotion
+     */
+    public function setPartenaireConcerne($partenaireConcerne)
+    {
+        $this->partenaireConcerne = $partenaireConcerne;
+
+        return $this;
+    }
+
+    /**
+     * Get partenaireConcerne
+     *
+     * @return string
+     */
+    public function getPartenaireConcerne()
+    {
+        return $this->partenaireConcerne;
+    }
+}
+

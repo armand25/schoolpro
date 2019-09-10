@@ -1,0 +1,251 @@
+<?php
+
+namespace admin\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use admin\VirementBundle\Entity\OrdreVirement ;
+
+
+/**
+ * Compte
+ *
+ * @ORM\Table(name="compte")
+ * @ORM\Entity(repositoryClass="admin\UserBundle\Entity\CompteRepository")
+ */
+class Compte {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $numero
+     *
+     * @ORM\Column(name="numero", type="string", length=20, nullable=false)
+     */
+    private $numero;
+
+    /**
+     * @var integer $typeComte
+     *
+     * @ORM\Column(name="type_comte", type="smallint")
+     */
+    private $typeCompte;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="etat", type="smallint")
+     */
+    private $etat;
+
+    /**
+     * @var Abonne  $abonne
+     * @ORM\ManyToOne(targetEntity="admin\UserBundle\Entity\Abonne", inversedBy="comptes")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $abonne;
+
+    /**
+     * @var \DateTime $dateAjout
+     *
+     * @ORM\Column(name="date_ajout", type="datetime", nullable=false)
+     */
+    private $dateAjout;
+
+    /**
+     * @var \DateTime $dateModification
+     *
+     * @ORM\Column(name="date_modification", type="datetime", nullable=true)
+     */
+    private $dateModification;
+
+    /**
+     * @var ArrayCollection $ordreVirements 
+     * 
+     * @ORM\OneToMany(targetEntity="admin\VirementBundle\Entity\OrdreVirement", mappedBy="compte")
+     */
+    private $ordreVirements;
+
+    public function __construct() {
+        $this->ordreVirements = new ArrayCollection();
+        $this->etat = \admin\UserBundle\Types\TypeEtat::ACTIF;
+        $this->typeCompte = \admin\UserBundle\Types\TypeCompte::COMPTE_ENTREPRISE;
+        $this->dateAjout = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param string $numero
+     * @return Compte
+     */
+    public function setNumero($numero) {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return string 
+     */
+    public function getNumero() {
+        return $this->numero;
+    }
+
+    /**
+     * Set typeCompte
+     *
+     * @param integer $typeCompte
+     * @return Compte
+     */
+    public function setTypeCompte($typeCompte) {
+        $this->typeCompte = $typeCompte;
+
+        return $this;
+    }
+
+    /**
+     * Get typeCompte
+     *
+     * @return integer 
+     */
+    public function getTypeCompte() {
+        return $this->typeCompte;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return Compte
+     */
+    public function setEtat($etat) {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat() {
+        return $this->etat;
+    }
+
+    /**
+     * Set abonne
+     *
+     * @param \admin\UserBundle\Entity\Abonne $abonne
+     * @return Compte
+     */
+    public function setAbonne(\admin\UserBundle\Entity\Abonne $abonne) {
+        $this->abonne = $abonne;
+
+        return $this;
+    }
+
+    /**
+     * Get abonne
+     *
+     * @return \admin\UserBundle\Entity\Abonne 
+     */
+    public function getAbonne() {
+        return $this->abonne;
+    }
+
+    /**
+     * Set dateAjout
+     *
+     * @param \DateTime $dateAjout
+     * @return Compte
+     */
+    public function setDateAjout($dateAjout) {
+        $this->dateAjout = $dateAjout;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAjout
+     *
+     * @return \DateTime 
+     */
+    public function getDateAjout() {
+        return $this->dateAjout;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return Compte
+     */
+    public function setDateModification($dateModification) {
+        $this->dateModification = $dateModification;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification() {
+        return $this->dateModification;
+    }
+
+
+    /**
+     * Add ordreVirements
+     *
+     * @param \admin\VirementBundle\Entity\OrdreVirement $ordreVirements
+     * @return Compte
+     */
+    public function addOrdreVirement(\admin\VirementBundle\Entity\OrdreVirement $ordreVirements)
+    {
+        $this->ordreVirements[] = $ordreVirements;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ordreVirements
+     *
+     * @param \admin\VirementBundle\Entity\OrdreVirement $ordreVirements
+     */
+    public function removeOrdreVirement(\admin\VirementBundle\Entity\OrdreVirement $ordreVirements)
+    {
+        $this->ordreVirements->removeElement($ordreVirements);
+    }
+
+    /**
+     * Get ordreVirements
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOrdreVirements()
+    {
+        return $this->ordreVirements;
+    }
+}

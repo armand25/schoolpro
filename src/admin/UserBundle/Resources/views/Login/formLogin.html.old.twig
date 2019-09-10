@@ -1,0 +1,76 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}Connexion{% endblock %}
+
+
+{% block body %}
+    <form class="login-form" method="POST" action="{{path('app_admin_user_login')}}"  > 
+        <div class="text-center text-info">
+            Mediterranean Shipping Company - MSC TOGO
+        </div>
+        <div class="text-center">
+            {% for mesg in app.session.getflashbag.get('ina') %}
+                <div class="alert alert-info fade in">{{mesg}}</div>
+            {% endfor %}
+            {% for mesg in app.session.getflashbag.get('login.user.lock') %}
+                <div class="alert alert-warning fade in">{{mesg}}</div>
+            {% endfor %}
+            {% for mesg in app.session.getflashbag.get('login.user.already.login') %}
+                <div class="alert alert-warning fade in">{{mesg}}</div>
+            {% endfor %}
+            {% for mesg in app.session.getflashbag.get('login.form.ivalide') %}
+                <div class="alert  alert-danger fade in">{{mesg}} </div>
+            {% endfor %}
+            {% for mesg in app.session.getflashbag.get('logout.success') %}
+                <div class="alert alert-success fade in">{{mesg}}</div>
+            {% endfor %}
+        </div>
+        <div class="login-wrap">
+            <p class="login-img"><i class="icon_lock_alt"></i></p>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_profile"></i></span>
+                <input  autocomplete="off" type="text" class="form-control" placeholder="Votre email" required="true"  type="email" name="email" id="email" value="{{email}}" >
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                    {#<input type="password" class="form-control" placeholder="Password">#}
+                <input type="password" name="password"  id="password" value="{{password}}" required="true"  placeholder="Mot de passe" class="form-control" > 
+            </div>
+            {% for restoreUrl in app.session.getflashbag.get('restoreUrl') %}
+                <input type="hidden" name="restoreUrl" value="{{restoreUrl}}" />
+            {% endfor %}
+            {#<label class="checkbox">
+                <input type="checkbox" value="remember-me"> Remember me
+                <span class="pull-right"> <a href="#"> Forgot Password?</a></span>
+            </label>#}
+            <button class="btn btn-primary btn-lg btn-block" type="submit">
+                Connexion
+            </button>
+            {#<button class="btn btn-info btn-lg btn-block" type="submit">Signup</button>#}
+        </div>
+    </form>
+
+
+
+{% endblock %}
+
+{% block javascriptsPerso %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tel').numeric();
+            $('#tel').keyup(function () {
+                var saisie = $(this).val();
+                if (saisie.length > 0) {
+                    var number = parseInt(saisie);
+                    if (typeof number != 'undefined') {
+                        var newVal = (number == 0) ? '' : number;
+                        $(this).val(newVal);
+                    }
+                }
+
+            });
+        });
+    </script>
+{% endblock %}
+
+

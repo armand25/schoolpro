@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        
+        <link rel="stylesheet" href="{{asset('css/assets/bootstrap/css/bootstrap.min.css')}}" >
+        <link rel="stylesheet" href="{{asset('css/assets/font-awesome/css/font-awesome.css')}}" >
+        <link rel="stylesheet" href="{{asset('css/assets/css/social-icons.css')}}" >
+        <link rel="stylesheet" href="{{asset('css/assets/css/coming-soon-style.css')}}" >
+        
+{#        <link rel="icon" type="image/x-icon" href="{{asset('css/{{ asset('favicon.ico') }}" />#}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+        
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="span4 from-twitter">
+                        <h3></h3>
+                        <div class="show-tweet"></div>
+                    </div>
+                    <div class="span4 flickr-photos">
+                        <h3></h3>
+                        <ul class="flickr-feed"></ul>
+                    </div>
+                    <div class="span4 contact-us">
+                        <h3></h3>
+                    </div>
+                </div> <!-- end row -->
+                <div class="row">
+                    <div class="span12">
+                       {# <div class="social-links">
+                            <a class="facebook" href="#"></a>
+                            <a class="twitter" href="#"></a>
+                            <a class="dribbble" href="#"></a>
+                            <a class="pinterest" href="#"></a>
+                            <a class="googleplus" href="#"></a>
+                            <a class="skype" href="#"></a>
+                            <a class="youtube" href="#"></a>
+                            <a class="vimeo" href="#"></a>
+                            <a class="forrst" href="#"></a>
+                            <a class="email" href="#"></a>
+                        </div>#}
+                    </div>
+                </div> <!-- end row -->
+                <div class="row">
+                    <div class="span12 copyright">
+                        <p>Copyright &copy; 2017 - </p>
+                    </div>
+                </div> <!-- end row -->
+            </div> <!-- end container -->
+        </footer>
+        {% block javascripts %}
+         <script src="{{asset('js/assets/jquery-1.8.2.min.js')}}"></script>
+        <script src="{{asset('js/assets/jquery.backstretch.min.js')}}"></script>
+        <script src="{{asset('js/assets/jquery.tweet.js')}}"></script>
+        <script src="{{asset('js/assets/jflickrfeed.js')}}"></script>
+        <script src="{{asset('js/assets/jquery.countdown.js')}}"></script>
+        <script src="{{asset('js/assets/coming-soon-scripts.js')}}"></script>
+        {% endblock %}
+    </body>
+</html>

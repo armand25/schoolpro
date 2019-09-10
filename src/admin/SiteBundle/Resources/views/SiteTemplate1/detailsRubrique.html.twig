@@ -1,0 +1,81 @@
+{% extends 'baseDefault.html.twig' %}
+{% block body %}
+{% set inc = 0 %}
+   {% if rubrique is defined %}
+
+         <div class="page-title" style="background-color:#57bae8;color:#FFF;padding-left:20px;height:50px;font-size:20px;padding-top:20px;">
+            <div class="main">
+                <div class="row">
+                    <div class="span12">
+                        
+                        <h4  style="color:#FFF;"><i class="icon-tasks page-title-icon"></i>{{rubrique.designationRubrique}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <!-- Liste des articles à gauche -->
+        <div class="panel-body container">
+            <div id="wrapper" >
+                <nav class="navbar-default navbar-side" role="naviguation" role="tabpanel">
+                    <div class="sidebar-collapse">
+                        <ul class="nav nav-tabs" role="tablist" id="main-menu">
+                            {% for unArticle in rubrique.getArticles %}
+                                <li class=" {% if loop.index == 1 %}active{% endif %}" role="presentation"><a href="{{"#tab"~unArticle.id}}" aria-controls="" role="tab" data-toggle="tab">{{unArticle.titre}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </nav>
+                <!-- /. NAV SIDE  -->
+
+                <!-- Zone de description de rubrique et de contenu des articles -->
+                <div id="page-wrapper" >
+                    <div id="page-inner" class="container">
+                        
+                        <!-- Zone de description de rubrique -->
+                        <div class="call-to-action call-to-action-text desc">
+                            <div class="col-md-12 services-full-width-text span8">
+                                <h3>Description de la rubrique</h3>
+                                <p>{{rubrique.descriptionRubrique}}</p>
+                            </div>
+                        </div>
+                        <!-- /. ROW  -->
+                        
+                        <hr class="ligne"/>
+                        
+                        <!-- Contenu des articles -->
+                        <div class="tab-content">
+                        {% for unArticle in rubrique.getArticles %}
+                                <div class="contenuarticle span8 tab-pane fade {% if loop.index == 1 %}in  active{% endif %}" role="tabpanel" id="{{"tab"~unArticle.id}}">
+                                    <h4 id="">{{unArticle.titre}}</h4>
+                                    <p class="infoarticle">{{unArticle.datePublication|date('d M Y')}} | {{unArticle.utilisateur.nom}}</p>
+                                    <hr />
+                                    <p>{{unArticle.contenuArticle}}</p>
+                                </div>
+                            <!-- /. ROW  -->
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <!-- /. PAGE INNER  -->
+                </div>
+                <!-- /. PAGE WRAPPER  -->
+            </div>   
+        </div>
+        {% endif %}
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+	
+		<script type="text/javascript">
+			$('.carousel[data-mixed] ul').anoSlide(
+			{
+				items: 5,
+				speed: 500,
+				prev: 'a.prev[data-prev]',
+				next: 'a.next[data-next]',
+				lazy: true,
+				delay: 100
+			})
+		</script>
+{% endblock %}
+
+

@@ -1,0 +1,159 @@
+{% import 'macro.html.twig' as traiteinfo %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Bienvenue sur le site de {{unEtablissement.libelleEtablissement}}{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}   
+	<link rel="stylesheet" href="{{asset('siteTemplate1/css/reset.css')}}" type="text/css" media="screen" />
+        <link rel="stylesheet" href="{{asset('siteTemplate1/css/style.css')}}" type="text/css" media="screen" />
+        <link rel="stylesheet" href="{{asset('siteTemplate1/css/grid.css')}}" type="text/css" media="screen" />        
+       
+{#        <link rel="icon" type="image/x-icon" href="{{asset('css/{{ asset('favicon.ico') }}" />#}
+    </head>
+    <body>
+        
+       <header>
+    	<div class="main">
+        	<div class="prev-indent-bot2">
+                <h2>
+                    <a href="#"><img src="{{asset(unEtablissement.titreImage)}}" class="img-responsive" alt=""> </a>
+                </h2>
+                <nav>
+                    <ul class="menu">
+                       {{ traiteinfo.traiteMenu(listeMenu,idEtablissement)}}				
+                    </ul>
+                </nav>
+                <div class="clear"></div>
+            </div>
+        </div>
+        {% block body %}
+        {% endblock %}
+        
+        
+    <footer>
+        <div class="main">
+        	<div class="container_12">
+            	<div class="wrapper">
+                	<article class="grid_3">
+                    	<ul class="list-services">
+                            <li class="item-1"><a class="tooltips" title="facebook" href="#"></a></li>
+                            <li class="item-2"><a class="tooltips" title="twiiter" href="#"></a></li>
+                            <li class="item-3"><a class="tooltips" title="delicious" href="#"></a></li>
+                            <li class="item-4"><a class="tooltips" title="youtube" href="#"></a></li>
+                        </ul>
+                    </article>
+                    <article class="grid_3">
+                    	<div class="indent-left2">
+                            <h5>Navigation</h5>
+                            <ul class="list-1">
+                                {{ traiteinfo.traiteMenu(listeMenu,idEtablissement)}}
+                            </ul>
+                        </div>
+                    </article>
+                    <article class="grid_3">
+                    	<h5>Contact</h5>
+                        <dl class="contact">
+                            {{unEtablissement.adresseEtablissement}}
+                         </dl>
+                    </article>
+                    <article class="grid_3">
+                    	<h5>Legal</h5>
+                        {{unEtablissement.adresseEtablissement}}
+                    </article>
+                </div>
+            </div>
+        </div>
+    </footer>
+        {% block javascripts %}
+       
+        <script type="text/javascript" src="{{asset('siteTemplate1/js/jquery-1.6.3.min.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/cufon-yui.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/cufon-replace.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/Kozuka_Gothic_Pro_OpenType_300.font.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/Kozuka_Gothic_Pro_OpenType_700.font.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/Kozuka_Gothic_Pro_OpenType_900.font.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/FF-cash.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/jquery.easing.1.3.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/tms-0.3.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/tms_presets.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/easyTooltip.js')}}"></script>
+	<script type="text/javascript" src="{{asset('siteTemplate1/js/script.js')}}"></script>
+         <script src="{{asset('js/jquery.flexisel.js')}}"></script>
+         <script type="text/javascript" >
+           
+        $(window).load(function() {
+				$('#slider').nivoSlider();
+				$('marquee').marquee();
+			});
+                        $(document).ready(function() {
+				$('.fancybox').fancybox();
+				
+				$(".fancybox-effects-b").fancybox({
+					openEffect  : 'none',
+					closeEffect	: 'none',
+
+					helpers : {
+						title : {
+							type : 'over'
+						}
+					}
+				});
+				$(".fancybox-effects-a").fancybox({
+					helpers: {
+						title : {
+							type : 'outside'
+						},
+						overlay : {
+							speedOut : 0
+						}
+					}
+				});
+			});
+         $(window).load(function() {
+   
+    $("#flexiselDemo2").flexisel({
+        visibleItems: 4,
+        itemsToScroll: 3,
+        animationSpeed: 200,
+        infinite: true,
+        navigationTargetSelector: null,
+        autoPlay: {
+            enable: false,
+            interval: 5000,
+            pauseOnHover: true
+        },
+        responsiveBreakpoints: { 
+            portrait: { 
+                changePoint:480,
+                visibleItems: 1,
+                itemsToScroll: 1
+            }, 
+            landscape: { 
+                changePoint:640,
+                visibleItems: 2,
+                itemsToScroll: 2
+            },
+            tablet: { 
+                changePoint:768,
+                visibleItems: 3,
+                itemsToScroll: 3
+            }
+        },
+        loaded: function(object) {
+            console.log('Slider loaded...');
+        },
+        before: function(object){
+            console.log('Before transition...');
+        },
+        after: function(object) {
+            console.log('After transition...');
+        }
+    });      
+});
+</script>                  
+        </script>
+        
+        {% endblock %}
+    </body>
+</html>

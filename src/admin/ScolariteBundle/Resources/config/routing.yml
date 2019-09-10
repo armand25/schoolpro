@@ -1,0 +1,603 @@
+admin_scolarite_homepage:
+    path:     /
+    defaults: { _controller: adminScolariteBundle:Default:index }
+
+# Gestion des eleves
+
+
+#Mèt à  jour des droits d'un etablissement par ajax
+app_admin_etablissement_droits_allow:
+    path: /etablissement/droit/allow
+    defaults: { _controller: adminScolariteBundle:Droit:updateDroitEtablissement}
+            
+        
+# affiche la liste des etablissements
+app_admin_etablissements:
+    path: /liste/etablissements
+    defaults: { _controller: adminScolariteBundle:Etablissement:listeEtablissement}
+        
+# formulaire d'ajout  de etablissement
+app_admin_etablissement_ajout:
+    path: /ajout/etablissement
+    defaults: { _controller: adminScolariteBundle:Etablissement:ajoutEtablissement}
+        
+# formulaire de modification d'un etablissement
+app_admin_etablissement_modifier:
+    path: /modifier/etablissement/{idEtablissement}
+    defaults: { _controller: adminScolariteBundle:Etablissement:modifierEtablissement, idEtablissement: 0}
+    requirements:
+        idEtablissement: \d+
+        
+# activaton; desactivation, suppression de etablissement
+app_admin_etablissement_set_etat:
+    path: set/etat/etablissement
+    defaults: { _controller: adminScolariteBundle:Etablissement:changerEtatEtablissement}
+
+# Affiche la liste des eleves par parfil. si idEtablissement = 0 alors on affiche les eleves de ts les etablissements
+app_admin_eleves:
+    path: liste/eleves/{idProfil}/{etab}/{nom}/{prenoms}/{sexe}/{classe}/{degre}/{niveau}/{datedeb}/{datefin}/{nbParPage}/{pageActuelle}
+    defaults: { _controller: adminScolariteBundle:Eleve:listeEleveByProfil, etab: 0 ,nom: 0 , prenoms: 0, sexe: 0, classe: 0, degre: 0, niveau : 0,datedeb : 0, datefin : 0, idProfil: 0, nbParPage: 20, pageActuelle: 1}
+    requirements:
+        idEtablissement: \d+
+        nbParPage: \d+
+        pageActuelle: \d+
+
+        
+# ajout d'un eleve 
+app_admin_eleve_ajout:
+    path: nouveau/eleve/{idProfil}
+    defaults: { _controller: adminScolariteBundle:Eleve:ajoutEleve, idProfil: 0}
+    requirements:
+        idEtablissement: \d+
+        
+# Modification d'un abonné  
+app_admin_eleve_modifier:
+    path: modifier/eleve/{idEleve}/{idProfil}
+    defaults: { _controller: adminScolariteBundle:Eleve:modifierEleve,  idEleve: 0, idProfil: 0}
+    requirements:
+        idEleve: \d+
+        idEtablissement: \d+
+        
+# déconnexion d'un eleve par l'administrateur
+app_admin_eleve_admin_logout:
+    path: admin/eleve/logout
+    defaults: { _controller: adminScolariteBundle:Eleve:adminLogoutEleve}
+# déconnexion d'un eleve par l'administrateur
+app_admin_eleve_parent:
+    path: liste/eleve/parent
+    defaults: { _controller: adminScolariteBundle:Eleve:listeEleveParent}
+
+ # Affiche les informations détaillées d'un eleve 
+app_admin_eleve_infos:
+    path: afficher/infos/eleve/{idEleve}/{idProfil}
+    defaults: { _controller: adminScolariteBundle:Eleve:infosEleve, idEleve: 0, idProfil: 0}
+    requirements:
+        idEleve: \d+
+        idEtablissement: \d+
+        
+ # Affiche les informations détaillées d'un eleve 
+app_admin_eleve_carte:
+    path: afficher/carte/eleve/{idEleve}/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Eleve:carteEleve, idEleve: 0, idClasse: 0}
+    requirements:
+        idEleve: \d+
+        idClasse: \d+
+        
+# activaton; desactivation, suppression d'un eleve
+app_admin_eleve_set_etat:
+    path: set/etat/eleve
+    defaults: { _controller: adminScolariteBundle:Eleve:changerEtatEleve}
+
+
+# generation des bulletins de la classe en cours
+app_admin_eleve_bulletin:
+    path: /bulletin/eleve/{idEleve}/{idDecoupage}
+    defaults: { _controller: adminScolariteBundle:Eleve:bulletinEleve, idEleve: 0, idDecoupage: 1}
+    requirements:
+        idEleve: \d+
+
+
+# Modification du mot de passe d'un eleve par l'administrateur
+app_admin_eleve_admin_set_password:
+    path: admin/eleve/set/password/{idEleve}/{idEtablissement}
+    defaults: { _controller: adminScolariteBundle:Eleve:modifierPasswordEleveByAdmin, idEleve: 0, idEtablissement: 0}
+    requirements:
+        idEtablissement: \d+
+        idEleve: \d+
+        
+#génération dun nouvel code de base par ajax
+app_admin_code_base_new:
+    path: code/base/rand
+    defaults: { _controller: adminScolariteBundle:Eleve:getNewCodeBaseEleve}   
+
+# affiche la liste des matieres
+app_admin_matieres:
+    path: /liste/matieres
+    defaults: { _controller: adminScolariteBundle:Matiere:listeMatiere}
+        
+# formulaire d'ajout  de matiere
+app_admin_matiere_ajout:
+    path: /ajout/matiere
+    defaults: { _controller: adminScolariteBundle:Matiere:ajoutMatiere}
+# formulaire d'ajout  de matiere
+app_admin_matiere_get:
+    path: /get/matiere
+    defaults: { _controller: adminScolariteBundle:Matiere:getMatiere}
+        
+# formulaire de modification d'un matiere
+app_admin_matiere_modifier:
+    path: /modifier/matiere/{idMatiere}
+    defaults: { _controller: adminScolariteBundle:Matiere:modifierMatiere, idMatiere: 0}
+    requirements:
+        idMatiere: \d+
+        
+# activaton; desactivation, suppression de matiere
+app_admin_matiere_set_etat:
+    path: set/etat/matiere
+    defaults: { _controller: adminScolariteBundle:Matiere:changerEtatMatiere}
+
+app_admin_matiere_traite_utilisateur:
+    path: traite/typeoffre/domaine
+    defaults: { _controller: adminScolariteBundle:Matiere:traiteMatiereUtilisateur}
+
+# affiche la liste des typematieres
+app_admin_typematieres:
+    path: /liste/typematieres
+    defaults: { _controller: adminScolariteBundle:TypeMatiere:listeTypeMatiere}
+        
+# formulaire d'ajout  de typematiere
+app_admin_typematiere_ajout:
+    path: /ajout/typematiere
+    defaults: { _controller: adminScolariteBundle:TypeMatiere:ajoutTypeMatiere}
+        
+# formulaire de modification d'un typematiere
+app_admin_typematiere_modifier:
+    path: /modifier/typematiere/{idTypeMatiere}
+    defaults: { _controller: adminScolariteBundle:TypeMatiere:modifierTypeMatiere, idTypeMatiere: 0}
+    requirements:
+        idTypeMatiere: \d+
+        
+# activaton; desactivation, suppression de typematiere
+app_admin_typematiere_set_etat:
+    path: set/etat/typematiere
+    defaults: { _controller: adminScolariteBundle:TypeMatiere:changerEtatTypeMatiere}
+    
+
+    
+# affiche la liste des anneescolaires
+app_admin_anneescolaires:
+    path: /liste/anneescolaires
+    defaults: { _controller: adminScolariteBundle:AnneeScolaire:listeAnneeScolaire}
+        
+# formulaire d'ajout  de anneescolaire
+app_admin_anneescolaire_ajout:
+    path: /ajout/anneescolaire
+    defaults: { _controller: adminScolariteBundle:AnneeScolaire:ajoutAnneeScolaire}
+        
+# formulaire de modification d'un anneescolaire
+app_admin_anneescolaire_modifier:
+    path: /modifier/anneescolaire/{idAnneeScolaire}
+    defaults: { _controller: adminScolariteBundle:AnneeScolaire:modifierAnneeScolaire, idAnneeScolaire: 0}
+    requirements:
+        idAnneeScolaire: \d+
+        
+# activaton; desactivation, suppression de anneescolaire
+app_admin_anneescolaire_set_etat:
+    path: set/etat/anneescolaire
+    defaults: { _controller: adminScolariteBundle:AnneeScolaire:changerEtatAnneeScolaire}
+
+# affiche la liste des decoupages
+app_admin_decoupages:
+    path: /liste/decoupages
+    defaults: { _controller: adminScolariteBundle:Decoupage:listeDecoupage}
+        
+# formulaire d'ajout  de decoupage
+app_admin_decoupage_ajout:
+    path: /ajout/decoupage
+    defaults: { _controller: adminScolariteBundle:Decoupage:ajoutDecoupage}
+        
+# formulaire de modification d'un decoupage
+app_admin_decoupage_modifier:
+    path: /modifier/decoupage/{idDecoupage}
+    defaults: { _controller: adminScolariteBundle:Decoupage:modifierDecoupage, idDecoupage: 0}
+    requirements:
+        idDecoupage: \d+
+        
+# activaton; desactivation, suppression de decoupage
+app_admin_decoupage_set_etat:
+    path: set/etat/decoupage
+    defaults: { _controller: adminScolariteBundle:Decoupage:changerEtatDecoupage}
+    
+# affiche la liste des typedecoupages
+app_admin_typedecoupages:
+    path: /liste/typedecoupages
+    defaults: { _controller: adminScolariteBundle:TypeDecoupage:listeTypeDecoupage}
+        
+# formulaire d'ajout  de typedecoupage
+app_admin_typedecoupage_ajout:
+    path: /ajout/typedecoupage
+    defaults: { _controller: adminScolariteBundle:TypeDecoupage:ajoutTypeDecoupage}
+        
+# formulaire de modification d'un typedecoupage
+app_admin_typedecoupage_modifier:
+    path: /modifier/typedecoupage/{idTypeDecoupage}
+    defaults: { _controller: adminScolariteBundle:TypeDecoupage:modifierTypeDecoupage, idTypeDecoupage: 0}
+    requirements:
+        idTypeDecoupage: \d+
+        
+# activaton; desactivation, suppression de typedecoupage
+app_admin_typedecoupage_set_etat:
+    path: set/etat/typedecoupage
+    defaults: { _controller: adminScolariteBundle:TypeDecoupage:changerEtatTypeDecoupage}
+
+# affiche la liste des degres
+app_admin_degres:
+    path: /liste/degres
+    defaults: { _controller: adminScolariteBundle:Degre:listeDegre}
+        
+# formulaire d'ajout  de degre
+app_admin_degre_ajout:
+    path: /ajout/degre
+    defaults: { _controller: adminScolariteBundle:Degre:ajoutDegre}
+        
+# formulaire de modification d'un degre
+app_admin_degre_modifier:
+    path: /modifier/degre/{idDegre}
+    defaults: { _controller: adminScolariteBundle:Degre:modifierDegre, idDegre: 0}
+    requirements:
+        idDegre: \d+
+        
+# activaton; desactivation, suppression de degre
+app_admin_degre_set_etat:
+    path: set/etat/degre
+    defaults: { _controller: adminScolariteBundle:Degre:changerEtatDegre}
+
+# affiche la liste des enseignements
+app_admin_enseignements:
+    path: /liste/enseignements
+    defaults: { _controller: adminScolariteBundle:Enseignement:listeEnseignement}
+        
+# formulaire d'ajout  de enseignement
+app_admin_enseignement_ajout:
+    path: /ajout/enseignement
+    defaults: { _controller: adminScolariteBundle:Enseignement:ajoutEnseignement}
+        
+# formulaire de modification d'un enseignement
+app_admin_enseignement_modifier:
+    path: /modifier/enseignement/{idEnseignement}
+    defaults: { _controller: adminScolariteBundle:Enseignement:modifierEnseignement, idEnseignement: 0}
+    requirements:
+        idEnseignement: \d+
+        
+# activaton; desactivation, suppression de enseignement
+app_admin_enseignement_set_etat:
+    path: set/etat/enseignement
+    defaults: { _controller: adminScolariteBundle:Enseignement:changerEtatEnseignement}
+       
+   
+# affiche la liste des filieres
+app_admin_filieres:
+    path: /liste/filieres
+    defaults: { _controller: adminScolariteBundle:Filiere:listeFiliere}
+        
+# formulaire d'ajout  de filiere
+app_admin_filiere_ajout:
+    path: /ajout/filiere
+    defaults: { _controller: adminScolariteBundle:Filiere:ajoutFiliere}
+        
+# formulaire de modification d'un filiere
+app_admin_filiere_modifier:
+    path: /modifier/filiere/{idFiliere}
+    defaults: { _controller: adminScolariteBundle:Filiere:modifierFiliere, idFiliere: 0}
+    requirements:
+        idFiliere: \d+
+        
+# activaton; desactivation, suppression de filiere
+app_admin_filiere_set_etat:
+    path: set/etat/filiere
+    defaults: { _controller: adminScolariteBundle:Filiere:changerEtatFiliere}
+
+# affiche la liste des indices
+app_admin_indices:
+    path: /liste/indices
+    defaults: { _controller: adminScolariteBundle:Indice:listeIndice}
+        
+# formulaire d'ajout  de indice
+app_admin_indice_ajout:
+    path: /ajout/indice
+    defaults: { _controller: adminScolariteBundle:Indice:ajoutIndice}
+        
+# formulaire de modification d'un indice
+app_admin_indice_modifier:
+    path: /modifier/indice/{idIndice}
+    defaults: { _controller: adminScolariteBundle:Indice:modifierIndice, idIndice: 0}
+    requirements:
+        idIndice: \d+
+        
+# activaton; desactivation, suppression de indice
+app_admin_indice_set_etat:
+    path: set/etat/indice
+    defaults: { _controller: adminScolariteBundle:Indice:changerEtatIndice}
+
+# affiche la liste des jours
+app_admin_jours:
+    path: /liste/jours
+    defaults: { _controller: adminScolariteBundle:Jour:listeJour}
+        
+# formulaire d'ajout  de jour
+app_admin_jour_ajout:
+    path: /ajout/jour
+    defaults: { _controller: adminScolariteBundle:Jour:ajoutJour}
+        
+# formulaire de modification d'un jour
+app_admin_jour_modifier:
+    path: /modifier/jour/{idJour}
+    defaults: { _controller: adminScolariteBundle:Jour:modifierJour, idJour: 0}
+    requirements:
+        idJour: \d+
+        
+# activaton; desactivation, suppression de jour
+app_admin_jour_set_etat:
+    path: set/etat/jour
+    defaults: { _controller: adminScolariteBundle:Jour:changerEtatJour}
+
+# affiche la liste des niveaus
+app_admin_niveaus:
+    path: /liste/niveaux
+    defaults: { _controller: adminScolariteBundle:Niveau:listeNiveau}
+        
+# formulaire d'ajout  de niveau
+app_admin_niveau_ajout:
+    path: /ajout/niveau
+    defaults: { _controller: adminScolariteBundle:Niveau:ajoutNiveau}
+        
+# formulaire de modification d'un niveau
+app_admin_niveau_modifier:
+    path: /modifier/niveau/{idNiveau}
+    defaults: { _controller: adminScolariteBundle:Niveau:modifierNiveau, idNiveau: 0}
+    requirements:
+        idNiveau: \d+
+        
+# activaton; desactivation, suppression de niveau
+app_admin_niveau_set_etat:
+    path: set/etat/niveau
+    defaults: { _controller: adminScolariteBundle:Niveau:changerEtatNiveau}
+
+# formulaire d'ajout  de matiere
+app_admin_niveau_get:
+    path: /get/niveau
+    defaults: { _controller: adminScolariteBundle:Niveau:getNiveau}
+# formulaire d'ajout  de matiere
+app_admin_niveau_get_info_matiere_type:
+    path: /info/matiere/get/niveau
+    defaults: { _controller: adminScolariteBundle:Niveau:getNiveauInfoMatiereType}
+    
+# affiche la liste des classes
+app_admin_classes:
+    path: /liste/classes
+    defaults: { _controller: adminScolariteBundle:Classe:listeClasse}
+        
+# formulaire d'ajout  de niveau
+app_admin_classe_ajout:
+    path: /ajout/classe
+    defaults: { _controller: adminScolariteBundle:Classe:ajoutClasse}
+        
+# formulaire de modification d'un niveau
+app_admin_classe_modifier:
+    path: /modifier/classe/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Classe:modifierClasse, idClasse: 0}
+    requirements:
+        idClasse: \d+
+        
+# generation des bulletins de la classe en cours
+app_admin_classe_bulletin:
+    path: /bulletin/classe/{idClasse}/{idDecoupage}
+    defaults: { _controller: adminScolariteBundle:Classe:bulletinClasse, idClasse: 0, idDecoupage: 0}
+    requirements:
+        idClasse: \d+
+        idDecoupage: \d+
+        
+# activaton; desactivation, suppression de niveau
+app_admin_classe_set_etat:
+    path: set/etat/classe
+    defaults: { _controller: adminScolariteBundle:Classe:changerEtatClasse}
+
+ # Affiche les informations détaillées d'un eleve 
+app_admin_classe_infos:
+    path: afficher/infos/classe/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Classe:infosClasse, idClasse: 0}
+    requirements:
+        idClasse: \d+
+
+ # Affiche les informations détaillées d'un eleve 
+app_admin_presence_eleve_classe:
+    path: presence/eleve/classe/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Classe:presenceEleveClasse, idClasse: 0}
+    requirements:
+        idClasse: \d+
+
+ # Affiche les informations détaillées d'un eleve 
+app_admin_classe_carte:
+    path: afficher/carte/classe/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Classe:carteClasse,  idClasse: 0}
+    requirements:
+        idEleve: \d+
+        idClasse: \d+
+
+
+        
+ # Affiche les informations détaillées d'un eleve 
+app_admin_classe_emploi_temps:
+    path: afficher/emploi/temps/classe/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Classe:emploiTempsClasse, idClasse: 0}
+    requirements:
+        idClasse: \d+
+ # Affiche les informations détaillées d'un eleve 
+app_admin_classe_eleve:
+    path: liste/eleve/classe/{idClasse}/{typeoper}
+    defaults: { _controller: adminScolariteBundle:Classe:listeEleveClasse, idClasse: 0, typeoper: 0}
+    requirements:
+        idClasse: \d+
+        
+app_admin_classe_solde:
+    path: liste/solde/classe/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Classe:listeSoldeClasse, idClasse: 0}
+    requirements:
+        idClasse: \d+
+
+
+app_admin_classe_ajout_note_eleve:
+    path: ajout/note/eleve/classe/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Classe:ajoutNoteEleveClasse, idClasse: 0}
+    requirements:
+        idClasse: \d+
+        
+app_admin_classe_ajout_note_eleve_by_epreuve:
+    path: ajout/note/eleve/by/epreuve/classe/{idClasse}/{idEpreuve}
+    defaults: { _controller: adminScolariteBundle:Classe:ajoutNoteEleveClasseByEpreuve, idEpreuve: 0, idClasse: 0}
+    requirements:
+        idEpreuve: \d+
+        idClasse: \d+
+        
+        
+app_admin_classe_ajout_info_note_eleve:
+    path: info/note/eleve/classe/{idClasse}/{idMatiere}/{idDecoupage}/{idEleve}
+    defaults: { _controller: adminScolariteBundle:Classe:listeInfoNoteEleveClasse, idClasse: 0, idMatiere: 0, idDecoupage: 0, idEleve: 0}
+    requirements:
+        idClasse: \d+
+
+# affiche la liste des configurations
+app_admin_configurations:
+    path: /liste/configurations
+    defaults: { _controller: adminScolariteBundle:Configuration:listeConfiguration}
+        
+# formulaire d'ajout  de niveau
+app_admin_configuration_ajout:
+    path: /ajout/configuration
+    defaults: { _controller: adminScolariteBundle:Configuration:ajoutConfiguration}
+        
+# formulaire de modification d'un niveau
+app_admin_configuration_modifier:
+    path: /modifier/configuration/{idConfiguration}
+    defaults: { _controller: adminScolariteBundle:Configuration:modifierConfiguration, idConfiguration: 0}
+    requirements:
+        idConfiguration: \d+
+        
+# activaton; desactivation, suppression de niveau
+app_admin_configuration_set_etat:
+    path: set/etat/configuration
+    defaults: { _controller: adminScolariteBundle:Configuration:changerEtatConfiguration}
+
+# activaton; desactivation, suppression de niveau
+app_admin_traite_config:
+    path: traite/configuration
+    defaults: { _controller: adminScolariteBundle:Configuration:traiteConfiguration}
+
+app_admin_traite_config_ecolage:
+    path: traite/ecolage/configuration
+    defaults: { _controller: adminScolariteBundle:Configuration:traiteConfigEcolage}
+app_admin_traite_config_enseignement:
+    path: traite/enseignement/configuration
+    defaults: { _controller: adminScolariteBundle:Configuration:traiteConfigEnseignement}
+app_admin_traite_config_decoupage:
+    path: traite/decoupage/configuration
+    defaults: { _controller: adminScolariteBundle:Configuration:traiteConfigDecoupage}
+app_admin_traite_config_annee:
+    path: traite/annee/configuration
+    defaults: { _controller: adminScolariteBundle:Configuration:traiteConfigAnnee}
+
+app_admin_chapitres:
+    path: /liste/chapitres/{estEns}
+    defaults: { _controller: adminScolariteBundle:Chapitre:listeChapitre, estEns: 0}
+        
+# formulaire d'ajout  de chapitre
+app_admin_chapitre_ajout:
+    path: /ajout/chapitre/{estEns}
+    defaults: { _controller: adminScolariteBundle:Chapitre:ajoutChapitre, estEns: 0 )}
+        
+# formulaire de modification d'un chapitre
+app_admin_chapitre_modifier:
+    path: /modifier/chapitre/{idChapitre}/{estEns}
+    defaults: { _controller: adminScolariteBundle:Chapitre:modifierChapitre, idChapitre: 0, estEns: 0}
+    requirements:
+        idChapitre: \d+
+        
+# activaton; desactivation, suppression de chapitre
+app_admin_chapitre_set_etat:
+    path: set/etat/chapitre
+    defaults: { _controller: adminScolariteBundle:Chapitre:changerEtatChapitre}
+
+
+app_admin_epreuves:
+    path: /liste/epreuves/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Epreuve:listeEpreuve, idClasse: 0}
+        
+# formulaire d'ajout  de epreuve
+app_admin_epreuve_ajout:
+    path: /ajout/epreuve/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Epreuve:ajoutEpreuve, idClasse: 0 )}
+        
+# formulaire de modification d'un epreuve
+app_admin_epreuve_modifier:
+    path: /modifier/epreuve/{idEpreuve}/{idClasse}
+    defaults: { _controller: adminScolariteBundle:Epreuve:modifierEpreuve, idEpreuve: 0, idClasse: 0}
+    requirements:
+        idEpreuve: \d+
+        
+# activaton; desactivation, suppression de epreuve
+app_admin_epreuve_set_etat:
+    path: set/etat/epreuve
+    defaults: { _controller: adminScolariteBundle:Epreuve:changerEtatEpreuve}
+    
+ # Affiche les informations détaillées d'un eleve 
+app_admin_epreuve_infos:
+    path: afficher/infos/epreuve/{idEpreuve}
+    defaults: { _controller: adminScolariteBundle:Epreuve:infosEpreuve, idEpreuve: 0}
+    requirements:
+        idEpreuve: \d+
+
+app_admin_exercices:
+    path: /liste/exercices/{idEpreuve}
+    defaults: { _controller: adminScolariteBundle:Exercice:listeExercice, idEpreuve: 0}
+        
+# formulaire d'ajout  de exercice
+app_admin_exercice_ajout:
+    path: /ajout/exercice/{idEpreuve}
+    defaults: { _controller: adminScolariteBundle:Exercice:ajoutExercice, idEpreuve: 0 )}
+        
+# formulaire de modification d'un exercice
+app_admin_exercice_modifier:
+    path: /modifier/exercice/{idExercice}/{idEpreuve}
+    defaults: { _controller: adminScolariteBundle:Exercice:modifierExercice, idExercice: 0, idEpreuve: 0}
+    requirements:
+        idExercice: \d+
+        
+# activaton; desactivation, suppression de exercice
+app_admin_exercice_set_etat:
+    path: set/etat/exercice
+    defaults: { _controller: adminScolariteBundle:Exercice:changerEtatExercice }
+
+ # Affiche les informations détaillées d'un eleve 
+app_admin_exercice_infos:
+    path: afficher/infos/exercice/{idExercice}
+    defaults: { _controller: adminScolariteBundle:Exercice:infosExercice, idExercice: 0}
+    requirements:
+        idExercice: \d+
+    
+# Affiche la liste des eleves par parfil. si idEtablissement = 0 alors on affiche les eleves de ts les etablissements
+app_admin_presences:
+    path: liste/presence/{idens}/{classe}/{ideleve}/{iddecoupage}/{datedeb}/{typepresence}/{datefin}/{nbParPage}/{pageActuelle}
+    defaults: { _controller: adminScolariteBundle:Presence:listePresence, idens: 0 , ideleve: 0, typepresence: 0, iddecoupage: 0, classe: 0, datedeb : 0, datefin : 0, nbParPage: 20, pageActuelle: 1}
+    requirements:
+        idEtablissement: \d+
+        nbParPage: \d+
+        pageActuelle: \d+
+
+# Affiche la liste des eleves par parfil. si idEtablissement = 0 alors on affiche les eleves de ts les etablissements
+app_admin_detail_presences:
+    path: liste/detail/presence/{idpre}/{idens}/{classe}/{ideleve}/{iddecoupage}/{datedeb}/{typepresence}/{datefin}/{nbParPage}/{pageActuelle}
+    defaults: { _controller: adminScolariteBundle:Presence:listePresenceDetail,idpre: 0 , idens: 0 , ideleve: 0, typepresence: 0, iddecoupage: 0, classe: 0, datedeb : 0, datefin : 0, nbParPage: 20, pageActuelle: 1}
+    requirements:
+        idEtablissement: \d+
+        nbParPage: \d+
+        pageActuelle: \d+

@@ -1,0 +1,504 @@
+<?php
+
+namespace admin\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \admin\UserBundle\Entity\Profil;
+use \admin\UserBundle\Entity\Connexion;
+use \Doctrine\Common\Collections\ArrayCollection;
+use \DateTime;
+use \admin\UserBundle\Types\TypeEtat;
+
+/**
+ * Facturier
+ *
+ * @ORM\Table(name="facturier")
+ * @ORM\Entity(repositoryClass="admin\UserBundle\Entity\FacturierRepository")
+ * @ORM\HasLifecycleCallbacks
+ */
+class Facturier {
+
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $nom
+     *
+     * @ORM\Column(name="nom_facturier", type="string", length=50)
+     * @Assert\Length(max=50)
+     */
+    private $nom;
+
+    /**
+     * @var string $codeBase
+     *
+     * @ORM\Column(name="code_base_facturier", type="string", length=50, nullable=false)
+     * 
+     */
+    private $codeBase;
+
+    /**
+     * @var string $email
+     *
+     * @ORM\Column(name="email_facturier", type="string", length=50, unique=true)
+     * @Assert\Email
+     */
+    private $email;
+
+    /**
+     * @var string $tel1
+     *
+     * @ORM\Column(name="tel1_facturier", type="string", length=20)
+     */
+    private $tel1;
+
+    /**
+     * @var string $tel2
+     *
+     * @ORM\Column(name="tel2_facturier", type="string", length=20, nullable=true)
+     */
+    private $tel2;
+
+    /**
+     * @var string $adresse
+     *
+     * @ORM\Column(name="adresse_facturier", type="text", nullable=true)
+     */
+    private $adresse;
+
+    /**
+     * @var integer $etat
+     *
+     * @ORM\Column(name="etat_facturier", type="smallint")
+     */
+    private $etat;
+
+    /**
+     * @var \DateTime $dateAjout
+     *
+     * @ORM\Column(name="date_ajout_facturier", type="datetime")
+     */
+    private $dateAjout;
+
+    /**
+     * @var \DateTime $dateModification
+     *
+     * @ORM\Column(name="date_edit_facturier", type="datetime", nullable=true)
+     */
+    private $dateModification;
+    
+     /**
+     * @var string $urlLogo
+     * @ORM\Column(name="url_logo",type="string",length=200, nullable=true)
+     */
+    private $urlLogo;
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     * mimeTypes = {"image/gif", "image/jpeg", "image/png"}
+     */
+    public $logo;
+
+    /**
+     *
+     * @var ArrayCollection $utilisateurs
+     * @ORM\OneToMany(targetEntity="admin\UserBundle\Entity\Utilisateur",mappedBy="facturier")
+     */
+    private $utilisateurs;
+
+    /**
+     *
+     * @var ArrayCollection $etreClients
+     * @ORM\OneToMany(targetEntity="admin\UserBundle\Entity\EtreClient",mappedBy="facturier")
+     */
+    private $etreClients;
+    
+    /**
+     * @var Config  $config
+     * @ORM\OneToOne(targetEntity="admin\ParamBundle\Entity\Config", cascade={"persist", "merge"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $config;
+
+    public function __construct() {
+        $this->dateAjout = new \DateTime();
+        $this->etat = TypeEtat::ACTIF;
+        $this->etatConnecte = FALSE;
+        $this->utilisateurs = new ArrayCollection();
+        $this->etreClients = new ArrayCollection();
+    }
+
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Facturier
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set codeBase
+     *
+     * @param string $codeBase
+     * @return Facturier
+     */
+    public function setCodeBase($codeBase)
+    {
+        $this->codeBase = $codeBase;
+
+        return $this;
+    }
+
+    /**
+     * Get codeBase
+     *
+     * @return string 
+     */
+    public function getCodeBase()
+    {
+        return $this->codeBase;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return Facturier
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string 
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set tel1
+     *
+     * @param string $tel1
+     * @return Facturier
+     */
+    public function setTel1($tel1)
+    {
+        $this->tel1 = $tel1;
+
+        return $this;
+    }
+
+    /**
+     * Get tel1
+     *
+     * @return string 
+     */
+    public function getTel1()
+    {
+        return $this->tel1;
+    }
+
+    /**
+     * Set tel2
+     *
+     * @param string $tel2
+     * @return Facturier
+     */
+    public function setTel2($tel2)
+    {
+        $this->tel2 = $tel2;
+
+        return $this;
+    }
+
+    /**
+     * Get tel2
+     *
+     * @return string 
+     */
+    public function getTel2()
+    {
+        return $this->tel2;
+    }
+
+    /**
+     * Set adresse
+     *
+     * @param string $adresse
+     * @return Facturier
+     */
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * Get adresse
+     *
+     * @return string 
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return Facturier
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * Set dateAjout
+     *
+     * @param \DateTime $dateAjout
+     * @return Facturier
+     */
+    public function setDateAjout($dateAjout)
+    {
+        $this->dateAjout = $dateAjout;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAjout
+     *
+     * @return \DateTime 
+     */
+    public function getDateAjout()
+    {
+        return $this->dateAjout;
+    }
+
+    /**
+     * Set dateModification
+     *
+     * @param \DateTime $dateModification
+     * @return Facturier
+     */
+    public function setDateModification($dateModification)
+    {
+        $this->dateModification = $dateModification;
+
+        return $this;
+    }
+
+    /**
+     * Get dateModification
+     *
+     * @return \DateTime 
+     */
+    public function getDateModification()
+    {
+        return $this->dateModification;
+    }
+
+    /**
+     * Add utilisateurs
+     *
+     * @param \admin\UserBundle\Entity\Utilisateur $utilisateurs
+     * @return Facturier
+     */
+    public function addUtilisateur(\admin\UserBundle\Entity\Utilisateur $utilisateurs)
+    {
+        $this->utilisateurs[] = $utilisateurs;
+
+        return $this;
+    }
+
+    /**
+     * Remove utilisateurs
+     *
+     * @param \admin\UserBundle\Entity\Utilisateur $utilisateurs
+     */
+    public function removeUtilisateur(\admin\UserBundle\Entity\Utilisateur $utilisateurs)
+    {
+        $this->utilisateurs->removeElement($utilisateurs);
+    }
+
+    /**
+     * Get utilisateurs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUtilisateurs()
+    {
+        return $this->utilisateurs;
+    }
+
+    /**
+     * Add etreClients
+     *
+     * @param \admin\UserBundle\Entity\EtreClient $etreClients
+     * @return Facturier
+     */
+    public function addEtreClient(\admin\UserBundle\Entity\EtreClient $etreClients)
+    {
+        $this->etreClients[] = $etreClients;
+
+        return $this;
+    }
+
+    /**
+     * Remove etreClients
+     *
+     * @param \admin\UserBundle\Entity\EtreClient $etreClients
+     */
+    public function removeEtreClient(\admin\UserBundle\Entity\EtreClient $etreClients)
+    {
+        $this->etreClients->removeElement($etreClients);
+    }
+
+    /**
+     * Get etreClients
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEtreClients()
+    {
+        return $this->etreClients;
+    }
+
+    /**
+     * Set config
+     *
+     * @param \admin\ParamBundle\Entity\Config $config
+     * @return Facturier
+     */
+    public function setConfig(\admin\ParamBundle\Entity\Config $config)
+    {
+        $this->config = $config;
+
+        return $this;
+    }
+
+    /**
+     * Get config
+     *
+     * @return \admin\ParamBundle\Entity\Config 
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+    
+     /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload() {
+        if (null !== $this->logo) {
+            // faites ce que vous voulez pour générer un nom unique
+            $this->urlLogo = sha1(uniqid(mt_rand(), true)) . '.' . $this->logo->guessExtension();
+        }
+    }
+
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function upload() {
+        if (null === $this->logo) {
+            return;
+        }
+
+        $this->logo->move($this->getUploadRootDir(), $this->urlLogo);
+        unset($this->logo);
+    }
+
+    public function getUploadRootDir() {
+        // le chemin absolu du répertoire où les documents uploadés doivent être sauvegardés
+        return __DIR__ . '/../../../../web/' . $this->getUploadDir();
+    }
+
+    public function getUploadDir() {
+        // on se débarrasse de « __DIR__ » afin de ne pas avoir de problème lorsqu'on affiche
+        // le document/image dans la vue.
+        return 'upload/img/facturier';
+    }
+
+
+    /**
+     * Set urlLogo
+     *
+     * @param string $urlLogo
+     * @return Facturier
+     */
+    public function setUrlLogo($urlLogo)
+    {
+        $this->urlLogo = $urlLogo;
+
+        return $this;
+    }
+
+    /**
+     * Get urlLogo
+     *
+     * @return string 
+     */
+    public function getUrlLogo()
+    {
+        return $this->urlLogo;
+    }
+}

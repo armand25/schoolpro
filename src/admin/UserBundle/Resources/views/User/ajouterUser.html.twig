@@ -1,0 +1,304 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}} - Ajout utilisateur{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+
+{% block file_arriane %}
+     <div class="fond-fil-ariane" >
+                    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+                        <div class="row" style="background:rgba(0,0,0,0.3)">
+                            <div class="col-xs-7" >
+                               <h1> Ajouter un personnel</h1>
+                            </div>
+                            <div class="col-xs-5" style="margin-top: 15px; ">
+                               <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des personnels</span> ><span class="fil-3"> Ajout </span>
+                            </div>
+                        </div>
+                    </div>
+		</div>           
+{% endblock  %}
+
+{% block body %}
+    {#<div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header"><i class="fa fa-plus"></i>AJOUT ADMINISTRATEUR  </h3>
+        </div>
+    </div>#}
+    {% for contenu in app.session.getflashbag.get('user.ajout.success')%}
+        {% if loop.index == 0%}
+            
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+                <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+             
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('user.ajout.error')%}
+        {% if loop.index == 0%}
+             
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+                <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+             
+        {% endif%}
+    {% endfor%}
+
+    {% for contenu in app.session.getflashbag.get('user.ajout.already.exist')%}
+        {% if loop.index == 0%}
+             
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                {% endif%}
+                <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+            
+        {% endif%}
+    {% endfor%}
+
+
+
+
+
+ 
+                <div class="panel panel-white">
+                    <div class="panel-body">
+                      
+                       
+{#                                    <form action="{{path('app_admin_user_ajout', {'idProfil' : idProfil})}}" method="POST"  {{form_enctype(formuView)}}>#}
+                                 {{ form_start(formuView) }}     
+                                    <div class="col-lg-6">
+                                            <div class="panel">
+                                                <div class="panel-body">
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label"> {{ form_label(formuView.nom) }} </label>
+                                                        <div class=" control">    {{ form_widget(formuView.nom) }}</div>
+                                                    </div>
+
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label">     {{ form_label(formuView.prenoms) }} </label>
+                                                        <div class=" control">      {{ form_widget(formuView.prenoms) }}</div>
+                                                    </div>
+
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label">{{ form_label(formuView.sexe) }} </label>
+                                                        <div class=" control">   {{ form_widget(formuView.sexe) }}</div>
+                                                    </div>
+
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label">{{ form_label(formuView.username) }} </label>
+                                                        <div class=" control"> {{ form_widget(formuView.username) }}</div>
+                                                    </div>
+
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label"> {{ form_label(formuView.password) }}</label>
+                                                        <div class=" control">   {{ form_widget(formuView.password) }}</div>
+                                                    </div>
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label"> Confirmer</label>
+                                                        <div class=" control">   {{ form_widget(formuView.cPassword) }}</div>
+                                                    </div>
+                                                    {% if idEtabl==1 and idEtablEcole ==0 %}
+                                                        <div class="form-group clearfix ">
+                                                            <label class=" control-label"> Etablissement </label>
+                                                            <div class=" control">   
+                                                                 <select name="etablissement_"  class="form-control " > 
+                                                                    <option value=""  > 
+                                                                        Choisir l'établissement
+                                                                    </option>
+                                                                    {% for unEtablissement in etablissements%}
+                                                                          <option value="{{unEtablissement.id}}" > 
+                                                                            {{unEtablissement.libelleEtablissement}}
+                                                                           </option>
+                                                                     {% endfor%}
+
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+                                                    {% else  %}
+                                                    <input type="hidden" name="etablissement_"  value="{{idEtabl}}" /> 
+                                                    {% endif  %}
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label">  {{ form_label(formuView.profil) }} </label>
+                                                        <div class=" control">  {{ form_widget(formuView.profil) }}</div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="panel">
+                                                <div class="panel-body">
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label"> {{ form_label(formuView.tel1) }} </label>
+                                                        <div class=" control">{{ form_widget(formuView.tel1) }} </div>
+                                                    </div>
+
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label"> {{ form_label(formuView.tel2) }}</label>
+                                                        <div class=" control"> {{ form_widget(formuView.tel2) }}</div>
+                                                    </div>
+
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label">  {{ form_label(formuView.email) }}</label>
+                                                        <div class=" control">   {{ form_widget(formuView.email) }}</div>
+                                                    </div>
+
+                                                    <div class="form-group clearfix ">
+                                                        <label class=" control-label">{{ form_label(formuView.adresse) }} </label>
+                                                        <div class=" control"> {{ form_widget(formuView.adresse) }}</div>
+                                                    </div>
+                                                   
+                                                    <input type="hidden" class="nombreEssai" value="0"/>
+                                                    <input type="hidden" class="tablChoisi" value=""/>
+                                                    <input type="hidden" class="nombreTolalEssai" value="3"/>
+                                                    {% if isEnseignant(profil.code )%}
+                                                        <div class="form-group row zone-ajout-matieres" {#style="display:none;"#}>
+                                                           <div class="col-lg-12 general-matiere" >
+                                                                <div class="col-lg-6 general-matiere" >
+                                                                    <label  class="col-lg-2 control-label">Matières 
+                                                                    </label>
+                                                                 </div>
+                                                                  <div class="col-lg-6 general-matiere" >
+                                                                    <input type="button" class="ajoutMatiere" onclick="ajoutMatiere();" value="+ matière" />
+                                                                 </div>
+                                                           </div>
+                                                            <div class="col-lg-10 general-matiere" > <br/> 
+                                                               <select class="zone-matiere form-control hide le-choix-matiere" name="tab_Matiere[]" > </select>                                                               
+                                                            </div>
+                                                           
+                                                        </div>
+                                                    {% endif %}
+                                                    
+                                                    
+                                                     <div class="form-group clearfix ">
+                                                        <label class="control-label">{{ form_label(formuView.file) }} </label>
+                                                        <div class="control">  {{ form_widget(formuView.file) }} </div>
+                                                    </div>
+                                                    
+                                                    <div class="form-group row clearfix ">
+                                                        {{form_rest(formuView) }}
+                                                        <a  class="btn" href="{{path('app_admin_users', {'idProfil' : idProfil})}}"> 
+                                                            <i class="icon icon-white icon-arrow-left"></i> Annuler
+                                                        </a>
+                                                        <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </div>
+{#                                    </form>#}
+                                    {{ form_end(formuView) }}
+                                </div>
+                      
+                </div>
+
+
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.numeric').numeric();
+            $('.numeric').keyup(function () {
+                var saisie = $(this).val();
+                if (saisie.length > 0) {
+                    var number = parseInt(saisie);
+                    if ((typeof number != 'undefined') && (!isNaN(number))) {
+                        var newVal = (number == 0) ? '' : number;
+                        $(this).val(newVal);
+                    }
+                }
+
+            });
+        });
+        
+function ajoutMatiere(){
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_matiere_get') }}",
+            data: 'categorie=' + $('#selectcategorie').val(),
+            beforeSend: function() {
+                //onLoadGobi();
+                
+                $('.ajoutMatiere').hide();
+            },
+            success: function(data) {
+             var valeur = $('.nombreEssai').val();
+             var nombreTolalEssai = $('.nombreTolalEssai').val();
+             if(valeur == nombreTolalEssai ){
+                 alert('Nombre total de domaine acceptable atteint');
+                 $('.ajoutMatiere').hide();
+                 return;
+             }
+             var tabDesDomaine = $('.tablChoisi').val().split('|');
+               // console.log(tabDesDomaine);
+                if (data.donnee.length > 0) {
+                   valeur= parseInt(valeur)+1;
+                    $('.zone-matiere').append("<option value=''>Choisissez votre matière</option> ");
+                    for (var pas = 0; pas < data.donnee.length; pas++) {
+                       
+                         
+                        if(jQuery.inArray(data.donnee[pas].id.toString(),tabDesDomaine)== -1){
+                                $('.zone-matiere').append("<option value=" + data.donnee[pas].id + ">" + data.donnee[pas].libelleMatiere + "</option> ");
+                                // $('#selectproduit').val("");
+                        }
+                    }
+                    $('.zone-matiere').show();
+                    $('.zone-matiere').removeClass("hide");
+                    $('.zone-matiere').removeClass("zone-matiere");
+                    
+                    $('.nombreEssai').val(valeur);
+                    // event.preventDefault();
+                 }                
+            },
+            complete: function() {
+            }
+        });
+    }
+    //Former le mon d'utilisateur
+    $('#user_nom').blur(function (){
+      var nom = $(this).val();
+      var prenom =  $('#user_prenoms').val();
+       $('#user_username').val(nom+prenom);
+       $('#user_password').val("passdelv");
+       $('#user_cPassword').val("passdelv");
+      
+  }) 
+      $('#user_prenoms').blur(function (){
+      var prenom = $(this).val();
+      var nom =  $('#user_nom').val();
+       $('#user_username').val(nom+prenom);
+       $('#user_password').val("passdelv");
+       $('#user_cPassword').val("passdelv");
+      
+  }) 
+  //  })
+   $(document).on('change','.le-choix-matiere',function() {
+      var  tablChoisi = $('.tablChoisi').val()+'|'+$('.le-choix-matiere').val();
+      $('.tablChoisi').val(tablChoisi);
+      $('.le-choix-matiere').removeClass("le-choix-matiere");
+      $('.general-matiere').append("<br/><select class='zone-matiere form-control hide le-choix-matiere' name='tab_Matiere[]'> </select>");
+     // $('.ajoutMatiere').show();
+   }) 
+   
+  $('#user_profil').change(function (){
+      var id_profil = $(this).val();
+      if(id_profil == 3){
+          $('.zone-ajout-matieres').show();
+      }else{
+           $('.zone-ajout-matieres').hide();
+      }
+  }) 
+   
+   
+    </script>
+{% endblock %}

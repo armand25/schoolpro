@@ -1,0 +1,250 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="apd")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\ApdRepository")
+ */
+class Apd {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_apd", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $mrn
+     *
+     * @ORM\Column(name="mrn", type="string", length=22, nullable=true)
+     */
+    private $mrn;
+
+    /**
+     * @var Request  $request
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\Request", inversedBy="apds")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $request;
+
+    /**
+     *
+     * @var ArrayCollection $voyagemanis 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\VoyageMani", cascade={"persist", "remove"}, mappedBy="apd")
+     * 
+     */
+    private $voyagemanis;
+
+    /**
+     *
+     * @var ArrayCollection $tiersmanis 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\TiersMani", cascade={"persist", "remove"}, mappedBy="apd")
+     * 
+     */
+    private $tiersmanis;
+
+    /**
+     *
+     * @var ArrayCollection $principalmanis 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\PrincipalMani",  mappedBy="apd")
+     * 
+     */
+    private $principalmanis;
+
+    /**
+     * @var ArrayCollection EquipementMani $equipementManis
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\EquipementMani", mappedBy="apd")
+     * 
+     */
+    private $equipementManis;
+    
+
+    public function __construct() {
+        $this->voyagemanis = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tiersmanis = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->principalmanis = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set mrn
+     *
+     * @param string $mrn
+     * @return Apd
+     */
+    public function setMrn($mrn) {
+        $this->mrn = $mrn;
+
+        return $this;
+    }
+
+    /**
+     * Get mrn
+     *
+     * @return string 
+     */
+    public function getMrn() {
+        return $this->mrn;
+    }
+
+    /**
+     * Set request
+     *
+     * @param \admin\ParamBundle\Entity\Request $request
+     * @return Apd
+     */
+    public function setRequest(\admin\ParamBundle\Entity\Request $request) {
+        $this->request = $request;
+
+        return $this;
+    }
+
+    /**
+     * Get request
+     *
+     * @return \admin\ParamBundle\Entity\Request 
+     */
+    public function getRequest() {
+        return $this->request;
+    }
+
+    /**
+     * Add voyagemanis
+     *
+     * @param \admin\ParamBundle\Entity\MessageMani $voyagemanis
+     * @return Apd
+     */
+    public function addVoyagemani(\admin\ParamBundle\Entity\MessageMani $voyagemanis) {
+        $this->voyagemanis[] = $voyagemanis;
+
+        return $this;
+    }
+
+    /**
+     * Remove voyagemanis
+     *
+     * @param \admin\ParamBundle\Entity\MessageMani $voyagemanis
+     */
+    public function removeVoyagemani(\admin\ParamBundle\Entity\MessageMani $voyagemanis) {
+        $this->voyagemanis->removeElement($voyagemanis);
+    }
+
+    /**
+     * Get voyagemanis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getVoyagemanis() {
+        return $this->voyagemanis;
+    }
+
+    /**
+     * Add tiersmanis
+     *
+     * @param \admin\ParamBundle\Entity\TiersMani $tiersmanis
+     * @return Apd
+     */
+    public function addTiersmani(\admin\ParamBundle\Entity\TiersMani $tiersmanis) {
+        $this->tiersmanis[] = $tiersmanis;
+
+        return $this;
+    }
+
+    /**
+     * Remove tiersmanis
+     *
+     * @param \admin\ParamBundle\Entity\TiersMani $tiersmanis
+     */
+    public function removeTiersmani(\admin\ParamBundle\Entity\TiersMani $tiersmanis) {
+        $this->tiersmanis->removeElement($tiersmanis);
+    }
+
+    /**
+     * Get tiersmanis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTiersmanis() {
+        return $this->tiersmanis;
+    }
+
+    /**
+     * Add principalmanis
+     *
+     * @param \admin\ParamBundle\Entity\PrincipalMani $principalmanis
+     * @return Apd
+     */
+    public function addPrincipalmani(\admin\ParamBundle\Entity\PrincipalMani $principalmanis) {
+        $this->principalmanis[] = $principalmanis;
+
+        return $this;
+    }
+
+    /**
+     * Remove principalmanis
+     *
+     * @param \admin\ParamBundle\Entity\PrincipalMani $principalmanis
+     */
+    public function removePrincipalmani(\admin\ParamBundle\Entity\PrincipalMani $principalmanis) {
+        $this->principalmanis->removeElement($principalmanis);
+    }
+
+    /**
+     * Get principalmanis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPrincipalmanis() {
+        return $this->principalmanis;
+    }
+
+
+    /**
+     * Add equipementManis
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementManis
+     * @return Apd
+     */
+    public function addEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementManis)
+    {
+        $this->equipementManis[] = $equipementManis;
+    
+        return $this;
+    }
+
+    /**
+     * Remove equipementManis
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementManis
+     */
+    public function removeEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementManis)
+    {
+        $this->equipementManis->removeElement($equipementManis);
+    }
+
+    /**
+     * Get equipementManis
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getEquipementManis()
+    {
+        return $this->equipementManis;
+    }
+}

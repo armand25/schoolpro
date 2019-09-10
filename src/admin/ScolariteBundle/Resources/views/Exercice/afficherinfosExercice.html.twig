@@ -1,0 +1,342 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}} - Détail exercice{% endblock %}
+
+{% block file_arriane %}
+    {% if  isEleve(sessionData.codeProfil)  %}
+     <div class="fond-fil-ariane-eleve-livre" >
+    {% elseif  isParentEleve(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-peleve-accueil" >  
+    {% elseif  isEnseignant(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-ens-accueil" >  
+    {% else  %}
+          <div class="fond-fil-ariane-admin-accueil" >    
+     
+    {% endif  %}
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Détail exercice</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des exercices</span> ><span class="fil-3"> Détails </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+
+
+
+
+{%  block body %}
+
+
+        {% for contenu in app.session.getflashbag.get('user.modifier.success')%}
+            {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {% endif%}
+    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+</div>
+
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('user.modifier.password.success')%}
+            {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {% endif%}
+    <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+</div>
+
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('user.modifier.error')%}
+            {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    {% endif%}
+    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+</div>
+
+            {% endif%}
+        {% endfor%}
+
+        {% for contenu in app.session.getflashbag.get('user.modifier.already.exist')%}
+            {% if loop.index == 0%}
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                    {% endif%}
+    <div class="text-center alert alert-danger fade in">{{contenu}}</div>
+                    {% if loop.index == 0%} 
+</div>
+
+            {% endif%}
+        {% endfor%}
+<div class="row" style="margin:0px -17px; " >
+    <div class="col-md-2 " style="">
+        
+        <div class="grid-inbox">   
+            <div class="">
+           <ul class="ca-menu">
+                    <li>
+                        <a href="{{path('app_admin_exercice_modifier', {'idExercice' : exercice.id})}}"   >
+                            <span class="ca-icon">M</span>
+                            <div class="ca-content">
+                                <h2 class="ca-main">Modifier</h2>
+                                
+                            </div>
+                        </a>
+                    </li>
+                    {% if exercice.getEpreuve() is defined %}
+                        <li>
+                            <a href="{{path('app_admin_epreuves', {'idEpreuve' : exercice.getEpreuve().getId()})}}">
+                                <span class="ca-icon">E</span>
+                                <div class="ca-content">
+                                    <h2 class="ca-main">Epreuve</h2>
+
+                                </div>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+                 </div> 
+        </div>
+    </div>
+    <div class="col-md-10 " >
+<div class="panel panel-white">              
+    <div class="panel-body">
+            <div  style="margin-bottom:20px;margin-top: -5px; ">
+                   
+                <div class="btn-toolbar col-lg-12">
+                    <ul class="list-unstyled text-left white-bg" style='background:#0e62c7;padding: 5px;color: #FFF;'>
+                        <li style="">
+                            <div style="margin-top: 5px; margin-bottom: 0px; height: 44px; ">
+                                <div class="  col-lg-12">
+                                    <h3> {{exercice.libelleExercice}} {#{{eleve.dateNaissance|date('d/m/Y')}}  - {{eleve.lieuNaissance}} #} </h3>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+{#                    <div class="ibox float-e-margins panel-white entete-panel" >#}
+                    <h3 class="text-left title-panel" style='font-size: 18px;'>{#{{eleve.nom~' '~eleve.prenoms}},#} </h3>
+                    <ul class="list-unstyled text-left white-bg" style='padding: 10px;'>
+
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                             
+                                    
+                                    {{exercice.descriptionExercice}}
+                            </div>
+                        </li>
+                        <li style="display: block;">
+                            <div style="margin-top: 20px;border-bottom: 1px solid #CCC; height: 30px;">
+                             
+                                    <label class=" control-label"> Etat  </label>
+                                     {% if isTypeEtatActif(exercice.etatExercice)%}
+                                <img src="{{asset('img/ico/valider.png')}}"  style="width: 20px" title="Actif"/>
+                                            {% else%}
+                                <img src="{{asset('img/ico/icon-48-deny.png')}}" style="width: 20px" title="Inactif"/>
+                                            {% endif%}
+                            </div>
+                        </li>
+                    
+                    </ul>
+
+{#                </div>#}
+
+                </div>
+            </div>
+
+
+            
+            <div class="col-md-12 user-profile">
+                
+                <div class="form-group clearfix"> 
+                    {#<div class="col-lg-12">
+                        <a href="{{path('app_admin_user_modifier_my_password')}}">
+                            <button type="" class="btn btn-white margin-top-10px"> Modifier mot de passe</button> 
+                        </a>
+                        <a href="{{path('app_admin_user_histo_connexion', {'idUser' : user.id, 'isUser': 1})}}">
+                            <button type="" class="btn btn-primary margin-top-10px">Historique de connexion</button>  
+                        </a>
+                        <a href="#"  data-toggle="modal" data-target="#myModalModif" >
+                        <button class="btn btn-success margin-top-10px" >
+                            
+                            <i class="icon icon-white icon-edit"></i> Modifier profil
+                        </button>
+                        </a>
+                    </div> #}
+                </div>                 
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="myModalModif" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        
+</div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+<script type="text/javascript">
+    $(document).ready(function () {
+    $('#showForm').click(function () {
+    $('#formEdit').toggle(500);
+    });
+    $('#btnAnnuler').click(function () {
+    $('#formEdit').toggle(500);
+    });
+
+    $('.numeric').keyup(function () {
+    var saisie = $(this).val();
+    if (saisie.length > 0) {
+    var number = parseInt(saisie);
+    if ((typeof number != 'undefined') && (!isNaN(number))) {
+    var newVal = (number == 0) ? '' : number;
+    $(this).val(newVal);
+    }
+    }
+
+    });
+    });
+    
+    
+   $('.modifImage').click(function() {
+        $('.form-modif-image').modal();
+    })
+    $('.btAjoutMatiere').click(function() {
+        $('.form-ajout-dmaine').show();
+      
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_matiere_get') }}",
+            data: 'categorie=' + $('#selectcategorie').val(),
+            beforeSend: function() {
+                //onLoadGobi();
+                
+                $('.ajoutMatiere').hide();
+            },
+            success: function(data) {
+             var valeur = $('.nombreEssai').val();
+             var nombreTolalEssai = $('.nombreTolalEssai').val();
+            {# if(valeur == nombreTolalEssai ){
+                 alert('Nombre total de matiere acceptable atteint');
+                 $('.ajoutMatiere').hide();
+                 return;
+             }#}
+             var tabDesMatiere = $('.tablChoisi').val().split('|');
+               // console.log(tabDesMatiere);
+                if (data.donnee.length > 0) {
+                   valeur= parseInt(valeur)+1;
+                    $('.zone-matiere').append("<option value=''>Choisissez votre matiere </option> ");
+                    for (var pas = 0; pas < data.donnee.length; pas++) {
+                        
+                        if(jQuery.inArray(data.donnee[pas].id.toString(),tabDesMatiere)== -1){
+                                $('.zone-matiere').append("<option value=" + data.donnee[pas].id + ">" + data.donnee[pas].libelleMatiere + "</option> ");
+                                // $('#selectproduit').val("");
+                        }
+                    }
+                    $('.zone-matiere').show();
+                    $('.zone-matiere').removeClass("hide");
+                   // $('.zone-matiere').removeClass("zone-matiere");
+                   // $('.general-matiere').append("<br/><select class='zone-matiere form-control hide le-choix-matiere' name='tab_Matiere[]'> </select>");
+                    $('.nombreEssai').val(valeur);
+                    $('.zone-matiere').focus();
+                    $('.btAjoutTraiteAjoutMatiere').removeClass("hide");
+                }                
+            },
+            complete: function() {
+            }
+        });
+        
+    })
+
+
+    function traiterMatiere(type, tab) {
+
+        var msg = "";
+        if (type === 1) {
+            msg = "Confirmer la suppression du matiere ";
+        }
+        if (type === 2) {
+            msg = "Confirmer l'ajout du matiere";
+        }
+        afficherConfirmationSetEtat(msg, tab, type);
+
+    }
+    function afficherConfirmationSetEtat(msg, tab, type) {
+        $('<div id="msg" title="Confirmation"><p> ' + msg + '</p></div>').dialog({
+            hide: {
+                // effect: "explode"isEmetteur,
+                duration: 500
+            },
+            modal: true,
+            autoOpen: false,
+            buttons: {
+                " Confirmer ": function() {
+                    setEtatTypeuser(tab, type);
+                    $(this).dialog('close');
+                },
+                " Annuler ": function() {
+                    $(this).dialog('close');
+                }
+
+            }
+
+        }).dialog('open');
+    }
+
+    function setEtatTypeuser(tabIds, etat) {
+        if(etat == 2){
+            tabIds = $('.le-choix-matiere').val();
+            if(tabIds==""){
+                error_message('Opération impossible', 'Choisissez votre matiere ');
+            }
+        }
+        //var ajaxId = prepareAjaxData(tabIds);
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: "{{ path('app_admin_matiere_traite_utilisateur') }}",
+            data: 'sId=' + tabIds + '&type=' + etat + '&idof=' +1 {#{{user.id}}#},
+            beforeSend: function() {
+               // onLoadGobi();
+            },
+            success: function(rep) {
+               // closeOnLoadGobi();
+                if (rep['etat']) {
+                    window.location.reload();
+                } else {
+                    error_message('Erreur', rep['msg']);
+                }
+            },
+            complete: function() {
+               // closeOnLoadGobi();
+            }
+
+        });
+    }  
+    
+    
+</script>
+{% endblock %}

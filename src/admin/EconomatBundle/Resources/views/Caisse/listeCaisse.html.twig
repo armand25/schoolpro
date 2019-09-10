@@ -1,0 +1,255 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}} - Ajout utilisateur{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+
+{% block Breadcrumb %}
+    <ul ncy-breadcrumb="" class="pull-right breadcrumb ng-isolate-scope">
+        <li>
+            <a href="#/app/dashboard" >
+                <i class="fa fa-home margin-right-5 text-large text-dark"></i>Accueil
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <i class="fa fa-file margin-right-5 text-large text-dark"></i>Caisse
+            </a>
+        </li>
+
+        <li class="ng-binding ng-scope" ><i class="fa fa-upload margin-right-5 text-large text-dark"></i>Liste</li>
+    </ul>
+{% endblock %}
+
+{% block body %}
+
+    {% for contenu in app.session.getflashbag.get('caisse.ajout.success')%}
+        {% if loop.index == 0%}
+            <div class="row">
+                <div class="col-lg-12 ">
+                {% endif%}
+                <div class="text-center alert alert-success">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+            </div>
+        {% endif%}
+    {% endfor%}
+    {% for contenu in app.session.getflashbag.get('caisse.modifier.success')%}
+        {% if loop.index == 0%}
+            <div class="row">
+                <div class="col-lg-12 ">
+                {% endif%}
+                <div class="text-center alert alert-success">{{contenu}}</div>
+                {% if loop.index == 0%} 
+                </div>
+            </div>
+        {% endif%}
+    {% endfor%}
+
+
+<div class="container-fluid container-fullw padding-bottom-10 ng-scope">
+ {#   <div class="clearfix ">
+        {#<div class="span6 text-info ">
+            <h3>Gestion des Caisses </h3>
+        </div>
+
+        <div class="col-lg-12 marginTop20">
+
+            <a class="btn btn-success btn-circle  v_pointer_cursor " href="{{path('admin_caisse_ajout')}} " id="btnNew"><i class="fa fa-plus"></i>Ajouter </a>
+            <span class="btn btn-success btn-circle  v_pointer_cursor btnAction" btnActionVal="1" id="btnActive"><i class="fa fa-check"></i>Activer </span>
+            <span class="btn btn-danger btn-circle  v_pointer_cursor btnAction" btnActionVal="0" id="btnDesactiver"><i class="fa fa-trash-o"></i>Désactiver </span>
+            <span class="btn btn-danger btn-circle  v_pointer_cursor btnAction" btnActionVal="2" id="btnSupprimer"><i class="fa fa-trash"></i>Supprimer </span>
+
+        </div>
+    </div>#}
+            <div class="space12">
+                <div class="btn-toolbar">
+                    <div aria-label="First group" role="group" class="btn-group">
+{#                        <a class=" " href="{{path('app_admin_abonnes')}}" id="" title="Afficher tous les utilisateurs">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fa fa-list"></i>
+                            </button>
+                        </a>#}
+                        <a class=" " href="{{path('admin_caisse_ajout')}}" id="" title="Ajouter">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </a>
+
+                        <button id="btnActive" class="btn btn-success btnAction" btnActionVal="1" type="button" title="Activer">
+                            <i class="fa fa-check"></i>
+                        </button>
+                        <button id="btnActive" class="btn btn-warning btnAction" btnActionVal="0" type="button" title="Désactiver">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button id="btnSupprimer" class="btn btn-danger btnAction" btnActionVal="2" type="button" title="Supprimer">
+                            <i class="fa fa-remove"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+                            
+                            
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-white">
+                    <header class="panel-heading">
+                        <i class="fa fa-table "></i> <span class="margin-right-20px "> Liste des caisses </span>
+                    </header> 
+                    <div class="panel-body">
+                    <table class="table table-hover table-striped">
+                        <thead class="" >
+                            <tr class="">
+                                <th style="width:20px;">
+                                    <input type="checkbox" class="checkAll checkbox tooltipGobi" name="checkAll" title="Tout cocher/Décocher"/>
+                                </th>
+                                <th>Nom</th>
+                             
+                                <th></th>
+                                <th style="">Etat</th>
+                                <th style="">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for t in listeCaisse %}
+                                <tr>
+
+                                    <td>
+                                      
+                                            <input type="checkbox" class="checkOne checkbox " sId="{{t.id}}"/>
+                                        
+                                    </td>
+                                    <td>{{t.nomCaisse}}</td>
+                                    <td></td>
+                                   
+                                    <td>
+                                        {% if isTypeEtatActif(t.etatCaisse)%}
+                                            Actif  <i class="fa fa-check text-success margin-right-20px"></i>
+                                        {% else%}
+                                            Inactif  <i class="fa fa-exclamation-triangle text-danger margin-right-20px"></i>
+                                        {% endif%}
+                                    </td>
+                                    <td>
+                                        
+                                            <a href="{{path('admin_caisse_modifier', {'id' : t.id})}}" class="btn btn-circle mini btn-info btnEdit tooltipGobi" title="Modifier  {#{{t.nom}}#}">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+               </div>
+
+                </div>
+            </div>
+  {% block scripts %}
+    {{parent()}}      </div>
+    </div>
+
+
+
+
+{% endblock %}
+{% block scripts %}
+    {{parent()}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toutDecocher('checkOne');
+            $('#btnNew').click(function () {
+                $('#formNew').toggle(500);
+            });
+            $('#resetNew').click(function () {
+                $('#formNew').toggle(500);
+            });
+            $('.btnEdit').click(function () {
+                $(this).parent('td').parent('tr').children('td').eq(2).children('.formEdit').toggle(500);
+            });
+            $('.checkAll').change(function () {
+                if ($(this).is(':checked')) {
+                    toutCocher('checkOne');
+                } else {
+                    toutDecocher('checkOne');
+                }
+            });
+            $('.btnAction').click(function () {
+                var type = parseInt($(this).attr('btnActionVal'));
+                var tab = getCheckedId('checkOne', 'sId', true);
+                var nb = tab.length;
+                if (nb === 0) {
+                    var msg = "Veillez sélectionner les caisses à activer";
+                    if (type === 0) {
+                        msg = "Veillez sélectionner les caisses à désactiver";
+                    }
+                    if (type === 2) {
+                        msg = "Veillez sélectionner les caisse à supprimer";
+                    }
+                    error_message('Attention', msg);
+                } else {
+                    msg = "Confirmer l'activation des caisses sélectionnés";
+                    if (type === 0) {
+                        msg = "Confirmer la désactivation  des caisses sélectionnés";
+                    }
+                    if (type === 2) {
+                        msg = "Confirmer la suppression des caisses sélectionnés";
+                    }
+                    afficherConfirmationSetEtat(msg, tab, type);
+                }
+            });
+
+
+        });
+
+        function afficherConfirmationSetEtat(msg, tab, type) {
+            $('<div id="msg" title="Confirmation"><p> ' + msg + '</p></div>').dialog({
+                hide: {
+                    // effect: "explode"isEmetteur,
+                    duration: 500
+                },
+                modal: true,
+                autoOpen: false,
+                buttons: {
+                    " Annuler ": function () {
+                        $(this).dialog('close');
+                    },
+                    " Confirmer ": function () {
+                        setEtatTypeuser(tab, type);
+                        $(this).dialog('close');
+                    }
+                }
+
+            }).dialog('open');
+        }
+
+        function setEtatTypeuser(tabIds, etat) {
+
+            var ajaxId = prepareAjaxData(tabIds);
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: "{{ path('admin_caisse_set_etat') }}",
+                data: 'sId=' + ajaxId + '&etat=' + etat,
+                beforeSend: function () {
+                    onLoadGobi();
+                },
+                success: function (rep) {
+                    closeOnLoadGobi();
+                    if (rep['etat']) {
+                        window.location.reload();
+                    } else {
+                        error_message('Erreur', rep['msg']);
+                    }
+                },
+                complete: function () {
+                    closeOnLoadGobi();
+                }
+
+            });
+        }
+    </script>
+{% endblock %}

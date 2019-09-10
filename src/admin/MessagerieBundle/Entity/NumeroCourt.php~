@@ -1,0 +1,231 @@
+<?php
+
+/**
+ * Class NumeroCourt
+ */
+
+namespace admin\SmsBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use \Doctrine\Common\Collections\ArrayCollection;
+use \admin\UserBundle\Types\TypeEtat;
+
+/**
+ * NumeroCourt
+ * 
+ * @ORM\Table(name="numero_court")
+ * @ORM\Entity(repositoryClass="admin\SmsBundle\Entity\NumeroCourtRepository")
+ */
+class NumeroCourt {
+
+    /**
+     * 
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $numero 
+     * 
+     * @ORM\Column(name="numero", type="string", length=10)
+     * @Assert\Length(max=10)
+     * @Assert\NotBlank(message="Numéro requis")
+     */
+    private $numero;
+
+    /**
+     * @var integer $etat 
+     * @ORM\Column(name="etat", type="integer")
+     */
+    private $etat;
+
+    /**
+     * @var ArrayCollection $sms
+     * 
+     * @ORM\OneToMany(targetEntity="admin\SmsBundle\Entity\Sms", mappedBy="numeroCourt")
+     */
+    private $sms;
+
+    /**
+     * @var Operateur $operateur 
+     * 
+     * @ORM\ManyToOne(targetEntity="admin\SmsBundle\Entity\Operateur", inversedBy="numerosCourts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $operateur;
+
+    /**
+     * @var ArrayCollection $serviceVas 
+     * 
+     * @ORM\ManyToMany(targetEntity="admin\SmsBundle\Entity\ServiceVas")
+     */
+    private $serviceVas;
+
+
+
+
+    
+    
+
+    public function __construct() {
+        $this->etat = TypeEtat::ACTIF;
+        $this->sms = new ArrayCollection();
+        $this->servicesVas = new ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId() {
+        return $this->id;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param string $numero
+     * @return NumeroCourt
+     */
+    public function setNumero($numero) {
+        $this->numero = $numero;
+
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return string 
+     */
+    public function getNumero() {
+        return $this->numero;
+    }
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     * @return NumeroCourt
+     */
+    public function setEtat($etat) {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer 
+     */
+    public function getEtat() {
+        return $this->etat;
+    }
+
+    /**
+     * Add sms
+     *
+     * @param \admin\SmsBundle\Entity\Sms $sms
+     * @return NumeroCourt
+     */
+    public function addSm(\admin\SmsBundle\Entity\Sms $sms) {
+        $this->sms[] = $sms;
+
+        return $this;
+    }
+
+    /**
+     * Remove sms
+     *
+     * @param \admin\SmsBundle\Entity\Sms $sms
+     */
+    public function removeSm(\admin\SmsBundle\Entity\Sms $sms) {
+        $this->sms->removeElement($sms);
+    }
+
+    /**
+     * Get sms
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSms() {
+        return $this->sms;
+    }
+
+    /**
+     * Set operateur
+     *
+     * @param \admin\SmsBundle\Entity\Operateur $operateur
+     * @return NumeroCourt
+     */
+    public function setOperateur(\admin\SmsBundle\Entity\Operateur $operateur) {
+        $this->operateur = $operateur;
+
+        return $this;
+    }
+
+    /**
+     * Get operateur
+     *
+     * @return \admin\SmsBundle\Entity\Operateur 
+     */
+    public function getOperateur() {
+        return $this->operateur;
+    }
+
+ 
+    /*
+     * 
+     */
+
+    public function __toString() {
+        return $this->operateur->getNomOperateur() . '-' . $this->numero;
+    }
+
+
+    
+    
+   
+
+   
+
+    /**
+     * Add serviceVas
+     *
+     * @param \admin\SmsBundle\Entity\ServiceVas $serviceVas
+     * @return NumeroCourt
+     */
+    public function addServiceVa(\admin\SmsBundle\Entity\ServiceVas $serviceVas)
+    {
+        $this->serviceVas[] = $serviceVas;
+    
+        return $this;
+    }
+
+    /**
+     * Remove serviceVas
+     *
+     * @param \admin\SmsBundle\Entity\ServiceVas $serviceVas
+     */
+    public function removeServiceVa(\admin\SmsBundle\Entity\ServiceVas $serviceVas)
+    {
+        $this->serviceVas->removeElement($serviceVas);
+    }
+
+    /**
+     * Get serviceVas
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getServiceVas()
+    {
+        return $this->serviceVas;
+    }
+}

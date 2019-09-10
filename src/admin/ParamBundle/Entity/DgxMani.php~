@@ -1,0 +1,252 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use admin\ParamBundle\Entity\PrincipalMani;
+use admin\ParamBundle\Entity\LmarchandiseMani;
+use admin\ParamBundle\Entity\EquipementMani ;
+
+/**
+ * DgxMani
+ *
+ * @ORM\Table(name="dgx_mani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\DgxManiRepository")
+ */
+class DgxMani {
+
+    /**
+     * @var integer $idDgxMani
+     *
+     * @ORM\Column(name="id_dgx_mani", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $idDgxMani;
+
+    /**
+     * @var string $classe
+     *
+     * @ORM\Column(name="classe", type="string", length=7)
+     */
+    private $classe;
+    
+    /**
+     * @var string $un
+     *
+     * @ORM\Column(name="un", type="string", length=20, nullable=true)
+     */
+    private $un;
+    
+    /**
+     * @var string $qteLimitee
+     *
+     * @ORM\Column(name="qte_limitee", type="string", length=1, nullable=true)
+     */
+    private $qteLimitee ;
+    
+    /**
+     * @var string $groupeEmb
+     *
+     * @ORM\Column(name="groupe_emb", type="string", length=3, nullable=true)
+     */
+    private $groupeEmb ;
+    
+    /**
+     * @var string $etatMatiere
+     *
+     * @ORM\Column(name="etat_matiere", type="string", length=7, nullable=true)
+     */
+    private $etatMatiere ;
+
+    /**
+     * @var EquipementMani $equipementMani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\EquipementMani", inversedBy="dgxManis", cascade={"persist"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_equipement_mani", referencedColumnName="id_equipement_mani")
+     * })
+     */
+    private $equipementMani;
+
+    /**
+     * @var LmarchandiseMani $lmarchandiseMani
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\LmarchandiseMani", inversedBy="dgxManis", cascade={"persist"})
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_lmarchandise_mani", referencedColumnName="id_lmarchandise_mani")
+     * })
+     */
+    private $lmarchandiseMani;
+
+
+    /**
+     * Get idDgxMani
+     *
+     * @return integer 
+     */
+    public function getIdDgxMani()
+    {
+        return $this->idDgxMani;
+    }
+
+    /**
+     * Set classe
+     *
+     * @param string $classe
+     * @return DgxMani
+     */
+    public function setClasse($classe)
+    {
+        $this->classe = $classe;
+
+        return $this;
+    }
+
+    /**
+     * Get classe
+     *
+     * @return string 
+     */
+    public function getClasse()
+    {
+        return $this->classe;
+    }
+
+    /**
+     * Set un
+     *
+     * @param string $un
+     * @return DgxMani
+     */
+    public function setUn($un)
+    {
+        $this->un = $un;
+
+        return $this;
+    }
+
+    /**
+     * Get un
+     *
+     * @return string 
+     */
+    public function getUn()
+    {
+        return $this->un;
+    }
+
+    /**
+     * Set qteLimitee
+     *
+     * @param string $qteLimitee
+     * @return DgxMani
+     */
+    public function setQteLimitee($qteLimitee)
+    {
+        $this->qteLimitee = $qteLimitee;
+
+        return $this;
+    }
+
+    /**
+     * Get qteLimitee
+     *
+     * @return string 
+     */
+    public function getQteLimitee()
+    {
+        return $this->qteLimitee;
+    }
+
+    /**
+     * Set groupeEmb
+     *
+     * @param string $groupeEmb
+     * @return DgxMani
+     */
+    public function setGroupeEmb($groupeEmb)
+    {
+        $this->groupeEmb = $groupeEmb;
+
+        return $this;
+    }
+
+    /**
+     * Get groupeEmb
+     *
+     * @return string 
+     */
+    public function getGroupeEmb()
+    {
+        return $this->groupeEmb;
+    }
+
+    /**
+     * Set etatMatiere
+     *
+     * @param string $etatMatiere
+     * @return DgxMani
+     */
+    public function setEtatMatiere($etatMatiere)
+    {
+        $this->etatMatiere = $etatMatiere;
+
+        return $this;
+    }
+
+    /**
+     * Get etatMatiere
+     *
+     * @return string 
+     */
+    public function getEtatMatiere()
+    {
+        return $this->etatMatiere;
+    }
+
+    /**
+     * Set equipementMani
+     *
+     * @param \admin\ParamBundle\Entity\EquipementMani $equipementMani
+     * @return DgxMani
+     */
+    public function setEquipementMani(\admin\ParamBundle\Entity\EquipementMani $equipementMani = null)
+    {
+        $this->equipementMani = $equipementMani;
+
+        return $this;
+    }
+
+    /**
+     * Get equipementMani
+     *
+     * @return \admin\ParamBundle\Entity\EquipementMani 
+     */
+    public function getEquipementMani()
+    {
+        return $this->equipementMani;
+    }
+
+    /**
+     * Set lmarchandiseMani
+     *
+     * @param \admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani
+     * @return DgxMani
+     */
+    public function setLmarchandiseMani(\admin\ParamBundle\Entity\LmarchandiseMani $lmarchandiseMani = null)
+    {
+        $this->lmarchandiseMani = $lmarchandiseMani;
+
+        return $this;
+    }
+
+    /**
+     * Get lmarchandiseMani
+     *
+     * @return \admin\ParamBundle\Entity\LmarchandiseMani 
+     */
+    public function getLmarchandiseMani()
+    {
+        return $this->lmarchandiseMani;
+    }
+}

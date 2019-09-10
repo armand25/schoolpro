@@ -1,0 +1,169 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="interchange")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\InterchangeRepository")
+ */
+class Interchange {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer $idInterchange
+     *
+     * @ORM\Column(name="id_interchange", type="string",  length=14)
+     */
+    private $idInterchange;
+
+    /**
+     * @var string $from
+     *
+     * @ORM\Column(name="from_int", type="string", length=35)
+     */
+    private $from;
+
+    /**
+     * @var string $to
+     *
+     * @ORM\Column(name="to_int", type="string", length=35)
+     */
+    private $to;
+
+    /**
+     *
+     * @var ArrayCollection $messagesets 
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\MessageSet", cascade={"persist", "remove"}, mappedBy="interchange")
+     * 
+     */
+    private $messagesets;
+
+    public function __construct() {
+        $this->messagesets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set idInterchange
+     *
+     * @param string $idInterchange
+     * @return Interchange
+     */
+    public function setIdInterchange($idInterchange)
+    {
+        $this->idInterchange = $idInterchange;
+    
+        return $this;
+    }
+
+    /**
+     * Get idInterchange
+     *
+     * @return string 
+     */
+    public function getIdInterchange()
+    {
+        return $this->idInterchange;
+    }
+
+    /**
+     * Set from
+     *
+     * @param string $from
+     * @return Interchange
+     */
+    public function setFrom($from)
+    {
+        $this->from = $from;
+    
+        return $this;
+    }
+
+    /**
+     * Get from
+     *
+     * @return string 
+     */
+    public function getFrom()
+    {
+        return $this->from;
+    }
+
+    /**
+     * Set to
+     *
+     * @param string $to
+     * @return Interchange
+     */
+    public function setTo($to)
+    {
+        $this->to = $to;
+    
+        return $this;
+    }
+
+    /**
+     * Get to
+     *
+     * @return string 
+     */
+    public function getTo()
+    {
+        return $this->to;
+    }
+
+    /**
+     * Add messagesets
+     *
+     * @param \admin\ParamBundle\Entity\MessageSet $messagesets
+     * @return Interchange
+     */
+    public function addMessageset(\admin\ParamBundle\Entity\MessageSet $messagesets)
+    {
+        $this->messagesets[] = $messagesets;
+    
+        return $this;
+    }
+
+    /**
+     * Remove messagesets
+     *
+     * @param \admin\ParamBundle\Entity\MessageSet $messagesets
+     */
+    public function removeMessageset(\admin\ParamBundle\Entity\MessageSet $messagesets)
+    {
+        $this->messagesets->removeElement($messagesets);
+    }
+
+    /**
+     * Get messagesets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getMessagesets()
+    {
+        return $this->messagesets;
+    }
+}

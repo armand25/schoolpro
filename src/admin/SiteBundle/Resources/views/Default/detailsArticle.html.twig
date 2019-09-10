@@ -1,0 +1,84 @@
+{% extends 'baseDefault.html.twig' %}
+{% block body %}
+{% set inc = 0 %}
+ 
+ <div class="page-title" style="background-color:#57bae8;color:#FFF;padding-left:20px;">
+            <div class="container">
+                <div class="row">
+                    <div class="span12">
+                        
+                        <h2 style="color:#FFF;"><i class="icon-tasks page-title-icon"></i> {{article.titre}}</h2>
+                    </div>
+                </div>
+            </div>
+        </div> 
+<div class="container " style="background: #FFF;"> 		
+    <div class="col-lg-8 col-sm-8">
+              
+              {% if article.getMedias is defined %}
+                                {% for img in article.getMedias %}
+                                    <img src="{{asset(img.pathMedia)}}"></img>
+                                {% endfor %}
+              {% endif %}  
+              <h4 id="">{{article.titre}}</h4>
+                <p class="infoarticle">{{article.datePublication|date('d M Y')}} | {{article.utilisateur.nom}}</p>
+                <hr />
+                <p>{{article.contenuArticle|raw}}</p>
+            
+    </div>	<!-- End DIV.Span4-->
+
+     {% set inc = inc+1 %}
+    <div class="">
+ {% set inc = inc+1 %}
+        <div class="zone-article">
+          <div class="titre-zone-articles">Conseils</div>  
+          <div class="interieur-jaune-clair">
+           {#{%if tabTraiteZone[inc]['typeInfo'] == 1%}   
+              {% for unInfo in tabTraiteZone[inc]['information'] %}
+
+                        {{unInfo.contenuArticle|raw}}
+
+                {% endfor %}                                          
+           {% endif %}  #}                                        
+          </div>  
+        </div>
+    </div>	<!-- End span4 -->
+
+</div>	<!-- End rows -->
+   <div class="container zone-etabl-scolaire">
+                
+				
+				<ul>
+                                    
+                                    {% for unEtablissement in listeEtablissement %}
+					<li style="display: block; float: left;padding: 20px;text-align: center;">
+						<div style="margin: auto;">
+                                                    <a href="{{path('app_admin_info_page', { 'idEtablissement' : unEtablissement.id})}}">
+                                                        <img data-src="{{asset(unEtablissement.titreImage)}}" src="{{asset(unEtablissement.titreImage)}}" />
+                                                    </a>
+                                                </div>
+                                                {{unEtablissement.libelleEtablissement}}
+					</li>
+                                     {% endfor %}       
+				</ul>
+				
+			
+		</div>            
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+	
+		<script type="text/javascript">
+			$('.carousel[data-mixed] ul').anoSlide(
+			{
+				items: 5,
+				speed: 500,
+				prev: 'a.prev[data-prev]',
+				next: 'a.next[data-next]',
+				lazy: true,
+				delay: 100
+			})
+		</script>
+{% endblock %}
+
+

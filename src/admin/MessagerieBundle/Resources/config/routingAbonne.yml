@@ -1,0 +1,66 @@
+
+#Boite de Reception abonne
+app_pub_site_messagerie_boite_reception:
+    path:  /boitereception/{dateDebut}/{dateFin}/{nbParPage}/{pageActuelle}/{mot}
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteBoiteReception,  mot: '',  dateDebut: '01-01-2015',  dateFin: '01-01-2014', nbParPage: 20, pageActuelle: 1}
+    requirements:
+       pageActuelle: \d+
+       nbParPage: \d+
+       
+#Formulaire d'envoi de message aux utilisateurs      
+app_pub_site_messagerie_send_msg_to_utilisateur:
+    path:  /nouveau/message/{idMessageTransfere}/{idMessageRepondre}
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteNouveauMessageToAdmin, idMessageTransfere: 0, idMessageRepondre: 0}
+    requirements:
+       idMessageTransfere: \d+
+       idMessageRepondre: \d+
+       
+#Enregistrement du message envoyé par un abonne par AJAX
+app_pub_site_messagerie_send_msg_to_utilisateur_save:
+    path:  /nouveau/message/save
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteNouveauMessageToAdminSave}
+       
+# Suppression d un message reçu
+app_pub_site_messagerie_set_etat_msg_recu:
+    path:  /supprimer/msg/recu
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteSupprimerMessageRecu}
+    
+# Afficher les détails d'un message recu
+app_pub_site_messagerie_details_msg_recu:
+    path:  /details/msg/recu/{idMessage}
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteDetailsMsgRecu,  idMessage : 0}
+    requirements:
+       idMessage: \d+
+       
+       
+#Affiche la liste des messages envoyés par un abonne
+app_pub_site_messagerie_msg_envoyes:
+    path:  /envoyes/{dateDebut}/{dateFin}/{nbParPage}/{pageActuelle}/{mot}
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteMessageEnvoyes,  mot: '',  dateDebut: '01-01-2015',  dateFin: '01-01-2014', nbParPage: 20, pageActuelle: 1}
+    requirements:
+       pageActuelle: \d+
+       nbParPage: \d+
+       
+# Cloture un ticket
+app_pub_site_messagerie_end_ticket:
+    path:  /end/ticket
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteEndTicket}
+    
+# Afficher les détails d'un message envoyé
+app_pub_site_messagerie_details_msg_envoie:
+    path:  /details/msg/envoye/{idMessage}
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteDetailsMsgEnvoye,  idMessage : 0}
+    requirements:
+       idMessage: \d+  
+       
+# Suppression un message reçu
+app_pub_site_messagerie_set_etat_msg_recu:
+    path:  /supprimer/msg/recu
+    defaults: { _controller: adminMessagerieBundle:MessageAbonne:siteSupprimerMessageRecu}
+           
+
+       
+
+
+
+   

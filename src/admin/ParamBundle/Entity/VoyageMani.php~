@@ -1,0 +1,127 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * parametre
+ *
+ * @ORM\Table(name="voyagemani")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\VoyageManiRepository")
+ */
+class VoyageMani
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     * @var string $atp
+     *
+     * @ORM\Column(name="atp", type="string", length=11,nullable=true)
+     */
+    private $atp;
+    
+    /**
+     * @var string $ref
+     *
+     * @ORM\Column(name="ref_voyagemani", type="string", length=17,nullable=true)
+     */
+    private $ref;    
+    
+    /**
+     * @var Apd  $apd
+     * @ORM\ManyToOne(targetEntity="admin\ParamBundle\Entity\Apd", inversedBy="voyagemanis")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="id_apd", referencedColumnName="id_apd")
+     * })
+     */
+    private $apd;    
+
+   
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set atp
+     *
+     * @param string $atp
+     * @return VoyageMani
+     */
+    public function setAtp($atp)
+    {
+        $this->atp = $atp;
+    
+        return $this;
+    }
+
+    /**
+     * Get atp
+     *
+     * @return string 
+     */
+    public function getAtp()
+    {
+        return $this->atp;
+    }
+
+    /**
+     * Set ref
+     *
+     * @param string $ref
+     * @return VoyageMani
+     */
+    public function setRef($ref)
+    {
+        $this->ref = $ref;
+    
+        return $this;
+    }
+
+    /**
+     * Get ref
+     *
+     * @return string 
+     */
+    public function getRef()
+    {
+        return $this->ref;
+    }
+
+    /**
+     * Set apd
+     *
+     * @param \admin\ParamBundle\Entity\Apd $apd
+     * @return VoyageMani
+     */
+    public function setApd(\admin\ParamBundle\Entity\Apd $apd)
+    {
+        $this->apd = $apd;
+    
+        return $this;
+    }
+
+    /**
+     * Get apd
+     *
+     * @return \admin\ParamBundle\Entity\Apd 
+     */
+    public function getApd()
+    {
+        return $this->apd;
+    }
+}

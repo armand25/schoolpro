@@ -1,0 +1,35 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container"> 
+       {# <a class="font-bouton-jaune"  data-toggle="collapse" data-target=".nav-collapse"><span
+                    class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                    Outil de Gestion des Avances et de Stocks
+        </a>#}
+       
+            
+{#            <img src="{{asset('img/logo-black.png')}}" alt="Packet" width="40"></a>#}
+      <div class="nav-header">
+        <span style='font-weight: bold; color:#FFF;font-size : 23px;margin-top: 10px;'>   SchoolPro </span>
+        <ul class="nav pull-right">
+{#          <li class="dropdown floatLeft"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                            class="icon-cog"></i> Account <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="javascript:;">Settings</a></li>
+              <li><a href="javascript:;">Help</a></li>
+            </ul>
+          </li>#}
+          <li class="dropdown floatLeft"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i
+                            class="icon-user"></i> {{sessionData.nom~' '~sessionData.prenoms}} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href='{{path("app_admin_user_mon_profil")}}' >Mon profil</a></li>
+              <li><a href="{{path('app_admin_user_logout')}}">Déconnexion</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <!--/.nav-collapse --> 
+    </div>
+    <!-- /container --> 
+  </div>
+  <!-- /navbar-inner --> 
+</div>

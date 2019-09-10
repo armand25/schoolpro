@@ -1,0 +1,3 @@
+admin_logistic_homepage:
+    path:     /
+    defaults: { _controller: adminLogisticBundle:Default:index }

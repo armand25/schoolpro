@@ -1,0 +1,375 @@
+{# src/utb/ClientBundle/Resources/views/layoutSite.html.twig #}
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Accueil
+{% endblock %}	
+{% block file_arriane %}
+<div class="fond-fil-ariane" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Liste des types opération</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des types opération</span> ><span class="fil-3"> Liste </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+{% block body %}  
+
+  
+        {% for contenu in app.session.flashbag.get('notice') %}
+            {% if contenu == "success" %}
+
+                <div class="success successMsg center">                        
+                    Type opération ajoutée avec succès! 
+                </div>    
+
+            {% endif %}
+            {% if contenu == "modifsuccess" %}
+
+                <div class="success successMsg center">                        
+                    Type opération modifiée avec succès!  
+                </div>    
+
+            {% endif %}
+            {% if contenu == "failure" %}
+
+                <div class="error center">                        
+                    Erreur lors de l'ajout de type opération! 
+                </div>    
+
+            {% endif %} 
+            {% if contenu == "existedeja" %}
+
+                <div class="error center">                        
+                    Type opération déjà ajoutée! 
+                </div>    
+
+
+            {% endif %}
+        {% endfor %}
+        
+<div class="panel panel-white">
+
+    <div class="panel-body">
+        <div class="col-lg-12" >        
+        {{ render(controller('adminEconomatBundle:TypeOperation:ajoutTypeOperation', {'locale':locale})) }} {#    Formulaire d'ajout#}
+  
+
+            <table class="table table-striped table-hover">
+              {#  <tr>
+                    <th colspan="4" class="colspan">
+                <div class="btSuppr floatR ">ACTIVER SUPPRESSION <span><img class="" src="{{ asset('img/client-img/formulaire/supprimer.png')}}"  /></span></div>       
+                <div class="btModif floatR marginRight20p">ACTIVER MODIFICATION <span><img class="" src="{{ asset('img/client-img/formulaire/modifier.png')}}"  /></span></div>
+                <div class="clear"></div>
+                </th>
+                </tr>#}
+                <tr>
+                    <th rowspan="2">Code </th>
+                    <th rowspan="2">Libellé type opération</th>
+                    <th rowspan="2">Lignes Comptables</th>
+                    <th >Action</th>
+                </tr>	
+                <tr>
+                    <th id="action">Modifier</th>
+                </tr>
+                {% for typeOperation in listetypeOperation %}                                                           
+                    <tr>	{#  {% if loop.index is divisibleby(2)%}  class="bgGris" {% else %} class="bgBlanc"  {% endif %}  #}
+
+                        <td >{{typeOperation.codeOperation }}  </td>
+                        <td style="width:660px;">{{typeOperation.libTypeOperation }}    
+
+                            <div class="FrmInTable center" id="{{"modifTypeOperation_container"~typeOperation.id}}">
+                              {#  {{ render(controller('adminEconomatBundle:TypeOperation:modifierTypeOperation', {'id':typeOperation.id,'locale':locale})) }}  
+                              #}  <span class="btnimage "><img src="{{asset('img/client-img/formulaire/retour.png')}}" alt="Annuler" /><a href="#" class="annulerBut" onClick="AnnulerModifTypeOperation({{typeOperation.id}});
+                                return false;"><input type="button" value="annuler" class="annulerBut" /></a></span>
+                                <div class="clr marginBottom10p"></div>
+                            </div>
+
+                        </td>
+
+                        <td style="width:160px;" class="center">{{typeOperation.nbreLigne }}  </td>
+
+
+                        <td  class="{{"modif"~typeOperation.id}} reinit center">              
+                            {#<a href="#" onClick="ModifTypeOperation({{typeOperation.id}});
+                            return false;" class="btToutModif">
+                                <img src="{{ asset('img/client-img/formulaire/modifier.png')}}" alt="{{'client.modifier'|trans({},'messages') }}" title="{{'client.modifier'|trans({},'messages') }}" />
+                            </a>#} 
+                            <a href="#" onClick="{#return(confirm('{{ 'typeOperation.confirmation.suppression'|trans({}, 'typeOperations') }}'));#}$('#operation{{typeOperation.id}}').modal();" class="btToutSuppr">
+                                <img src="{{ asset('img/client-img/formulaire/supprimer.png')}}" alt="{{'client.supprimer'|trans({},'messages') }}" title="{{'client.supprimer'|trans({},'messages') }}"  />
+                            </a>
+                            {#{{information.modalboxconfirm("Confirmation","Voulez-vous supprimer cet type d'opération ?","operation"~typeOperation.id, path('admin_supprtypeOperation',{'id':typeOperation.id,'locale':locale}))}}
+#}
+                        </td>
+
+
+
+                        {#<td  class="reinit">
+                            <a href="{{ path('admin_supprtypeOperation',{'id':typeOperation.id,'locale':locale})}}" onClick="return(confirm('{{ 'typeOperation.confirmation.suppression'|trans({}, 'typeOperations') }}'));"><img src="{{ asset('img/client-img/formulaire/supprimer.png')}}" alt="{{'client.supprimer'|trans({},'messages') }}" title="{{'client.supprimer'|trans({},'messages') }}" /></a>
+                        </td>#}
+                    </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">{{ 'typeOperations.none'|trans({}, 'typeOperations') }} </td>       
+                        </tr>       
+                        {% endfor %}
+                        </table>
+                        
+
+                </div>
+                </div>
+                </div>
+                <!--Fin du box compte-->
+
+{% endblock %}
+                
+{% block scripts %}
+    {{parent()}}
+                <script language="javascript">
+
+                    function Ajouttype() {
+                        $("#modifTypeOperation_container").hide();
+                        $("#ajoutTypeOperation_container").show();
+
+                        /* var html = '<a class="updateLink" href="#" onClick="AnnulerFicheUser( ); return false;">Annuler Modification</a>';
+                         $(".updateImgInArt").html(html);*/
+                    }
+
+                    function AnnulerAjoutTypeOperation() {
+
+                    {#           $("#ajoutTypeOperation_container").hide();   #}
+                        $("#ajouttype").hide();
+                        /*var html = '<a class="updateLink" href="#" onClick="modifierFicheUser( ); return false;">{{ 'admin.modifimgul'|trans({}, 'messages') }}</a>';
+                         $(".updateImgInArt").html(html);*/
+                    }
+
+                    function ModifTypeOperation(idtypeOperation) {
+
+                        $("#modifTypeOperation_container" + idtypeOperation).show();
+                        $("#ajoutTypeOperation_container").hide();
+                        var html = '';
+                        $(".modif" + idtypeOperation+ " > *").hide();
+                        /* var html = '<a class="updateLink" href="#" onClick="AnnulerFicheUser( ); return false;">Annuler Modification</a>';
+                         $(".updateImgInArt").html(html);*/
+
+                    }
+
+                    function AnnulerModifTypeOperation(idtypeOperation) {
+
+                        $("#modifTypeOperation_container" + idtypeOperation).hide();
+{#                        var html = '<a href="#" class="btToutModif" onClick="ModifTypeOperation(' + idtypeOperation + '); return false;"><img src="{{ asset('img/client-img/formulaire/modifier.png')}}" alt="{{'client.modifier'|trans({},'messages') }}" title="{{'client.modifier'|trans({},'messages') }}" /></a>';#}
+                        $(".modif" + idtypeOperation+" > *").hide();
+                        $(".modif" + idtypeOperation+" .btToutModif").show();
+{#                        $(".kendominiConfirm").hide();#}
+                    }
+
+
+                    $(".checkall").click(function() {
+                        $(this).closest("table").find("input[type=checkbox]").prop("checked", this.checked);
+                    });
+
+
+                    $(".checkall").click(function() {
+                        $(this).closest("table").find("input[type=checkbox]").prop("checked", this.checked);
+                    });
+
+                    function getUsersID() {
+
+                        var id = "";
+
+                        $(":input[rel=user_c]:checked").each(function() {
+                            id = id.concat("|" + $(this).val());
+                //actions_id = "1|2|3";
+                        });
+
+                        return id;
+                    }
+
+                    var html = "<div style='text-align:center;'><img src='{{ asset('img/wait.gif') }}' /></div>";
+                    var htmldefault = "Voulez vous vraiment Supprimer ces typeOperations ?";
+
+                //function pour  supprimer definitivement plusieurs elements a la fois 
+                    function deleteAll(d) {
+                //To do
+                        if (d.length == 0) {
+                            $('#process_tpl').html($('#sivide').html());
+                            var args = {modal: true, autoOpen: false, title: ($('#titresuppression').html())};
+                            $('#process_tpl').dialog(args);
+                            $('#process_tpl').dialog({
+                                buttons: {
+                                    "OK": function() {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            })
+                            $("#process_tpl").dialog('open');
+                            return false;
+                        }
+
+                        $('#process_tpl').html($('#msgconfirmsuppression').html());
+                        var args = {modal: true, autoOpen: false, title: ($('#titresuppression').html())};
+                        $('#process_tpl').dialog(args);
+                        $('#process_tpl').dialog({
+                            buttons: {
+                                "OK": function() {
+                                    $('#process_tpl').html(html);
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ path('admin_deleteAlltypeOperations')}}",
+                                        data: {ds: d},
+                                        cache: false,
+                                        success: function(data) {
+                                            var resJson = jQuery.parseJSON(data);
+                                            if (resJson.result == "erreurstatut") {
+                                                $('#process_tpl').html($('#suppressionimpossible').html());
+                                                window.location.reload();
+                                            }
+                                            if (resJson.result == "success") {
+                                                $('#process_tpl').html($('#suppressionreussie').html());
+                                                window.location.reload();
+                                            }
+                                            //console.log(resJson);
+
+                                        }
+                                    });
+
+                                },
+                                "Cancel": function() {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        })
+                        $("#process_tpl").dialog('open');
+                    }
+
+
+                    var htmldefault3 = "Modifier le statut de ce typeOperation ?";
+
+                    function gererEtatAll(typeOperationId, etat) {
+
+                        if (typeOperationId.length == 0) {
+                            $('#process_tpl').html($('#sivide').html());
+
+                            if (etat == 0) {
+                                var args = {modal: true, autoOpen: false, title: ($('#titredesactivation').html())};
+                            }
+
+                            if (etat == 1) {
+                                var args = {modal: true, autoOpen: false, title: ($('#titreactivation').html())};
+                            }
+
+                            $('#process_tpl').dialog(args);
+                            $('#process_tpl').dialog({
+                                buttons: {
+                                    "OK": function() {
+                                        $(this).dialog("close");
+                                    }
+                                }
+                            })
+                            $("#process_tpl").dialog('open');
+                            return false;
+                        }
+
+                        if (etat == 0) {
+                            $('#process_tpl').html($('#msgconfirmdesactivation').html());
+                            var args = {modal: true, autoOpen: false, title: ($('#titredesactivation').html())};
+                        }
+                        if (etat == 1) {
+                            $('#process_tpl').html($('#msgconfirmactivation').html());
+                            var args = {modal: true, autoOpen: false, title: ($('#titreactivation').html())};
+                        }
+
+
+                        $('#process_tpl').dialog(args);
+                        $('#process_tpl').dialog({
+                            buttons: {
+                                "OK": function() {
+                                    $('#process_tpl').html(html);
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "{{ path('admin_gererEtatAlltypeOperation')}}",
+                                        data: {idtypeOperation: typeOperationId, etattypeOperation: etat},
+                                        cache: false,
+                                        success: function(data) {
+                                            var answer = jQuery.parseJSON(data);
+                                            if (answer.result == "erreurstatut") {
+
+                                                if (etat == 0) {
+                                                    $('#process_tpl').html($('#desactivationimpossible').html());
+                                                }
+                                                if (etat == 1) {
+                                                    $('#process_tpl').html($('#activationimpossible').html());
+                                                }
+
+                                            } else if (answer.result == "administrateur") {
+
+                                                if (etat == 0) {
+                                                    $('#process_tpl').html($('#desactivationimpossible').html());
+                                                }
+                                                if (etat == 1) {
+                                                    $('#process_tpl').html($('#activationimpossible').html());
+                                                }
+
+                                            }
+                                            else {
+
+                                                if (etat == 0) {
+                                                    $('#process_tpl').html($('#desactivationreussie').html());
+                                                }
+                                                if (etat == 1) {
+                                                    $('#process_tpl').html($('#activationreussie').html());
+                                                }
+
+                                            }
+                                            window.location.reload();
+                                        }
+                                    });
+
+                                },
+                                "Cancel": function() {
+                                    $(this).dialog("close");
+                                }
+                            }
+                        })
+                        $("#process_tpl").dialog('open');
+
+                    }
+
+                </script>
+
+                {#% if ajoutprof == 1 %}
+                     <script>
+                         $("#btn_ajout_typeOperation").click();
+                     </script>
+                {% endif %#} 
+
+                <div id="process_tpl" style="display:none;"></div> 
+                <div id="sivide" style="display:none;"> {{ 'typeOperation.confirmation.sivide'|trans({}, 'typeOperations') }} </div> 
+
+                <div id="activationimpossible" style="display:none;"> {{ 'typeOperation.confirmation.activationimpossible'|trans({}, 'typeOperations') }}</div> 
+                <div id="activationreussie" style="display:none;"> {{ 'typeOperation.confirmation.activationreussie'|trans({}, 'typeOperations') }} </div>
+                <div id="titreactivation" style="display:none;">{{ 'typeOperation.confirmation.titreactivation'|trans({}, 'typeOperations') }} </div> 
+                <div id="msgconfirmactivation" style="display:none;">   {{ 'typeOperation.confirmation.activation'|trans({}, 'typeOperations') }}</div> 
+
+                <div id="desactivationimpossible" style="display:none;"> {{ 'typeOperation.confirmation.desactivationimpossible'|trans({}, 'typeOperations') }}</div> 
+                <div id="desactivationreussie" style="display:none;"> {{ 'typeOperation.confirmation.desactivationreussie'|trans({}, 'typeOperations') }} </div>                     
+                <div id="titredesactivation" style="display:none;">{{ 'typeOperation.confirmation.titredesactivation'|trans({}, 'typeOperations') }}</div> 
+                <div id="msgconfirmdesactivation" style="display:none;"> {{ 'typeOperation.confirmation.desactivation'|trans({}, 'typeOperations') }}</div>      
+
+                <div id="suppressionimpossible" style="display:none;"> {{ 'typeOperation.confirmation.supimpossible'|trans({}, 'typeOperations') }}</div> 
+                <div id="suppressionreussie" style="display:none;"> {{ 'typeOperation.confirmation.supreussie'|trans({}, 'typeOperations') }} </div>
+                <div id="titresuppression" style="display:none;">{{ 'typeOperation.confirmation.titresup'|trans({}, 'typeOperations') }}</div> 
+                <div id="msgconfirmsuppression" style="display:none;"> {{ 'typeOperation.confirmation.suppression'|trans({}, 'typeOperations') }}</div>      
+
+                <div id="operationexiste" style="display:none;"> {{ 'typeOperation.confirmation.operationexiste'|trans({}, 'typeOperations') }} </div> 
+
+{#                {{ information.decochetoutbox() }} #}
+
+                {% endblock %}

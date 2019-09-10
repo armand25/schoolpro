@@ -1,0 +1,379 @@
+
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} - Modif schéma
+{% endblock %}	
+{% block file_arriane %}
+<div class="fond-fil-ariane" >
+    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+        <div class="row" style="background:rgba(0,0,0,0.3)">
+            <div class="col-xs-7" >
+                <h1> Modif schéma</h1>
+            </div>
+            <div class="col-xs-5" style="margin-top: 15px; ">
+                <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des schémas</span> ><span class="fil-3"> Modif </span>
+            </div>
+        </div>
+    </div>
+</div>           
+{% endblock  %}
+{% block body %}  
+
+
+    {# notification #}  
+    {% for contenu in app.session.flashbag.get('notice') %}
+        {% if contenu == "success" %}
+            <div class="span-25">
+                <div class="success successMsg center">                        
+                    Lignes comptables ajoutées avec succès! 
+                </div>    
+            </div> 
+        {% endif %}
+        {% if contenu == "modifsuccess" %}
+            <div class="span-25">
+                <div class="success successMsg center">                        
+                    Lignes comptables modifiées avec succès!  
+                </div>    
+            </div> 
+        {% endif %}
+        {% if contenu == "failure" %}
+            <div class="span-25">
+                <div class="error center">                        
+                    Erreur lors de l'ajout des Lignes comptables! 
+                </div>    
+            </div> 
+        {% endif %} 
+        {% if contenu == "memesens" %}
+            <div class="span-25">
+                <div class="error center">                        
+                    Lignes comptables ne peuvent avoir un même sens
+                </div>    
+            </div>
+        {% endif %}
+    {% endfor%} 
+    {#  Menu #}
+
+    {% set i = 1 %}
+    {% set j = 0 %}
+        
+            <div class="panel panel-white">
+              
+                <div class="panel-body">
+                    <div class="col-lg-12" >
+        <form action=" {{ path( "admin_modifschema", {'id':id}) }} " method="post"  id="ajoutLangueSchema" class="form ajout" >
+            <h4 class="champs">(*) Champs obligatoires</h4>
+            <fieldset>
+                {#              <legend>Modification d'un schéma comptable</legend>#}
+                {#<div id="divligne">
+                    <input type="hidden" id="ligne" >
+                </div>#}
+
+
+                <div class="newFormAbonne champsGrp">
+                    {#                  <label>Type Operation* :</label>#}
+                    <label class="labelLong"><img src="{{ asset('img/client-img/formulaire/icon-pass.png')}}" alt="" title="" /></label>
+
+                    <select  class="ncompte w323 form-control" id="typeop" disabled="true"> 
+                        {% if listeTypeOp is defined %}    
+                            <option value="0">-- Sélectionnez le type d'opération --</option>
+                            {% for type in listeTypeOp %}
+                                <option {% if type.id == id %} selected {% endif %} value={{type.id}}>{{type.libTypeOperation}} - {{type.nbreLigne}}</option>
+                            {% endfor %}
+                        {% endif %}  
+                    </select><div class="clear"></div>                 
+                </div>
+
+                {# A traiter après #}
+
+                <!-- <span style="margin-left: 60px; margin-bottom: 5px;" ><input type="checkbox" onchange="" class="addnbre" value="" name=""/> <label>Ajouter une autre ligne comptable</label> </span><br> -->
+
+                <!--
+                 <div class="newFormAbonne champsGrp" style="display: none;" class="nbreligneadddiv"  id="nbreligneadddiv">
+                           <label>Nombre de Lignes A ajouter * :</label>
+                           <select name="nbreligneadd" class="nbreligneadd" id="nbreligneadd" style="width: 323px;" > 
+                               <option value="0"  selected>Sélectionnez le nombre de lignes</option>      
+                               <option value="1" > Une (1) Ligne Comptable</option>
+                               <option value="2"  > Deux (2) Lignes Comptables</option>
+                               <option value="3" >Trois (3) Lignes Comptables</option>
+                               <option value="4" > Quatre(4) Lignes Comptables</option>                          
+                           </select>                        
+                     </div> -->
+
+
+
+                <input type="hidden" value="{{nbreLg}}" name="nbreLg" id="nbreLg" />
+                <!--<input type="hidden" value="" name="nbreLgAdd" id="nbreLgAdd" class="nbreLgAdd"  />-->
+
+                {% for i in 1..nbreLg %}
+                    <fieldset >
+                        Ligne N° {{i}}
+                        <div class="groupedElements">
+                            <div class="form-group clearfix ">
+                                {#                    <label>Type Compte * :</label>#}
+                                <label class="labelLong control-label"><img src="{{ asset('img/client-img/formulaire/icon-pass.png')}}" alt="" title="" /></label>
+                                <select name="{{"typecpte"~i}}" class="typecpte w323 form-control" id="{{"tcpte"~i}}"> 
+                                    <option value="" selected>-- Type de Compte --</option>
+                                    <option value="1"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_CAISSE" %} selected {% endif %}> COMPTE CAISSE</option>      
+                                    <option value="2"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_CU" %} selected {% endif %}> COMPTE CHEQUE UTB</option>
+                                    <option value="3"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_CCU" %} selected {% endif %}> COMPTE CHEQUE CERTIFIE UTB</option>
+                                    <option value="4"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_CCC" %} selected {% endif %}> COMPTE CHEQUE CERTIFIE CONFRERE</option>
+                                    <option value="5"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_SEGUCE" %} selected {% endif %}> COMPTE SEGUCE </option>
+                                    <option value="6"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_RGS" %} selected {% endif %} > COMPTE EXCEDENT CAISSE GUCE / AGENCE </option> 
+                                    <option value="8"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_RGM" %} selected {% endif %} > COMPTE DEFICIT CAISSE GUCE / AGENCE </option>
+                                    <option value="9"  {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_RGM" %} selected {% endif %} > COMPTE MOUVEMENTS DE FONDS </option>
+                                    <option value="10" {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_RGM" %} selected {% endif %} > COMPTE ESPECES EN ROUTE </option>
+                                    <option value="11" {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_RGM" %} selected {% endif %} > COMPTE VIREMENT DIRECT </option>
+                                    <option value="12" {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_RGM" %} selected {% endif %} > COMPTE REGLEMENT CREDIT </option>
+                                    <option value="13" {% if comptes[j].liea == 7 and comptes[j].compte == "CPTE_VIRFACT" %} selected {% endif %} > COMPTE VIREMENT FACTURIER </option>
+                                    <option value="0"  {% if comptes[j].liea == 0 and comptes[j].compte == "CPTE_FIX" %} selected {% endif %} > AUTRE COMPTE COMPTABLE </option>                            
+                                </select>                        
+                            </div>
+                            {#{ dump( "plancompte"~i ) }#}
+                            <input type="hidden" name="{{"plancompte"~i}}" id="{{"plancompte"~i}}" value="">
+
+                           <div class="form-group clearfix ">
+                                {#                    <label>Compte comptable* :</label>#}
+                                <label class="labelLong control-label"><img src="{{ asset('img/client-img/formulaire/type.png')}}" alt="" title="" /></label>
+
+                                <select  name="{{"plancompte"~i}}" class="ncompte w323 form-control" id="{{"cpte"~i}}"> 
+                                    {% if listeCompte is defined %}    
+                                        <option value="0" selected>-- Compte comptable --</option>
+                                        {% for liste in listeCompte %}
+                                            <option    {% if liste.compte == comptes[j].compte %} selected {% endif %}  value={{liste.compte}}>{{liste.compte}} - {{liste.libelle}}</option>
+                                        {% endfor %}
+                                    {% endif %}  
+                                </select>
+                                <select id="{{"autre"~i}}" name="{{"autre"~i}}"  style="padding-left: 10px;width: 323px;display: none"> 
+                                    <option value="">Choisir le compte</option>
+
+                                    {% for liste in listeCompte %} {% if liste.liea=='0'%}
+                                            <option value={{liste.compte}}>{{liste.compte}} - {{liste.libelle}}</option>
+
+                                        {% else %} {% endif %}   {% endfor %}</select><div class="clear"></div><div class="clear"></div>
+                                </div><div class='clear'></div>
+                            </div>
+
+                           <div class="form-group clearfix ">
+                                {#                      <label>Sens* :</label>#}
+                                <label class="labelLong control-label"><img src="{{ asset('img/client-img/formulaire/montant.png')}}" alt="" title="" /></label>
+
+                                <select name="{{"sens"~i}}" class="ncompte w100 form-control" id="{{"sens"~i}}"> 
+                                    <option value="0"  > -- Sens -- *</option>                        
+                                    <option value="D"  {% if sens[j] == 'D' %} selected="selected" {% endif %} >Débit</option>
+                                    <option value="C" {% if sens[j] == 'C' %}selected="selected" {% endif %}>Crédit</option> 
+                                </select>
+
+                                <div class="clear"></div>
+                            </div>
+                        </fieldset>
+                        {% set j = j+1 %}
+                    {% endfor  %}
+                <div class="form-group clearfix pull-right col-lg-3 zone-bouton-panel">
+                      <a  class="btn" href="{{ path("admin_listeschema")}}"> <i class="icon icon-white icon-arrow-left"></i> Annuler</a>
+                       <button type="submit" class="btn btn-success" id="submit" > <i class="icon icon-white icon-ok"></i> Valider </button>
+                </div> 
+{#
+                    <span class="btnimage "><img src="{{asset('img/client-img/formulaire/valid.png')}}" alt="Créer" /><input type="submit" value="Modifier  schema Comptable" class="boutonSubmit" name="op" id="j_bouton" /></span>
+                    <span class="btnimage "><img src="{{asset('img/client-img/formulaire/retour.png')}}" alt="Annuler" /><a  href="{{ path("admin_listeschema")}}"><input class="annulerBut " type="button" value="Annuler la création" /></a></span>
+#}                </fieldset>
+            </form>
+
+        </div>
+        </div>
+        </div>
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+        <script type="text/javascript">
+
+            jQuery(document).ready(function() {
+
+            });
+
+            /* $(".addnbre").click( function() {
+             
+             if($(".addnbre").is (':checked')){
+             
+             //alert("JE TAI EU") ;
+             document.getElementById("nbreligneadddiv").style.display = "block" ; 
+             
+             $("#nbreligneadd").change(function() {            
+             //alert("CEST PAS TA FAUTE") ;  
+             var valeurnbreLignAdd = $("#nbreligneadd").val() ;
+             document.getElementById("nbreLgAdd").value = valeurnbreLignAdd ;
+             
+             
+             
+             
+             });
+             }else{
+             //  alert("TIMONDJI") ;
+             
+             document.getElementById("nbreligneadddiv").style.display = "none" ; 
+             }
+             
+             });*/
+
+
+            $("#tcpte1").change(function() {
+                var nom = 'typecpte1';
+                var cas = $(tcpte1).val();
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+                if (cas == 0)
+                    $('#autre1').show();
+                else
+                    $('#autre1').hide()
+                $('#cpte1').empty();
+
+                doProcess(DATA);
+
+            });
+
+            $("#tcpte2").change(function() {
+                var nom = 'typecpte2';
+                var cas = $(tcpte2).val();
+                if (cas == 0)
+                    $('#autre2').show();
+                else
+                    $('#autre2').hide()
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+                if ((nom != '')) {
+
+                    $('#cpte2').empty();
+                    doProcess(DATA);
+                }
+            });
+
+            $("#tcpte3").change(function() {
+                var nom = 'typecpte3';
+                var cas = $(tcpte3).val();
+                if (cas == 0)
+                    $('#autre3').show();
+                else
+                    $('#autre3').hide()
+
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+                if ((nom != '')) {
+
+                    $('#cpte3').empty();
+                    doProcess(DATA);
+                }
+            });
+
+            $("#tcpte4").change(function() {
+                var nom = 'typecpte4';
+                var cas = $(tcpte4).val();
+                if (cas == 0)
+                    $('#autre4').show();
+                else
+                    $('#autre4').hide()
+
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+                if ((nom != '')) {
+                    $('#cpte4').empty();
+                    doProcess(DATA);
+                }
+            });
+
+            $("#tcpte5").change(function() {
+                var nom = 'typecpte5';
+                var cas = $(tcpte5).val();
+                if (cas == 0)
+                    $('#autre5').show();
+                else
+                    $('#autre5').hide()
+
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+                if ((nom != '')) {
+                    $('#cpte5').empty();
+                    doProcess(DATA);
+                }
+            });
+
+            $("#tcpte6").change(function() {
+                var nom = 'typecpte6';
+                var cas = $(tcpte6).val();
+                if (cas == 0)
+                    $('#autre6').show();
+                else
+                    $('#autre6').hide()
+
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+                if ((nom != '')) {
+                    $('#cpte6').empty();
+                    doProcess(DATA);
+                }
+            });
+
+            $("#tcpte7").change(function() {
+                var nom = 'typecpte7';
+                var cas = $(tcpte7).val();
+                if (cas == 0)
+                    $('#autre7').show();
+                else
+                    $('#autre7').hide()
+
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+                if ((nom != '')) {
+                    $('#cpte7').empty();
+                    doProcess(DATA);
+                }
+            });
+
+            $("#tcpte8").change(function() {
+                var nom = 'typecpte8';
+                var cas = $(tcpte8).val();
+                if (cas == 0)
+                    $('#autre8').show();
+                else
+                    $('#autre8').hide()
+
+                var DATA = 'nom=' + nom + '&' + 'cas=' + cas;
+
+                if ((nom != '')) {
+                    $('#cpte8').empty();
+                    doProcess(DATA);
+                }
+            });
+
+            function doProcess(DATA) {
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: "{{ path('admin_procschema')}}",
+                    data: DATA,
+                    success: function(msg)
+                    {
+                        $.each(msg, function(index, tcpte)
+                        {
+
+                            if (tcpte.length > 0) {
+
+                                var numro = '';
+
+
+                                for (var i = 0; i < tcpte.length; i++) {
+                                    numro = tcpte[i].num;
+                                    // alert(numro ) ;
+                                    // $('#cpte'+numro).empty();
+                                    $("#cpte" + numro).append('<option value="' + tcpte[i].compte + '" > ' + tcpte[i].libelle + ' </option>');
+                                }
+                            }
+                        });
+                    }
+                });
+
+            }
+
+
+        </script> 
+
+
+    {%endblock%}

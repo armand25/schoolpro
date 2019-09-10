@@ -1,0 +1,64 @@
+services:
+# Service de gestion des droits et de connexion
+    login_manager:
+        class: admin\UserBundle\Services\LoginManager
+        arguments: ['@doctrine.orm.entity_manager', '@session', '@parametre_manager',  '@date_manager']
+        
+# Service de gestion des codes de base
+    codebase_manager:
+        class: admin\UserBundle\Services\codeBaseManager
+        arguments: ['@doctrine.orm.entity_manager', '@parametre_manager',  '@randcode_manager']
+
+# Service qui offre certaines fonctions utils tel que la vérification d'adresse email, la suppression de fichier ....
+    utils_manager:
+        class: admin\UserBundle\Services\UtilsManager
+        
+# Service qui gènere les informations typées et celles accessibles sur les vue twi
+    type_manager:
+        class: admin\UserBundle\Services\Twig\TypeManager
+        arguments: ['@doctrine.orm.entity_manager']
+        tags: 
+            - { name: twig.extension }
+
+    database_twig_manager:
+        class: admin\UserBundle\Services\Twig\DataBaseTwigManager
+        arguments: ['@doctrine.orm.entity_manager']
+        tags: 
+            - { name: twig.extension }
+            
+# Service de gestion des droits et de connexion
+    config_manager:
+        class: admin\UserBundle\Services\ConfigManager
+        arguments: ['@doctrine.orm.entity_manager']    
+        tags: 
+            - { name: twig.extension }
+
+#    error_exception_manager:
+#        class: admin\UserBundle\Listener\ExceptionListener
+#        tags:
+#        - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }   
+
+#    kernel.listener.utb_exception_listener:
+#       class: utb\ClientBundle\Listener\ExceptionListener
+#       arguments: [@templating,@mail.Manager]
+#       tags:
+#           - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }          
+           
+
+#
+    
+## Service de gestion des informations (message) de log
+#    log_manager:
+#        class: facture\AdminBundle\Services\LogManager
+#        
+# Service de gestion des parametres de configuration
+    
+#        
+
+## Service qui gènere la génération de valeurs aléatoires
+#    rand_manager:
+#        class: facture\AdminBundle\Services\RandCodeManager
+#        
+  
+
+#        

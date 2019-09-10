@@ -1,0 +1,90 @@
+#Boite de Reception utilisateur       
+app_messagerie_boite_reception:
+    path:  /boitereception/{typeMessage}/{dateDebut}/{dateFin}/{nbParPage}/{pageActuelle}/{mot}
+    defaults: { _controller: adminMessagerieBundle:Message:boiteReception, typeMessage: 0, mot: '',  dateDebut: '01-01-2015',  dateFin: '01-01-2014', nbParPage: 20, pageActuelle: 1}
+    requirements:
+       pageActuelle: \d+
+       nbParPage: \d+
+       typeMessage: \d+
+ 
+       
+#Formulaire d'envoi de message aux abonnés : idMessageRepondre = identifiant du message auquel on souhaite repondre, *
+# idMessageTransfere : identifiant du message on souhaute transferer
+app_messagerie_send_msg_to_abonne:
+    path:  /nouveau/message/{idMessageTransfere}/{idMessageRepondre}
+    defaults: { _controller: adminMessagerieBundle:Message:nouveauMessageToAbonne, idMessageTransfere: 0, idMessageRepondre: 0}
+    requirements:
+       idMessageTransfere: \d+
+       idMessageRepondre: \d+
+       
+#Enregistre le message envoyé à un abonné par AJAX. ( le formulaire d'envoi est accessbile avec la route app_messagerie_send_msg_to_abonne) 
+app_messagerie_send_msg_to_abonne_save:
+    path:  /nouveau/message/save
+    defaults: { _controller: adminMessagerieBundle:Message:nouveauMessageToAbonneSave }
+
+# Suppression un message reçu
+app_messagerie_set_etat_msg_recu:
+    path:  /supprimer/msg/recu
+    defaults: { _controller: adminMessagerieBundle:Message:supprimerMessageRecu}
+    
+# Change l'état d'un envoi à lu
+app_messagerie_set_etat_envoi_to_lu:
+    path:  /set/envoi/to/lu
+    defaults: { _controller: adminMessagerieBundle:Message:setEtatEnvoiToLu}
+    
+# Cloture un ticket
+app_messagerie_end_ticket:
+    path:  /end/ticket
+    defaults: { _controller: adminMessagerieBundle:Message:endTicket}
+    
+#Formulaire d'envoi de message aux utilisateurs      
+app_messagerie_send_msg_to_utilisateur:
+    path:  user/nouveau/message/{idProfil}/{idMessageTransfere}/{idMessageRepondre}
+    defaults: { _controller: adminMessagerieBundle:Message:nouveauMessageToAUser, idMessageRepondre: 0, idMessageTransfere: 0, idProfil: 0}
+    requirements:
+       idMessageRepondre: \d+
+       idMessageTransfere: \d+
+       idProfil: \d+
+       
+#Enregistre le message envoyé à un admin par un admin en  AJAX. ( le formulaire d'envoi est accessbile avec la route app_messagerie_send_msg_to_utilisateur) 
+app_messagerie_send_msg_to_utilisateur_save:
+    path:  user/nouveau/message/save
+    defaults: { _controller: adminMessagerieBundle:Message:nouveauMessageToAUserSave }
+    
+
+#Affiche la liste des messages envoyés par un utilisateur
+app_messagerie_msg_envoyes:
+    path:  /envoyes/{dateDebut}/{dateFin}/{nbParPage}/{pageActuelle}/{mot}
+    defaults: { _controller: adminMessagerieBundle:Message:messageEnvoyes,  mot: '',  dateDebut: '01-01-2015',  dateFin: '01-01-2014', nbParPage: 20, pageActuelle: 1}
+    requirements:
+       pageActuelle: \d+
+       nbParPage: \d+
+       
+# Afficher les détails d'un message reçu
+app_messagerie_details_msg_recu:
+    path:  /details/msg/recu/{idMessage}
+    defaults: { _controller: adminMessagerieBundle:Message:detailsMsgRecu,  idMessage : 0}
+    requirements:
+       idMessage: \d+
+
+# Afficher les détails d'un message envoyé
+app_messagerie_details_msg_envoie:
+    path:  /details/msg/envoye/{idMessage}
+    defaults: { _controller: adminMessagerieBundle:Message:detailsMsgEnvoye,  idMessage : 0}
+    requirements:
+       idMessage: \d+  
+
+# ----------------------------------
+
+
+
+
+       
+# Suppression un message envoyé
+app_messagerie_set_etat_msg_envoye:
+    path:  /supprimer/msg/envoye
+    defaults: { _controller: adminMessagerieBundle:Message:supprimerMessageEnvoie}
+
+   
+
+

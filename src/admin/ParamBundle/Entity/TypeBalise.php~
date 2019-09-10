@@ -1,0 +1,169 @@
+<?php
+
+namespace admin\ParamBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TypeBalise
+ *
+ * @ORM\Table(name="type_balise")
+ * @ORM\Entity(repositoryClass="admin\ParamBundle\Entity\TypeBaliseRepository")
+ */
+class TypeBalise {
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_type", type="string", length=100)
+     */
+    private $nomType;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="code_type", type="string", length=100)
+     */
+    private $codeType ;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="etat_type", type="integer", length=1)
+     */
+    private $etatType ;
+
+    /**
+     *
+     * @var ArrayCollection $balises
+     * @ORM\OneToMany(targetEntity="admin\ParamBundle\Entity\Balise",mappedBy="typeBalise")
+     */
+    private $balises ;
+    
+   
+
+    public function __construct() {
+        $this->etatType = \admin\UserBundle\Types\TypeEtat::ACTIF;
+    }
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    /**
+     * Set nomType
+     *
+     * @param string $nomType
+     * @return TypeBalise
+     */
+    public function setNomType($nomType)
+    {
+        $this->nomType = $nomType;
+
+        return $this;
+    }
+
+    /**
+     * Get nomType
+     *
+     * @return string 
+     */
+    public function getNomType()
+    {
+        return $this->nomType;
+    }
+
+    /**
+     * Set codeType
+     *
+     * @param string $codeType
+     * @return TypeBalise
+     */
+    public function setCodeType($codeType)
+    {
+        $this->codeType = $codeType;
+
+        return $this;
+    }
+
+    /**
+     * Get codeType
+     *
+     * @return string 
+     */
+    public function getCodeType()
+    {
+        return $this->codeType;
+    }
+
+    /**
+     * Set etatType
+     *
+     * @param integer $etatType
+     * @return TypeBalise
+     */
+    public function setEtatType($etatType)
+    {
+        $this->etatType = $etatType;
+
+        return $this;
+    }
+
+    /**
+     * Get etatType
+     *
+     * @return integer 
+     */
+    public function getEtatType()
+    {
+        return $this->etatType;
+    }
+
+    /**
+     * Add balises
+     *
+     * @param \admin\ParamBundle\Entity\Balise $balises
+     * @return TypeBalise
+     */
+    public function addBalise(\admin\ParamBundle\Entity\Balise $balises)
+    {
+        $this->balises[] = $balises;
+
+        return $this;
+    }
+
+    /**
+     * Remove balises
+     *
+     * @param \admin\ParamBundle\Entity\Balise $balises
+     */
+    public function removeBalise(\admin\ParamBundle\Entity\Balise $balises)
+    {
+        $this->balises->removeElement($balises);
+    }
+
+    /**
+     * Get balises
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getBalises()
+    {
+        return $this->balises;
+    }
+}

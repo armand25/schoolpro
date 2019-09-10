@@ -1,0 +1,171 @@
+{% extends "::layout.html.twig" %}
+{% block title %}{{parent()}} - Historirque connexion{% endblock %}
+
+{% block stylesheets %}
+    {{parent()}} {#<link rel="stylesheet" type="text/css" href="{{ asset('css/page/login.css') }}" />#}
+{% endblock %}
+{% block file_arriane %}
+    {% if  isEleve(sessionData.codeProfil)  %}
+     <div class="fond-fil-ariane-eleve-info" >
+    {% elseif  isParentEleve(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-peleve-info" >  
+    {% elseif  isEnseignant(sessionData.codeProfil)  %}
+      <div class="fond-fil-ariane-ens-accueil" >  
+    {% else  %}
+          <div class="fond-fil-ariane-admin-accueil" >    
+     
+    {% endif  %}
+                    <div class="zone-fil-ariane" style="background:rgba(0,0,0,0.4); width: 100%; height : 0px;padding-top: 0px;color: #fff;">
+                        <div class="row" style="background:rgba(0,0,0,0.3)">
+                            <div class="col-xs-7" >
+                               <h3> Historique de connexion {{user.nom~' '~user.prenoms}}</h3>
+                            </div>
+                            <div class="col-xs-5" style="margin-top: 15px; ">
+                               <span class="fil-1"> Accueil</span> > <span class="fil-2">Gestion des connexions</span> ><span class="fil-3"> Historique </span>
+                            </div>
+                        </div>
+                    </div>
+		</div>           
+{% endblock  %}
+{% block body %}
+            <div class="col-lg-12">
+                {% for contenu in app.session.getflashbag.get('success')%}
+                    {% if loop.index == 0%}
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {% endif%}
+                            <div class="text-center alert alert-success fade in">{{contenu}}</div>
+                            {% if loop.index == 0%} 
+                            </div>
+                        </div>
+                    {% endif%}
+                {% endfor%}
+            </div>
+      
+
+    
+            
+                 <div class="panel panel-white">
+                <div class="panel-body">
+                    <div class="col-lg-12 ">
+                    {#<header class="panel-heading alert-info">
+                        <i class="fa fa-table "></i> <span class="margin-right-20px h5"> Historique de connexion {{user.nom~' '~user.prenoms}}  </span>
+                    </header> #}
+                   
+                        <table class="table table-hover table-striped ">
+                            <thead >
+                                <tr class="h5">
+                                    <th>Date</th>
+                                    <th>Début</th>
+                                    <th>Fin</th>
+                                    <th>Durée</th>
+{#                                        {% if details %}#}
+                                        <th>Détails</th>
+{#                                        {% endif %}#}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for hi in histos %}
+                                    <tr>
+                                        <td>{{hi.dateConnexion|date('d/m/Y')}}</td>
+                                        <td>{{hi.dateConnexion|date('H:i:s')}}</td>
+                                        <td>
+                                            {% if   hi.dateDeconnexion is not null %}
+                                                {{hi.dateDeconnexion|date('H:i:s')}}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{hi.dureeConnexion}}</td>
+{#                                        {% if details %}#}
+                                            <td>
+                                                <a href="{{path('app_admin_user_details_connexion', {'idConnexion': hi.id, 'isUser' : isUser})}}">
+                                                    <span class="btn btn-mini btn-info tooltipGobi" title="Details connexion">
+                                                        <i class="fa fa-list-ol"></i>
+                                                    </span>
+                                                </a>
+                                            </td>
+{#                                        {% endif %}#}
+                                    </tr>
+                                {% endfor %}
+                                <tr class="panel-footer">
+                                    {% set colspan = 4 %}
+                                    {% if details %}
+                                        {% set colspan = 5 %}
+                                    {% endif %}
+                                    <td colspan="{{colspan}}">
+                                        <div class="datagrid-footer-left col-lg-1 col-md-2 col-sm-4 col-xs-4 text-center-sm " > 
+                                            <div class="grid-controls m-t-small"> 
+                                                <div class="select grid-pagesize dropup">
+                                                    <form  class="floatL">
+                                                        <select id="selnbpage" class="floatL form-control col-lg-1">
+                                                            <option value="20" {% if nbParPage == 20 %} selected="true" {% endif %} >20</option>
+                                                            <option value="30" {% if nbParPage == 30 %} selected="true" {% endif %} >30</option>
+                                                            <option value="100" {% if nbParPage == 100 %} selected="true" {% endif %} >100</option>
+                                                        </select>
+                                                        {#<label class="floatL" for="sel">Eléments par page</label>#}
+                                                        <div class="clear"></div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="" class="col-lg-11 col-md-10 col-sm-8 col-xs-8  ">
+                                            <div id="" class="dataTables_paginate paging_full_numbers  pull-right">
+                                                <ul class="pagination">
+                                                    <li>
+                                                        <a href="{{ path('app_admin_user_histo_connexion', {'idUser' : idUser, 'isUser': isUser,  'pageActuelle': 1,'nbParPage': nbParPage}) }}"  id=""  class="first paginate_button">1</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ path('app_admin_user_histo_connexion', {'idUser' : idUser, 'isUser': isUser ,'pageActuelle': previousPage,'nbParPage': nbParPage}) }}"  id=""  class="previous paginate_button">«</a>
+                                                    </li>
+
+                                                    {% for page in debutPagination..finPagination %}
+                                                        <li>
+                                                            
+                                                                {% if page == pageActuelle %}
+                                                                <span style=" background-color : #CCC;">    <a href="#"  tabindex="0" class="paginate_active " >{{ page }} </a></span>
+                                                                {% else %}  
+                                                                <span>    <a href="{{ path('app_admin_user_histo_connexion', {'idUser' : idUser,'isUser': isUser,  'pageActuelle': page,'nbParPage': nbParPage}) }}" tabindex="0" class="paginate_button">{{ page }} </a></span>
+                                                                {% endif %}
+                                                            
+                                                        </li>
+                                                    {% endfor %}
+
+                                                    <li>
+                                                        <a href="{{ path('app_admin_user_histo_connexion', {'idUser' : idUser, 'isUser': isUser,'pageActuelle': nextPage,'nbParPage': nbParPage}) }}"  id="" tabindex="0" class="next paginate_button">»</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ path('app_admin_user_histo_connexion', {'idUser' : idUser, 'isUser': isUser, 'pageActuelle': lastPage,'nbParPage': nbParPage}) }}" id="" tabindex="0" class="last paginate_button">{{lastPage}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                   
+                </div>
+            </div>
+           </div>                                         
+       
+
+
+{% endblock %}
+{% block scripts %}
+{{parent()}}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#selnbpage').on('change', function () {
+                //alert( this.value ); // or $(this).val()
+                var nbParPage = parseInt($(this).val());
+                var idUser = "{{idUser}}";
+                var isUser = "{{isUser}}";
+                var href = "{{path('app_admin_user_histo_connexion')}}";
+                document.location.href = href + '/' + idUser + '/' + isUser + '/' + nbParPage + '/1';
+                //  alert(  href + '/' + idUser + '/' + isUser  + '/'+ nbParPage + '/1') ;
+
+            });
+        });
+    </script>
+{% endblock %}

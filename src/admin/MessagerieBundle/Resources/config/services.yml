@@ -1,0 +1,50 @@
+services:
+# Service de gestion des mails (gmail, yahoo)
+    email_manager:
+        class: admin\MessagerieBundle\Services\EmailManager
+        arguments :    ['@doctrine.orm.entity_manager','@mailer', '@templating']        
+# Service de gestion de la messagerie intégrée
+    messagerie_manager:
+        class: admin\MessagerieBundle\Services\MessagerieManager
+        arguments :    ['@doctrine.orm.entity_manager']
+        
+# Service de gestion de la messagerie intégrée twig
+    messagerie_manager_twig:
+        class: admin\MessagerieBundle\Services\Twig\MessagerieManagerTwig
+        arguments :    ['@messagerie_manager']
+        tags:
+           - { name: twig.extension } 
+ 
+## Service de gestion des codes de base
+#    codebase_manager:
+#        class: admin\UserBundle\Services\codeBaseManager
+#        arguments: [@doctrine.orm.entity_manager, @parametre_manager,  @randcode_manager]
+#
+## Service qui offre certaines fonctions utils tel que la vérification d'adresse email, la suppression de fichier ....
+#    utils_manager:
+#        class: admin\UserBundle\Services\UtilsManager
+#        
+## Service qui gènere les informations typées et celles agccessibles sur les vue twi
+#    type_manager:
+#        class: admin\UserBundle\Services\Twig\TypeManager
+#        tags: 
+#            - { name: twig.extension }
+
+##     admin.example:
+##        class: facture\AdminBundle\Example
+##        arguments: [@service_id, "plain_value", %parameter%]
+#
+    
+## Service de gestion des informations (message) de log
+#    log_manager:
+#        class: facture\AdminBundle\Services\LogManager
+#        
+# Service de gestion des parametres de configuration
+    
+#        
+
+## Service qui gènere la génération de valeurs aléatoires
+#    rand_manager:
+#        class: facture\AdminBundle\Services\RandCodeManager
+#        
+  
