@@ -198,15 +198,15 @@ use \admin\UserBundle\ControllerModel\paramUtilTrait;
                     /*
                      * Utilisateur deja connecté
                      */
-                    if ($user->getEtatConnecte()) {
+                   /* if ($user->getEtatConnecte()) {
                         /*
                          * On ne bloque pas le super administrateur
-                         */
+                         
                         if ($user->getProfil()->getCode() != TypeCodeProfil::MAINTENANCE) {
                             $this->get('session')->getFlashBag()->add('login.user.already.login', 'Utilisateur déjà connecté');
                             return $this->redirect($this->generateUrl('app_admin_user_login'));
                         }
-                    }
+                    }*/
                     /*
                      * Le profil de l'utilisateur est desactivé
                      */
